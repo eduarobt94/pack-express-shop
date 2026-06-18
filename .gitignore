@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.env.local
+api/v1/.env
+api/v1/logs/*.log
+uploads/

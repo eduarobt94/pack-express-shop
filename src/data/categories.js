@@ -1,0 +1,50 @@
+// Categorías de la tienda — datos hardcodeados para validación de UX
+export const categories = [
+  {
+    slug: 'estaciones-energia',
+    name: 'Estaciones de Energía',
+    short: 'Energía portátil',
+    description: 'Power stations EcoFlow y generadores solares para respaldo total ante apagones.',
+    icon: 'BatteryCharging',
+    accent: '#F07232',
+    count: 12,
+  },
+  {
+    slug: 'movilidad-electrica',
+    name: 'Movilidad Eléctrica',
+    short: 'Bicicletas e-bikes',
+    description: 'Bicicletas y scooters eléctricos para moverte por la ciudad sin gasolina.',
+    icon: 'Bike',
+    accent: '#527ED8',
+    count: 9,
+  },
+  {
+    slug: 'tecnologia',
+    name: 'Tecnología',
+    short: 'Tech & gadgets',
+    description: 'Laptops, smartphones, tablets y equipos de las mejores marcas de EE.UU.',
+    icon: 'Laptop',
+    accent: '#527ED8',
+    count: 24,
+  },
+  {
+    slug: 'hogar',
+    name: 'Hogar Inteligente',
+    short: 'Smart home',
+    description: 'Electrodomésticos, climatización y dispositivos para un hogar conectado.',
+    icon: 'House',
+    accent: '#F07232',
+    count: 18,
+  },
+  {
+    slug: 'accesorios',
+    name: 'Accesorios',
+    short: 'Complementos',
+    description: 'Paneles solares, baterías extra, cargadores y accesorios de alto valor.',
+    icon: 'Cable',
+    accent: '#527ED8',
+    count: 31,
+  },
+]
+
+export const getCategory = (slug) => categories.find((c) => c.slug === slug)

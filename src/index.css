@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, sans-serif;
+
+  /* ── Brand orange — action, courier, CTA ── */
+  --color-brand:       #F07232;
+  --color-brand-hover: #E8823C;
+
+  /* ── Brand blue — international, trust ── */
+  --color-blue:        #527ED8;
+  --color-blue-hover:  #6B90DC;
+
+  /* ── Semantic ── */
+  --color-success: #22C55E;
+  --color-warning: #F5A524;
+  --color-error:   #EF4444;
+}
+
+/* ── Dark theme tokens (default) ── */
+:root {
+  --shadow-navbar: 0 1px 32px rgba(0,0,0,0.40);
+  --shadow-card:   0 0 0 transparent;
+  --shadow-hover:  0 8px 40px rgba(0,0,0,0.40);
+  --shadow-pop:    0 40px 90px rgba(0,0,0,0.70), 0 0 0 1px rgba(255,255,255,0.10);
+
+  --bg-base:     #060810;
+  --bg-alt:      #07080F;
+  --bg-card:     #0C1018;
+  --bg-deep:     #03040A;
+  --bg-elevated: #0F1520;
+  --bg-input:    #060810;
+
+  --fg-1: #F8F8F8;
+  --fg-2: #94A3B8;
+  --fg-3: #64748B;
+  --fg-4: #64748B;
+  --fg-5: #475569;
+
+  --bd-1: rgba(255,255,255,0.055);
+  --bd-2: rgba(255,255,255,0.08);
+  --bd-3: rgba(255,255,255,0.12);
+  --bd-4: rgba(255,255,255,0.20);
+}
+
+[data-theme="light"] {
+  --shadow-navbar: 0 1px 10px rgba(0,0,0,0.07);
+  --shadow-card:   0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-hover:  0 10px 40px rgba(0,0,0,0.10);
+  --shadow-pop:    0 30px 70px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.06);
+
+  --bg-base:     #F5F3EF;
+  --bg-alt:      #F0EDE8;
+  --bg-card:     #FFFFFF;
+  --bg-deep:     #E8E5DF;
+  --bg-elevated: #FAFAF8;
+  --bg-input:    #EEEBE6;
+
+  --fg-1: #0D0F14;
+  --fg-2: #374151;
+  --fg-3: #536070;
+  --fg-4: #6B7A8D;
+  --fg-5: #8694A4;
+
+  --bd-1: rgba(0,0,0,0.07);
+  --bd-2: rgba(0,0,0,0.11);
+  --bd-3: rgba(0,0,0,0.18);
+  --bd-4: rgba(0,0,0,0.26);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { color-scheme: light; scroll-behavior: smooth; }
+[data-theme="dark"] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  background-color: var(--bg-base);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.35s ease, color 0.2s ease;
+}
+
+::selection { background: rgba(240,114,50,0.22); color: #fff; }
+
+:focus-visible {
+  outline: 2px solid rgba(240,114,50,0.55);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+::-webkit-scrollbar        { width: 9px; height: 9px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--bd-3); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(240,114,50,0.5); }
+
+#root { width: 100%; min-height: 100svh; }
+
+.font-display { font-family: var(--font-display); }
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Premium utility: hairline gradient border card ── */
+.card-surface {
+  background: var(--bg-card);
+  border: 1px solid var(--bd-1);
+  box-shadow: var(--shadow-card);
+}
+
+@keyframes shimmer {
+  0%   { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-elevated) 40%, var(--bg-card) 80%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1      !important;
+    transition-duration:       0.01ms !important;
+    scroll-behavior:           auto   !important;
+  }
+}
