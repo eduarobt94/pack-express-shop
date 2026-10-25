@@ -1,21 +1,22 @@
 # Optimus Envíos — Shop
 
-Tienda online internacional **EE.UU. → Cuba** del ecosistema Optimus Envíos.
+Plataforma de Optimus Envíos para cubanos residentes en Uruguay que compran en tiendas de EE.UU. y envían a sus familiares en Cuba.
+El producto se paga en la tienda; a Optimus se le paga en sucursal una comisión (10%) y el envío (USD/kg). La aduana de Cuba la paga el destinatario. Ver `src/lib/shipping.js`.
 Primera versión funcional (UI completa, datos hardcodeados) para validar experiencia, navegación y flujos de compra/logística.
 
 > Sin APIs, sin base de datos, sin servicios externos. Toda la información está simulada en `src/data/`.
 
 ## Stack
 
-Idéntico al ecosistema Optimus Envíos:
+Stack:
 
 - **React 19** + **Vite 8**
 - **Tailwind CSS v4** (tokens vía `@theme` + variables CSS para dark/light)
 - **Framer Motion** (animaciones de entrada y micro-interacciones)
 - **React Router v7** (navegación SPA)
 - **lucide-react** (iconografía SVG — sin emojis)
-- Fuentes: **Plus Jakarta Sans** (display) + **Inter** (body)
-- Paleta: naranja `#F07232` (acción) + azul `#527ED8` (internacional/confianza), dark-first
+- Fuentes: **Montserrat** (títulos) + **Inter** (cuerpo)
+- Paleta: rojo `#E31E24`, gris `#A8A8A8`, negro `#1A1A1A`, blanco (manual de marca)
 
 ## Scripts
 

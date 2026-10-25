@@ -56,9 +56,9 @@ function StoreLogo({ id }) {
 }
 
 const STORES = [
-  { id: 'amazon',  tagline: 'Miles de productos disponibles',     desc: 'Explora el catálogo completo de Amazon con envío directo a Uruguay.' },
-  { id: 'temu',   tagline: 'Próximamente',                         desc: 'Estamos integrando Temu para que compres aún más barato.' },
-  { id: 'walmart', tagline: 'Próximamente',                        desc: 'Pronto podrás comprar en Walmart desde nuestra plataforma.' },
+  { id: 'amazon',  tagline: 'Miles de productos disponibles',     desc: 'Elegí en Amazon con tu dirección de recepción de Optimus. El pago del producto es en la tienda.' },
+  { id: 'temu',   tagline: 'Próximamente',                         desc: 'Tienda pendiente de aprobación por Optimus.' },
+  { id: 'walmart', tagline: 'Próximamente',                        desc: 'Tienda pendiente de aprobación por Optimus.' },
 ]
 
 export default function StoresSection() {
@@ -225,7 +225,7 @@ export default function StoresSection() {
                   {MARKETPLACES[modalStore.id].name}
                 </h3>
                 <p className="text-[14px] text-[var(--fg-3)] leading-relaxed mb-6">
-                  Estamos trabajando en la integración con {MARKETPLACES[modalStore.id].name}. ¡Pronto podrás comprar aquí directamente!
+                  Estamos trabajando en la integración con {MARKETPLACES[modalStore.id].name}. Todavía no está habilitada.
                 </p>
 
                 <button

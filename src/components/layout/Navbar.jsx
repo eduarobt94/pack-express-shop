@@ -29,6 +29,12 @@ export default function Navbar() {
 
   useEffect(() => setOpen(false), [location.pathname, location.search])
 
+  useEffect(() => {
+    const openLogin = () => setLoginOpen(true)
+    window.addEventListener('open-login', openLogin)
+    return () => window.removeEventListener('open-login', openLogin)
+  }, [])
+
   function search(e) {
     e?.preventDefault()
     navigate(q.trim() ? `/catalogo?q=${encodeURIComponent(q.trim())}` : '/catalogo')
@@ -60,7 +66,7 @@ export default function Navbar() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Busca EcoFlow, bicicletas eléctricas, laptops..."
+              placeholder="Buscá productos o tiendas..."
               aria-label="Buscar productos"
               className="flex-1 bg-transparent px-3 text-sm text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none min-w-0"
             />
@@ -75,13 +81,13 @@ export default function Navbar() {
               to="/seguimiento"
               className="hidden lg:flex items-center gap-1.5 px-3 h-10 rounded-xl border border-[var(--bd-2)] text-[13px] font-medium text-[var(--fg-2)] hover:text-[var(--fg-1)] hover:border-[var(--bd-3)] transition-colors"
             >
-              <MapPin size={15} /> Rastrear
+              <MapPin size={15} /> Consultar compra
             </Link>
             <Link
               to="/casillero"
               className="hidden lg:flex items-center gap-1.5 px-3 h-10 rounded-xl border border-[var(--sec)]/30 bg-[var(--sec)]/[0.06] text-[13px] font-semibold text-[var(--sec)] hover:bg-[var(--sec)]/[0.12] transition-colors"
             >
-              <Warehouse size={15} /> Casillero
+              <Warehouse size={15} /> Mis compras
             </Link>
             <ThemeToggle />
             {isAuthenticated ? (
@@ -135,8 +141,11 @@ export default function Navbar() {
                 {c.short}
               </NavLink>
             ))}
-            <Link to="/catalogo?cat=ofertas" className="ml-auto px-3 py-1.5 rounded-lg text-[13px] font-bold text-[#E31E24] hover:bg-[#E31E24]/[0.08] transition-colors">
-              Ofertas
+            <Link to="/como-comprar" className="ml-auto px-3 py-1.5 rounded-lg text-[13px] font-bold text-[var(--fg-2)] hover:text-[#E31E24] transition-colors whitespace-nowrap">
+              Cómo comprar
+            </Link>
+            <Link to="/tarifas" className="px-3 py-1.5 rounded-lg text-[13px] font-bold text-[#E31E24] hover:bg-[#E31E24]/[0.08] transition-colors">
+              Tarifas
             </Link>
           </div>
         </div>
@@ -175,8 +184,11 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="h-px bg-[var(--bd-1)] my-2" />
-              <Link to="/seguimiento" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Rastrear pedido</Link>
-              <Link to="/casillero" className="px-3 py-2.5 rounded-lg text-sm font-semibold text-[var(--sec)] hover:bg-[var(--sec)]/[0.08]">Mi Casillero</Link>
+              <Link to="/como-comprar" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Cómo comprar</Link>
+              <Link to="/tarifas" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Tarifas</Link>
+              <Link to="/contacto" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Contacto y condiciones</Link>
+              <Link to="/seguimiento" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Consultar una compra</Link>
+              <Link to="/casillero" className="px-3 py-2.5 rounded-lg text-sm font-semibold text-[var(--sec)] hover:bg-[var(--sec)]/[0.08]">Mis compras y recepción</Link>
               {isAuthenticated ? (
                 <>
                   <Link to="/cuenta" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Mi cuenta ({user.name.split(' ')[0]})</Link>

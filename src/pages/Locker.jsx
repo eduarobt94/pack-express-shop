@@ -14,13 +14,13 @@ import { useAuth } from '../context/AuthContext'
 
 const TABS = [
   { id: 'packages', label: 'Paquetes', Icon: Package },
-  { id: 'retained', label: 'Retenidos', Icon: AlertTriangle },
-  { id: 'prealerts', label: 'Pre-alertas', Icon: Bell },
+  { id: 'retained', label: 'Incidencias', Icon: AlertTriangle },
+  { id: 'prealerts', label: 'Compras registradas', Icon: Bell },
   { id: 'shipments', label: 'Envíos', Icon: Truck },
 ]
 
 const SHIPMENT_STATUS = {
-  pending_payment: { label: 'Pago pendiente', color: '#F5A524' },
+  pending_payment: { label: 'Pendiente de pago en sucursal', color: '#F5A524' },
   paid: { label: 'Pagado', color: '#A8A8A8' },
   in_transit: { label: 'En tránsito', color: '#E31E24' },
   delivered: { label: 'Entregado', color: '#22C55E' },
@@ -83,7 +83,7 @@ export default function Locker() {
               <Warehouse size={24} className="text-[var(--sec)]" />
             </div>
             <div>
-              <h1 className="font-display font-extrabold text-[clamp(1.35rem,3.5vw,2rem)] text-[var(--fg-1)]">Mi Casillero</h1>
+              <h1 className="font-display font-extrabold text-[clamp(1.35rem,3.5vw,2rem)] text-[var(--fg-1)]">Mis compras y recepción</h1>
               <p className="text-[13px] text-[var(--fg-3)] mt-0.5">Suite OPT-UY-XXXXXX</p>
             </div>
           </div>
@@ -107,8 +107,8 @@ export default function Locker() {
           <Warehouse size={24} className="text-[var(--sec)]" />
         </div>
         <div>
-          <h1 className="font-display font-extrabold text-[clamp(1.35rem,3.5vw,2rem)] text-[var(--fg-1)]">Mi Casillero</h1>
-          <p className="text-[13px] text-[var(--fg-3)] mt-0.5">Hola, {currentUser.name.split(' ')[0]} — Suite <span className="font-mono font-semibold text-[var(--fg-1)]">{currentSuite.suiteId}</span></p>
+          <h1 className="font-display font-extrabold text-[clamp(1.35rem,3.5vw,2rem)] text-[var(--fg-1)]">Mis compras y recepción</h1>
+          <p className="text-[13px] text-[var(--fg-3)] mt-0.5">Hola, {currentUser.name.split(' ')[0]} — Código <span className="font-mono font-semibold text-[var(--fg-1)]">{currentSuite.suiteId}</span></p>
         </div>
       </div>
 
@@ -123,11 +123,11 @@ export default function Locker() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <MapPin size={15} className="text-[#E31E24]" />
-              <span className="text-[12px] font-bold text-[#E31E24] uppercase tracking-wide">Tu dirección en Miami</span>
+              <span className="text-[12px] font-bold text-[#E31E24] uppercase tracking-wide">Tu dirección de recepción en EE.UU.</span>
             </div>
             <div className="space-y-1 text-[14px] text-[var(--fg-1)]">
               <p className="font-semibold">{currentSuite.address.street}</p>
-              <p className="font-mono text-[var(--sec)] font-bold">Suite / Nombre: {currentSuite.suiteId}</p>
+              <p className="font-mono text-[var(--sec)] font-bold">Código de recepción: {currentSuite.suiteId}</p>
               <p>{currentSuite.address.city}, {currentSuite.address.state} {currentSuite.address.zip}, EE.UU.</p>
               <p className="text-[var(--fg-3)] text-[13px]">Tel: {currentSuite.address.phone}</p>
             </div>
@@ -156,10 +156,10 @@ export default function Locker() {
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
-          { label: 'Listos para enviar', value: readyCount, color: '#22C55E', Icon: PackagePlus },
+          { label: 'Listos para despacho', value: readyCount, color: '#22C55E', Icon: PackagePlus },
           { label: 'En proceso', value: pendingCount, color: '#F5A524', Icon: PackageCheck },
-          { label: 'Pre-alertas activas', value: alerts.filter((a) => a.status === 'pending').length, color: '#A8A8A8', Icon: Bell },
-          { label: 'Retenidos', value: retainedCount, color: '#EF4444', Icon: AlertTriangle },
+          { label: 'Compras por recibir', value: alerts.filter((a) => a.status === 'pending').length, color: '#A8A8A8', Icon: Bell },
+          { label: 'Incidencias', value: retainedCount, color: '#EF4444', Icon: AlertTriangle },
         ].map(({ label, value, color, Icon }) => (
           <motion.div
             key={label}
@@ -216,7 +216,7 @@ export default function Locker() {
                       Cancelar
                     </button>
                     <Button size="sm" onClick={() => setDrawerOpen(true)}>
-                      Consolidar y enviar
+                      Solicitar liquidación
                     </Button>
                   </div>
                 </motion.div>
@@ -224,7 +224,7 @@ export default function Locker() {
 
               {readyCount > 0 && selectedIds.length === 0 && (
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-[13px] text-[var(--fg-3)]">Selecciona los paquetes <span className="text-[#22C55E] font-semibold">listos</span> que quieres consolidar</p>
+                  <p className="text-[13px] text-[var(--fg-3)]">Elegí los paquetes <span className="text-[#22C55E] font-semibold">listos</span> que querés enviar juntos</p>
                 </div>
               )}
 
@@ -245,9 +245,9 @@ export default function Locker() {
           {/* ── Retenidos ── */}
           {tab === 'retained' && (
             <div>
-              <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Paquetes retenidos</h2>
+              <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Incidencias</h2>
               {retainedPackages.length === 0 ? (
-                <Empty icon={AlertTriangle} text="No tienes paquetes retenidos actualmente." />
+                <Empty icon={AlertTriangle} text="No tenés incidencias." />
               ) : (
                 <div className="space-y-3">
                   {retainedPackages.map((pkg) => (
@@ -263,7 +263,7 @@ export default function Locker() {
             <div className="grid lg:grid-cols-[1fr_380px] gap-8 items-start">
               {/* Lista */}
               <div>
-                <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Pre-alertas registradas</h2>
+                <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Compras registradas</h2>
                 {alerts.length === 0 ? (
                   <Empty icon={Bell} text="Aún no tienes pre-alertas. Regístralas cada vez que hagas una compra." />
                 ) : (
@@ -298,7 +298,7 @@ export default function Locker() {
 
               {/* Formulario */}
               <div className="rounded-2xl border border-[var(--bd-2)] bg-[var(--bg-card)] p-5">
-                <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Nueva pre-alerta</h2>
+                <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Registrar una compra</h2>
                 <PreAlertForm onSave={handlePreAlertSave} />
               </div>
             </div>
@@ -307,9 +307,9 @@ export default function Locker() {
           {/* ── Envíos ── */}
           {tab === 'shipments' && (
             <div>
-              <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Historial de envíos</h2>
+              <h2 className="text-[14px] font-bold text-[var(--fg-1)] mb-4">Envíos y liquidaciones</h2>
               {lockerShipments.length === 0 ? (
-                <Empty icon={Truck} text="Aún no has solicitado ningún envío desde el casillero." />
+                <Empty icon={Truck} text="Todavía no solicitaste ningún envío." />
               ) : (
                 <div className="space-y-4">
                   {lockerShipments.map((sh) => {
@@ -333,8 +333,8 @@ export default function Locker() {
                         </div>
                         <div className="grid grid-cols-3 gap-3 pt-3 border-t border-[var(--bd-1)] text-center">
                           <Stat label="Peso" value={`${sh.totalWeightKg} kg`} />
-                          <Stat label="Flete" value={formatUSD(sh.freight)} />
-                          <Stat label="Manejo" value={formatUSD(sh.handling)} />
+                          <Stat label="Comisión" value={formatUSD(sh.commission)} />
+                          <Stat label="Envío" value={formatUSD(sh.freight)} />
                         </div>
                       </motion.div>
                     )

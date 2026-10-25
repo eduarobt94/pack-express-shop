@@ -11,6 +11,9 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'))
 const Tracking = lazy(() => import('./pages/Tracking'))
 const Account = lazy(() => import('./pages/Account'))
 const Locker = lazy(() => import('./pages/Locker'))
+const HowToBuy = lazy(() => import('./pages/HowToBuy'))
+const Rates = lazy(() => import('./pages/Rates'))
+const Contact = lazy(() => import('./pages/Contact'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function ScrollToTop() {
@@ -51,6 +54,9 @@ export default function App() {
             <Route path="/seguimiento/:order" element={<Tracking />} />
             <Route path="/cuenta" element={<Account />} />
             <Route path="/casillero" element={<Locker />} />
+            <Route path="/como-comprar" element={<HowToBuy />} />
+            <Route path="/tarifas" element={<Rates />} />
+            <Route path="/contacto" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

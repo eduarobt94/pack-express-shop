@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Bell, Store, FileText, DollarSign, Package, Hash, CheckCircle2, Truck, Upload, MessageSquare } from 'lucide-react'
 import Button from '../ui/Button'
+import { addresses } from '../../data/account'
 
 const STORES = ['Amazon', 'Walmart', 'Best Buy', 'eBay', 'Home Depot', 'Temu', 'Target', 'Costco', 'Newegg', 'AliExpress USA', 'Otra tienda']
+// Transportistas de la tienda (seguimiento de la compra)
 const CARRIERS = ['DHL', 'FedEx Express', 'FedEx Ground', 'UPS', 'USPS', 'Amazon Logistics', 'Otros']
 
-const empty = { store: '', description: '', declaredValue: '', trackingNumber: '', pieces: '1', carrier: '', instructions: '' }
+const empty = { store: '', orderNumber: '', recipientId: '', accepted: false, description: '', declaredValue: '', trackingNumber: '', pieces: '1', carrier: '', instructions: '' }
 
 export default function PreAlertForm({ onSave }) {
   const [form, setForm] = useState(empty)
@@ -25,8 +27,11 @@ export default function PreAlertForm({ onSave }) {
     if (!form.description.trim()) e.description = 'Describe el producto'
     if (!form.declaredValue || Number(form.declaredValue) <= 0) e.declaredValue = 'Ingresa el valor'
     if (!form.trackingNumber.trim()) e.trackingNumber = 'Ingresa el número de seguimiento'
+    if (!form.orderNumber.trim()) e.orderNumber = 'Ingresá el número de pedido de la tienda'
+    if (!form.recipientId) e.recipientId = 'Elegí el destinatario en Cuba'
+    if (!form.accepted) e.accepted = 'Tenés que aceptar las condiciones'
     if (!form.carrier) e.carrier = 'Selecciona el transportista'
-    if (!facturaName) e.factura = 'La factura es obligatoria'
+    if (!facturaName) e.factura = 'El comprobante es obligatorio'
     return e
   }
 
@@ -37,6 +42,9 @@ export default function PreAlertForm({ onSave }) {
 
     onSave?.({
       store: form.store,
+      orderNumber: form.orderNumber.trim(),
+      recipientId: form.recipientId,
+      acceptedAt: new Date().toISOString(),
       description: form.description.trim(),
       declaredValue: Number(form.declaredValue),
       trackingNumber: form.trackingNumber.trim(),
@@ -58,8 +66,8 @@ export default function PreAlertForm({ onSave }) {
         <div className="w-14 h-14 rounded-full bg-[#22C55E]/[0.12] flex items-center justify-center">
           <CheckCircle2 size={28} className="text-[#22C55E]" />
         </div>
-        <p className="text-[15px] font-semibold text-[var(--fg-1)]">¡Pre-alerta registrada!</p>
-        <p className="text-[13px] text-[var(--fg-3)]">Te notificaremos cuando llegue a Miami.</p>
+        <p className="text-[15px] font-semibold text-[var(--fg-1)]">¡Compra registrada!</p>
+        <p className="text-[13px] text-[var(--fg-3)]">Te avisamos cuando llegue a EE.UU.</p>
       </motion.div>
     )
   }
@@ -91,14 +99,14 @@ export default function PreAlertForm({ onSave }) {
           type="text"
           value={form.description}
           onChange={(e) => set('description', e.target.value)}
-          placeholder="Ej: Auriculares Sony WH-1000XM5 negros"
+          placeholder="Ej: Lámpara solar recargable, 2 unidades"
           className="w-full bg-transparent text-[14px] text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none"
         />
       </Field>
 
       <div className="grid sm:grid-cols-2 gap-5">
         {/* Valor declarado */}
-        <Field label="Valor USD" icon={DollarSign} error={errors.declaredValue}>
+        <Field label="Valor de productos (USD)" icon={DollarSign} error={errors.declaredValue}>
           <input
             type="number"
             min="1"
@@ -121,6 +129,27 @@ export default function PreAlertForm({ onSave }) {
           />
         </Field>
       </div>
+
+      <Field label="Número de pedido de la tienda" icon={Hash} error={errors.orderNumber}>
+        <input
+          type="text"
+          value={form.orderNumber}
+          onChange={(e) => set('orderNumber', e.target.value)}
+          placeholder="Ej: 112-3456789-0123456"
+          className="w-full bg-transparent text-[14px] text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none font-mono"
+        />
+      </Field>
+
+      <Field label="Destinatario en Cuba" icon={Truck} error={errors.recipientId}>
+        <select
+          value={form.recipientId}
+          onChange={(e) => set('recipientId', e.target.value)}
+          className="w-full bg-transparent text-[14px] text-[var(--fg-1)] outline-none"
+        >
+          <option value="">Elegí el destinatario…</option>
+          {addresses.map((a) => <option key={a.id} value={a.id}>{a.label}</option>)}
+        </select>
+      </Field>
 
       {/* Tracking */}
       <Field label="Número de seguimiento" icon={Hash} error={errors.trackingNumber}>
@@ -148,7 +177,7 @@ export default function PreAlertForm({ onSave }) {
       {/* Factura comercial */}
       <div>
         <label className="block text-[12px] font-semibold text-[var(--fg-3)] mb-1.5 uppercase tracking-wide">
-          Factura comercial (obligatoria)
+          Comprobante de la compra (obligatorio)
         </label>
         <label className={`flex items-center gap-3 px-3.5 py-3 rounded-xl border cursor-pointer transition-colors ${
           errors.factura
@@ -161,7 +190,7 @@ export default function PreAlertForm({ onSave }) {
               ? <span className="text-[13.5px] text-[var(--fg-1)] truncate block">{facturaName}</span>
               : <span className="text-[13.5px] text-[var(--fg-4)]">Seleccionar archivo…</span>
             }
-            <p className="text-[11px] text-[var(--fg-4)] mt-0.5">Requerida para despacho. PDF o imagen.</p>
+            <p className="text-[11px] text-[var(--fg-4)] mt-0.5">Debe ser legible. PDF o imagen.</p>
           </div>
           <input
             type="file"
@@ -179,21 +208,31 @@ export default function PreAlertForm({ onSave }) {
       {/* Instrucciones especiales */}
       <div>
         <label className="block text-[12px] font-semibold text-[var(--fg-3)] mb-1.5 uppercase tracking-wide">
-          Instrucciones especiales
+          Observaciones
         </label>
         <div className="flex items-start gap-3 px-3.5 py-3 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#E31E24]/60 focus-within:shadow-[0_0_0_3px_rgba(227,30,36,0.10)] transition-colors">
           <MessageSquare size={15} className="text-[var(--fg-4)] shrink-0 mt-0.5" />
           <textarea
             value={form.instructions}
             onChange={(e) => set('instructions', e.target.value)}
-            placeholder="Instrucciones especiales para el almacén (opcional)"
+            placeholder="Observaciones (opcional)"
             rows={3}
             className="w-full bg-transparent text-[14px] text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none resize-none"
           />
         </div>
       </div>
 
-      <Button type="submit" className="w-full">Registrar pre-alerta</Button>
+      <div>
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input type="checkbox" checked={form.accepted} onChange={(e) => set('accepted', e.target.checked)} className="mt-1 accent-[#E31E24]" />
+          <span className="text-[12.5px] text-[var(--fg-2)] leading-relaxed">
+            Revisé el resumen de costos y acepto las condiciones del servicio (se guarda la versión y la fecha).
+          </span>
+        </label>
+        {errors.accepted && <p className="text-[11.5px] text-[#EF4444] mt-1">{errors.accepted}</p>}
+      </div>
+
+      <Button type="submit" className="w-full">Registrar compra</Button>
     </form>
   )
 }

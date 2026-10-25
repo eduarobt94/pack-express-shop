@@ -6,28 +6,29 @@ const COLS = [
   {
     title: 'Tienda',
     links: [
-      { label: 'Catálogo', to: '/catalogo' },
-      { label: 'Estaciones de energía', to: '/catalogo?cat=estaciones-energia' },
-      { label: 'Movilidad eléctrica', to: '/catalogo?cat=movilidad-electrica' },
-      { label: 'Tecnología', to: '/catalogo?cat=tecnologia' },
+      { label: 'Tiendas y productos', to: '/catalogo' },
+      { label: 'Energía y respaldo eléctrico', to: '/catalogo?cat=energia-respaldo' },
+      { label: 'Iluminación', to: '/catalogo?cat=iluminacion' },
+      { label: 'Cocina y utensilios', to: '/catalogo?cat=cocina' },
     ],
   },
   {
     title: 'Servicio',
     links: [
-      { label: 'Rastrear pedido', to: '/seguimiento' },
+      { label: 'Cómo comprar', to: '/como-comprar' },
+      { label: 'Tarifas y calculadora', to: '/tarifas' },
+      { label: 'Consultar una compra', to: '/seguimiento' },
       { label: 'Mi cuenta', to: '/cuenta' },
-      { label: 'Cómo funciona', to: '/#como-funciona' },
-      { label: 'Preguntas frecuentes', to: '/#como-funciona' },
+      { label: 'Contacto y condiciones', to: '/contacto' },
     ],
   },
 ]
 
 const TRUST = [
-  { Icon: Shield, label: 'Pago 100% seguro' },
-  { Icon: Plane, label: 'Envío garantizado a Uruguay' },
-  { Icon: Package, label: 'Seguimiento en tiempo real' },
-  { Icon: Headset, label: 'Soporte dedicado' },
+  { Icon: Shield, label: 'No pedimos tarjetas de tiendas' },
+  { Icon: Plane, label: 'Entrega en Cuba' },
+  { Icon: Package, label: 'Seguimiento de tu compra' },
+  { Icon: Headset, label: 'Atención en Uruguay' },
 ]
 
 export default function Footer() {
@@ -55,8 +56,8 @@ export default function Footer() {
             <img src={logo} alt="Optimus Envíos" className="h-12 w-auto block" />
           </Link>
           <p className="text-[13px] text-[var(--fg-3)] leading-relaxed max-w-xs mb-5">
-            Comprá productos premium en Estados Unidos y recibilos en todo Uruguay.
-            Los más rápidos de Montevideo. Precio total claro, sin sorpresas.
+            Comprá en tiendas de Estados Unidos y mandá a tu familia en Cuba. Atención y cobro presencial en nuestra sucursal de Uruguay.
+            Los más rápidos de Montevideo.
           </p>
           <div className="flex gap-2.5">
             <a href="mailto:[EMAIL]" className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[var(--bd-2)] text-[12px] text-[var(--fg-2)] hover:text-[var(--fg-1)] hover:border-[var(--bd-3)] transition-colors">
@@ -87,7 +88,7 @@ export default function Footer() {
       <div className="border-t border-[var(--bd-1)]">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[12px] text-[var(--fg-4)]">© 2026 Optimus Envíos · La logística, optimizada.</p>
-          <p className="text-[11px] text-[var(--fg-5)]">Demo de validación · Datos simulados · Sin transacciones reales</p>
+          <p className="text-[11px] text-[var(--fg-5)]">Demo de validación · Datos simulados</p>
         </div>
       </div>
     </footer>

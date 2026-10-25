@@ -1,96 +1,54 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Zap, Truck, ShieldCheck } from 'lucide-react'
-import ProductVisual from '../ui/ProductVisual'
-import { getProduct, discountPct } from '../../data/products'
-import { formatUSD } from '../../lib/format'
-
-const star = getProduct('ef-delta-2-max')
+import { ArrowRight, Truck, ShieldCheck, Store, Wallet } from 'lucide-react'
+import Button from '../ui/Button'
 
 export default function CompactHero() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5">
       <div className="grid lg:grid-cols-[1fr_320px] gap-4">
-        {/* Main promo banner */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="relative overflow-hidden rounded-2xl border border-[var(--bd-2)] min-h-[300px] sm:min-h-[340px] flex"
-          style={{ background: 'radial-gradient(130% 120% at 85% 10%, rgba(227,30,36,0.18), transparent 55%), var(--bg-card)' }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="relative overflow-hidden rounded-xl border border-[var(--bd-2)] min-h-[300px] sm:min-h-[340px] flex"
+          style={{ background: 'radial-gradient(130% 120% at 85% 10%, rgba(227,30,36,0.12), transparent 55%), var(--bg-card)' }}
         >
-          <svg className="absolute inset-0 w-full h-full opacity-50" aria-hidden="true">
-            <defs>
-              <pattern id="hero-dots" width="30" height="30" patternUnits="userSpaceOnUse">
-                <circle cx="15" cy="15" r="0.9" fill="var(--fg-1)" opacity="0.05" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#hero-dots)" />
-          </svg>
-
-          <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-9 w-full">
-            <div className="flex-1 order-2 sm:order-1 text-center sm:text-left">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E31E24] text-white text-[11px] font-bold uppercase tracking-wider mb-3">
-                <Zap size={12} /> Oferta destacada · -{discountPct(star)}%
-              </span>
-              <h1 className="font-display font-extrabold text-[clamp(1.5rem,3.5vw,2.4rem)] leading-[1.1] text-[var(--fg-1)] mb-2">
-                Tu compra de EE.UU.,<br className="hidden sm:block" /> en Uruguay antes de lo esperado
-              </h1>
-              <p className="text-[14px] text-[var(--fg-3)] mb-4 max-w-md mx-auto sm:mx-0">
-                {star.name} — respaldo de 2048 Wh ante cualquier apagón. Envío e impuestos incluidos.
-              </p>
-              <div className="flex items-center justify-center sm:justify-start gap-3 mb-5">
-                <span className="font-display font-extrabold text-2xl text-[var(--fg-1)]">{formatUSD(star.price)}</span>
-                <span className="text-[15px] text-[var(--fg-4)] line-through">{formatUSD(star.compareAt)}</span>
-              </div>
-              <Link
-                to={`/producto/${star.id}`}
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E31E24] hover:bg-[#C81A1F] text-white font-semibold text-sm transition-all hover:shadow-[0_0_32px_rgba(227,30,36,0.32)]"
-              >
-                Comprar ahora
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </div>
-            <div className="order-1 sm:order-2 w-40 h-40 sm:w-56 sm:h-56 rounded-2xl overflow-hidden shrink-0">
-              <ProductVisual icon={star.icon} tint={star.tint} size="lg" />
+          <div className="relative z-10 flex flex-col justify-center p-6 sm:p-10 w-full">
+            <span className="inline-flex self-start items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#E31E24] text-white text-[11px] font-display font-extrabold uppercase tracking-[0.04em] mb-4">
+              <Truck size={12} /> Uruguay → Cuba
+            </span>
+            <h1 className="font-display font-black text-[clamp(1.75rem,4vw,3.25rem)] leading-[1.05] text-[var(--fg-1)] mb-3">
+              Comprás en EE.UU.<br />Tu familia recibe en Cuba.
+            </h1>
+            <p className="font-display italic font-light text-[clamp(1rem,1.6vw,1.2rem)] text-[var(--fg-3)] mb-6 max-w-xl">
+              Los más rápidos de Montevideo. Pagás el producto en la tienda y a nosotros, en la sucursal, solo la gestión y el envío.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button onClick={() => window.dispatchEvent(new Event('open-login'))} size="lg">
+                Registrarme <ArrowRight size={16} />
+              </Button>
+              <Button to="/catalogo" variant="outline" size="lg">Ver tiendas</Button>
             </div>
           </div>
         </motion.div>
 
-        {/* Side promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
-          <SidePromo
-            to="/catalogo?cat=movilidad-electrica"
-            tint="#A8A8A8"
-            icon="Bike"
-            eyebrow="Movilidad"
-            title="E-bikes y scooters"
-            sub="Hasta 75 km de autonomía"
-            delay={0.1}
-          />
-          <SidePromo
-            to="/seguimiento"
-            tint="#E31E24"
-            icon="MapPin"
-            eyebrow="¿Ya compraste?"
-            title="Rastrea tu pedido"
-            sub="Seguimiento en tiempo real"
-            delay={0.18}
-          />
+          <SidePromo to="/como-comprar" tint="#E31E24" icon="ListChecks" eyebrow="Paso a paso" title="Cómo comprar" sub="Qué pagás, y a quién" delay={0.1} />
+          <SidePromo to="/seguimiento" tint="#A8A8A8" icon="MapPin" eyebrow="¿Ya compraste?" title="Consultá tu compra" sub="Seguimiento en cada etapa" delay={0.18} />
         </div>
       </div>
 
-      {/* Trust strip — compact */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.25 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
         className="grid grid-cols-3 gap-3 mt-4"
       >
         {[
-          { Icon: Truck, label: 'Envío a los 19 departamentos' },
-          { Icon: ShieldCheck, label: 'Impuestos transparentes' },
-          { Icon: Zap, label: 'Entrega en 7–20 días' },
+          { Icon: Store, label: 'Comprás en la tienda que elijas' },
+          { Icon: Wallet, label: 'Pagás gestión y envío en sucursal' },
+          { Icon: ShieldCheck, label: 'Aduana en Cuba la paga quien recibe' },
         ].map(({ Icon, label }) => (
           <div key={label} className="flex items-center justify-center sm:justify-start gap-2.5 px-4 py-3 rounded-xl card-surface">
             <Icon size={18} className="text-[var(--sec)] shrink-0" />

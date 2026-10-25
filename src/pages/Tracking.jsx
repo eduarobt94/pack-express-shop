@@ -47,7 +47,7 @@ export default function Tracking() {
           <div className="w-14 h-14 rounded-2xl bg-[#E31E24]/[0.12] border border-[#E31E24]/25 flex items-center justify-center mx-auto mb-5">
             <MapPin size={26} className="text-[#E31E24]" />
           </div>
-          <h1 className="font-display font-extrabold text-[clamp(1.6rem,4vw,2.25rem)] text-[var(--fg-1)] mb-2">Rastrea tu pedido</h1>
+          <h1 className="font-display font-extrabold text-[clamp(1.6rem,4vw,2.25rem)] text-[var(--fg-1)] mb-2">Consultá tu compra</h1>
           <p className="text-[14.5px] text-[var(--fg-3)] mb-7">Ingresa tu número de orden para ver el estado en tiempo real.</p>
 
           <form onSubmit={onSubmit} className="flex items-center gap-2 p-1.5 bg-[var(--bg-card)] border border-[var(--bd-2)] rounded-2xl focus-within:border-[#E31E24]/50 focus-within:shadow-[0_0_0_3px_rgba(227,30,36,0.12)] transition-all">
@@ -58,13 +58,13 @@ export default function Tracking() {
                 id="track"
                 value={query}
                 onChange={(e) => setQuery(e.target.value.toUpperCase())}
-                placeholder="Ej: OPT-MVD-2026-00847"
+                placeholder="Ej: OPT-HAB-2026-00847"
                 className="flex-1 bg-transparent text-[14px] text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none px-3 py-2.5 min-w-0"
               />
             </div>
-            <button type="submit" className="px-6 py-2.5 bg-[#E31E24] hover:bg-[#C81A1F] text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer">Rastrear</button>
+            <button type="submit" className="px-6 py-2.5 bg-[#E31E24] hover:bg-[#C81A1F] text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer">Consultar</button>
           </form>
-          <p className="text-[12px] text-[var(--fg-4)] mt-3">Prueba con: OPT-MVD-2026-00847 o OPT-CAN-2026-00692</p>
+          <p className="text-[12px] text-[var(--fg-4)] mt-3">Probá con: OPT-HAB-2026-00847 o OPT-HAB-2026-00892</p>
         </div>
       </div>
 
@@ -72,12 +72,12 @@ export default function Tracking() {
         {loading ? (
           <div className="flex flex-col items-center py-16">
             <div className="w-8 h-8 rounded-full border-2 border-[var(--bd-3)] border-t-[#E31E24] animate-spin mb-4" />
-            <p className="text-[13.5px] text-[var(--fg-3)]">Buscando tu pedido...</p>
+            <p className="text-[13.5px] text-[var(--fg-3)]">Buscando tu compra...</p>
           </div>
         ) : searched && !result ? (
           <EmptyState
             icon="PackageSearch"
-            title="No encontramos ese pedido"
+            title="No encontramos esa compra"
             description="Verifica el número de orden e inténtalo de nuevo. Lo encuentras en tu email de confirmación."
             action={<Button variant="subtle" onClick={() => { setQuery(''); setSearched(false) }}>Intentar de nuevo</Button>}
           />
@@ -110,7 +110,7 @@ function TrackingResult({ data }) {
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E31E24]/[0.12] border border-[#E31E24]/25 text-[12px] font-semibold text-[#E31E24]">
               <Plane size={13} /> En camino
             </span>
-            <p className="text-[12px] text-[var(--fg-3)] mt-2">Entrega est: <span className="font-semibold text-[#22C55E]">{data.eta}</span></p>
+            <p className="text-[12px] text-[var(--fg-3)] mt-2"><span className="font-semibold text-[var(--fg-2)]">{data.guide}</span></p>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ function TrackingResult({ data }) {
             <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="h-full rounded-full bg-gradient-to-r from-[#E31E24] to-[#C81A1F]" />
           </div>
           <div className="flex justify-between mt-2 text-[11px] text-[var(--fg-4)]">
-            <span>EE.UU.</span><span>Aduana UY</span><span>Entrega</span>
+            <span>EE.UU.</span><span>Despacho</span><span>Cuba</span>
           </div>
         </div>
       </div>

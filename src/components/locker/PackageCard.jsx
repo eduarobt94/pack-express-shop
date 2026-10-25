@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
-import { PackageCheck, FileWarning, ScanSearch, PackagePlus, Plane, ShieldCheck, Clock, AlertTriangle } from 'lucide-react'
-import { PACKAGE_STATES, storageInfo, FREE_STORAGE_DAYS } from '../../lib/locker'
+import { PackageCheck, FileWarning, ScanSearch, PackagePlus, Plane, AlertTriangle } from 'lucide-react'
+import { PACKAGE_STATES } from '../../lib/locker'
 import { formatUSD, formatDate } from '../../lib/format'
 
 const STATE_ICONS = { PackageCheck, FileWarning, ScanSearch, PackagePlus, Plane, AlertTriangle }
@@ -8,9 +8,6 @@ const STATE_ICONS = { PackageCheck, FileWarning, ScanSearch, PackagePlus, Plane,
 export default function PackageCard({ pkg, selected, onSelect, selectable }) {
   const meta = PACKAGE_STATES[pkg.status]
   const Icon = STATE_ICONS[meta.icon] || PackageCheck
-  const { daysLeft, daysInStorage, extraCost } = storageInfo(pkg.receivedAt)
-  const storageWarning = daysLeft <= 10 && pkg.status !== 'shipped'
-  const storageExpired = daysLeft === 0 && pkg.status !== 'shipped'
 
   return (
     <motion.div
@@ -46,11 +43,6 @@ export default function PackageCard({ pkg, selected, onSelect, selectable }) {
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: `${meta.color}18`, color: meta.color }}>
               {meta.label}
             </span>
-            {pkg.insured && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#22C55E]/[0.10] text-[#22C55E]">
-                <ShieldCheck size={10} /> Asegurado
-              </span>
-            )}
           </div>
 
           <p className="mt-1.5 text-[14px] font-semibold text-[var(--fg-1)] truncate">{pkg.description}</p>
@@ -63,21 +55,6 @@ export default function PackageCard({ pkg, selected, onSelect, selectable }) {
           </div>
 
           {/* Countdown almacenaje */}
-          {pkg.status !== 'shipped' && (
-            <div className={`mt-2.5 flex items-center gap-1.5 text-[12px] font-medium rounded-lg px-2.5 py-1.5 w-fit ${
-              storageExpired
-                ? 'bg-[#EF4444]/[0.10] text-[#EF4444]'
-                : storageWarning
-                ? 'bg-[#F5A524]/[0.10] text-[#F5A524]'
-                : 'bg-[var(--bd-1)] text-[var(--fg-3)]'
-            }`}>
-              <Clock size={12} />
-              {storageExpired
-                ? `Almacenaje vencido · +${formatUSD(extraCost)}`
-                : `${daysLeft} días de almacenaje gratis (${daysInStorage}/${FREE_STORAGE_DAYS})`}
-            </div>
-          )}
-
           {/* Nota del almacén */}
           {pkg.notes.length > 0 && (
             <p className="mt-2 text-[12px] text-[#F5A524] bg-[#F5A524]/[0.08] rounded-lg px-2.5 py-1.5">

@@ -6,8 +6,8 @@ import { categories } from '../../data/categories'
 export default function CategoryStrip() {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-      <h2 className="font-display font-bold text-[18px] sm:text-xl text-[var(--fg-1)] mb-4">Explora por categoría</h2>
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+      <h2 className="font-display font-bold text-[18px] sm:text-xl text-[var(--fg-1)] mb-4">Tiendas y productos útiles para el hogar en Cuba</h2>
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3">
         {categories.map((cat, i) => {
           const Icon = Icons[cat.icon] || Icons.Package
           return (

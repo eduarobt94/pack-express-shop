@@ -2,27 +2,21 @@ import CompactHero from '../components/home/CompactHero'
 import CategoryStrip from '../components/home/CategoryStrip'
 import StoresSection from '../components/home/StoresSection'
 import ProductShelf from '../components/home/ProductShelf'
-import SpecialOffers from '../components/home/SpecialOffers'
 import BenefitsCompact from '../components/home/BenefitsCompact'
-import { bestSellers, offers, recommended, recentlyAdded } from '../data/products'
+import { products } from '../data/products'
 
 export default function Home() {
   return (
     <div className="pb-10">
-      {/* Above the fold: promo compacta + categorías + productos */}
       <CompactHero />
       <CategoryStrip />
 
-      {/* Marketplaces disponibles */}
+      {/* Tiendas externas */}
       <StoresSection />
 
-      {/* Conversión: filas de productos */}
-      <ProductShelf title="Los más vendidos" eyebrow="Top ventas" accent="#E31E24" products={bestSellers} viewAllTo="/catalogo" />
-      <SpecialOffers products={offers} />
-      <ProductShelf title="Recomendados para ti" eyebrow="Para ti" accent="#A8A8A8" products={recommended} viewAllTo="/catalogo" />
-      <ProductShelf title="Recién agregados" eyebrow="Nuevo" accent="#E31E24" products={recentlyAdded} viewAllTo="/catalogo" />
+      {/* Catálogo orientativo */}
+      <ProductShelf title="Selección orientativa" eyebrow="Productos útiles" accent="#E31E24" products={products} viewAllTo="/catalogo" />
 
-      {/* Confianza (compacta) */}
       <BenefitsCompact />
     </div>
   )

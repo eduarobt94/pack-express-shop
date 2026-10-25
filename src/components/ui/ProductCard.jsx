@@ -22,9 +22,8 @@ export default function ProductCard({ product, index = 0 }) {
   const icon = product.icon
   const tint = product.tint
   const price = product.price
-  const compareAt = product.compareAt
-  const rating = product.rating
-  const soldOut = isMarketplace ? product.available === false : product.stock === 0
+  const rating = isMarketplace ? product.rating : null
+  const soldOut = isMarketplace && product.available === false
 
   const detailTo = isMarketplace
     ? `/producto/${product.asin}?marketplace=${product.marketplace}`
@@ -55,12 +54,7 @@ export default function ProductCard({ product, index = 0 }) {
               <MarketplaceBadge marketplace={product.marketplace} />
             </div>
           )}
-          {compareAt && !soldOut && (
-            <div className="absolute top-3 right-3 z-10 px-2 py-1 rounded-lg text-[11px] font-bold text-white bg-[#E31E24]">
-              -{Math.round((1 - price / compareAt) * 100)}%
-            </div>
-          )}
-          {isMarketplace && soldOut && (
+          {soldOut && (
             <div className="absolute top-3 right-3 z-10 px-2 py-1 rounded-lg text-[11px] font-bold text-white bg-[var(--fg-4)]">
               No disponible
             </div>
@@ -84,11 +78,8 @@ export default function ProductCard({ product, index = 0 }) {
             <div>
               <div className="flex items-baseline gap-2">
                 <span className="font-display font-bold text-lg text-[var(--fg-1)]">{formatUSD(price)}</span>
-                {compareAt && (
-                  <span className="text-xs text-[var(--fg-4)] line-through">{formatUSD(compareAt)}</span>
-                )}
               </div>
-              <span className="text-[11px] text-[var(--fg-3)] font-medium">+ envío a Uruguay calculado</span>
+              <span className="text-[11px] text-[var(--fg-3)] font-medium">+ comisión y envío por kilo</span>
             </div>
 
             <span

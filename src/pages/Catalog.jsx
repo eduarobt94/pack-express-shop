@@ -15,7 +15,6 @@ const SORTS = [
   { id: 'featured', label: 'Destacados' },
   { id: 'price-asc', label: 'Precio: menor a mayor' },
   { id: 'price-desc', label: 'Precio: mayor a menor' },
-  { id: 'rating', label: 'Mejor valorados' },
 ]
 
 const brands = [...new Set(products.map((p) => p.brand))]
@@ -68,8 +67,7 @@ export default function Catalog() {
       switch (sort) {
         case 'price-asc': list.sort((a, b) => a.price - b.price); break
         case 'price-desc': list.sort((a, b) => b.price - a.price); break
-        case 'rating': list.sort((a, b) => (b.rating || 0) - (a.rating || 0)); break
-        default: break
+          default: break
       }
       return list
     }
@@ -77,7 +75,7 @@ export default function Catalog() {
     let list = products.slice()
     if (activeCat !== 'all') list = list.filter((p) => p.category === activeCat)
     if (selectedBrands.length) list = list.filter((p) => selectedBrands.includes(p.brand))
-    if (onlyStock) list = list.filter((p) => p.stock > 0)
+    if (onlyStock) list = list.filter((p) => p.available !== false)
     if (search.trim()) {
       const q = search.toLowerCase()
       list = list.filter(
@@ -87,7 +85,6 @@ export default function Catalog() {
     switch (sort) {
       case 'price-asc': list.sort((a, b) => a.price - b.price); break
       case 'price-desc': list.sort((a, b) => b.price - a.price); break
-      case 'rating': list.sort((a, b) => b.rating - a.rating); break
       default: break
     }
     return list
@@ -146,7 +143,7 @@ export default function Catalog() {
             {onlyStock && <Check size={11} className="text-white" />}
           </span>
           <input type="checkbox" className="sr-only" checked={onlyStock} onChange={(e) => setOnlyStock(e.target.checked)} />
-          <span className="text-[13.5px] text-[var(--fg-2)]">Solo en stock</span>
+          <span className="text-[13.5px] text-[var(--fg-2)]">Solo disponibles</span>
         </label>
       </div>
     </div>
@@ -168,7 +165,7 @@ export default function Catalog() {
             )}
           </div>
           <h1 className="font-display font-extrabold text-[clamp(1.6rem,4vw,2.25rem)] text-[var(--fg-1)] mb-2">{catName}</h1>
-          <p className="text-sm text-[var(--fg-3)]">{filtered.length} productos disponibles para envío a Uruguay</p>
+          <p className="text-sm text-[var(--fg-3)]">{filtered.length} productos para comprar en la tienda y enviar a Cuba</p>
         </div>
       </div>
 

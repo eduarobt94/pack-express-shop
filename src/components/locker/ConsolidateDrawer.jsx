@@ -1,37 +1,25 @@
 import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Package, Scale, Ruler, ShieldCheck, CreditCard, CheckCircle2, AlertCircle } from 'lucide-react'
-import { quoteVolumetric, quoteByWeight, quoteInsurance, HANDLING_FEE, createShipmentFromPackages } from '../../lib/locker'
+import { X, Package, Scale, Receipt, CheckCircle2, AlertCircle } from 'lucide-react'
+import { createShipmentFromPackages } from '../../lib/locker'
+import { quoteShipping, TARIFAS } from '../../lib/shipping'
 import { formatUSD } from '../../lib/format'
 import Button from '../ui/Button'
 
 export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }) {
-  const [insureAll, setInsureAll] = useState(false)
   const [confirmed, setConfirmed] = useState(false)
 
   const quote = useMemo(() => {
     if (!packages.length) return null
-
-    const totalWeightKg = packages.reduce((s, p) => s + p.weightKg, 0)
-    const totalDeclaredValue = packages.reduce((s, p) => s + p.declaredValue, 0)
     const round2 = (n) => Math.round(n * 100) / 100
-
-    const volumetricData = packages.map((p) => ({
-      pkg: p,
-      ...quoteVolumetric(p.dimensions, p.weightKg),
-    }))
-    const totalVolumetricExcess = round2(volumetricData.reduce((s, v) => s + v.excessKg, 0))
-    const chargeableKg = round2(totalWeightKg + totalVolumetricExcess)
-    const freight = quoteByWeight(chargeableKg)
-    const insurance = insureAll ? quoteInsurance(totalDeclaredValue) : 0
-    const total = round2(freight + HANDLING_FEE + insurance)
-
-    return { totalWeightKg: round2(totalWeightKg), chargeableKg, freight, insurance, handling: HANDLING_FEE, total, totalDeclaredValue, volumetricData }
-  }, [packages, insureAll])
+    const weightKg = round2(packages.reduce((s, p) => s + p.weightKg, 0))
+    const value = round2(packages.reduce((s, p) => s + p.declaredValue, 0))
+    return { weightKg, value, ...quoteShipping({ value, weightKg }) }
+  }, [packages])
 
   function handleConfirm() {
     if (!packages.length || !quote) return
-    const shipment = createShipmentFromPackages(packages, { insureAll })
+    const shipment = createShipmentFromPackages(packages)
     setConfirmed(true)
     setTimeout(() => { setConfirmed(false); onConfirm?.(shipment) }, 2500)
   }
@@ -56,7 +44,7 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--bd-1)]">
               <div>
-                <h2 className="font-display font-extrabold text-[17px] text-[var(--fg-1)]">Consolidar envío</h2>
+                <h2 className="font-display font-extrabold text-[17px] text-[var(--fg-1)]">Solicitar liquidación</h2>
                 <p className="text-[12.5px] text-[var(--fg-3)] mt-0.5">{packages.length} paquete{packages.length !== 1 ? 's' : ''} seleccionado{packages.length !== 1 ? 's' : ''}</p>
               </div>
               <button onClick={onClose} className="w-9 h-9 rounded-xl border border-[var(--bd-2)] flex items-center justify-center text-[var(--fg-3)] hover:text-[var(--fg-1)] transition-colors cursor-pointer">
@@ -73,8 +61,8 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
                   <div className="w-16 h-16 rounded-full bg-[#22C55E]/[0.12] flex items-center justify-center">
                     <CheckCircle2 size={32} className="text-[#22C55E]" />
                   </div>
-                  <p className="text-[16px] font-bold text-[var(--fg-1)]">¡Envío solicitado!</p>
-                  <p className="text-[13px] text-[var(--fg-3)]">Recibirás confirmación por email y WhatsApp.</p>
+                  <p className="text-[16px] font-bold text-[var(--fg-1)]">¡Liquidación solicitada!</p>
+                  <p className="text-[13px] text-[var(--fg-3)]">Pagás en la sucursal. Con el pago confirmado se habilita el despacho.</p>
                 </motion.div>
               ) : (
                 <>
@@ -94,64 +82,34 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
                     </div>
                   </section>
 
-                  {/* Peso real vs volumétrico */}
                   {quote && (
-                    <section className="rounded-2xl border border-[var(--bd-2)] p-4 space-y-3">
-                      <h3 className="text-[12px] font-semibold text-[var(--fg-3)] uppercase tracking-wide flex items-center gap-1.5">
-                        <Scale size={13} /> Peso cobrable
+                    <section className="rounded-xl border border-[var(--bd-2)] p-4 space-y-3">
+                      <h3 className="text-[12px] font-bold text-[var(--fg-3)] uppercase tracking-wide flex items-center gap-1.5">
+                        <Scale size={13} /> Peso facturable
+                      </h3>
+                      <Row label="Peso total registrado" value={`${quote.weightKg} kg`} bold />
+                    </section>
+                  )}
+
+                  {quote && (
+                    <section className="rounded-xl border border-[var(--bd-2)] p-4 space-y-3">
+                      <h3 className="text-[12px] font-bold text-[var(--fg-3)] uppercase tracking-wide flex items-center gap-1.5">
+                        <Receipt size={13} /> Liquidación estimada
                       </h3>
                       <div className="space-y-2">
-                        <Row label="Peso real total" value={`${quote.totalWeightKg} kg`} />
-                        {quote.volumetricData.filter(v => v.excessKg > 0).map(v => (
-                          <div key={v.pkg.id} className="flex items-start gap-2 text-[12px] text-[#F5A524]">
-                            <Ruler size={12} className="mt-0.5 shrink-0" />
-                            <span>{v.pkg.description.slice(0, 30)}… — +{v.excessKg} kg volumétrico</span>
-                          </div>
-                        ))}
-                        <Row label="Peso cobrable" value={`${quote.chargeableKg} kg`} bold />
-                      </div>
-                    </section>
-                  )}
-
-                  {/* Desglose de costos */}
-                  {quote && (
-                    <section className="rounded-2xl border border-[var(--bd-2)] p-4 space-y-3">
-                      <h3 className="text-[12px] font-semibold text-[var(--fg-3)] uppercase tracking-wide">Desglose de costos</h3>
-                      <div className="space-y-2">
-                        <Row label="Flete internacional" value={formatUSD(quote.freight)} />
-                        <Row label="Manejo documentario" value={formatUSD(quote.handling)} />
-                        {quote.insurance > 0 && <Row label="Seguro de transporte (3%)" value={formatUSD(quote.insurance)} accent="#22C55E" />}
+                        <Row label="Producto (pagado en la tienda)" value={formatUSD(quote.productValue)} />
+                        <Row label={`Comisión (${TARIFAS.commissionRate * 100}% de ${formatUSD(quote.productValue)})`} value={formatUSD(quote.commission)} />
+                        <Row label={`Envío (${quote.weightKg} kg × ${formatUSD(TARIFAS.sellRatePerKg)}/kg)`} value={quote.needsQuote ? 'A cotizar' : formatUSD(quote.shipping)} />
                         <div className="h-px bg-[var(--bd-2)]" />
-                        <Row label="Total" value={formatUSD(quote.total)} bold />
+                        <Row label="Total a pagar a Optimus" value={quote.needsQuote ? '—' : formatUSD(quote.optimusTotal)} bold />
                       </div>
                     </section>
                   )}
 
-                  {/* Opción de seguro */}
-                  <button
-                    type="button"
-                    onClick={() => setInsureAll((v) => !v)}
-                    className={`w-full flex items-center gap-3 p-4 rounded-2xl border transition-all cursor-pointer text-left ${
-                      insureAll ? 'border-[#22C55E] bg-[#22C55E]/[0.06]' : 'border-[var(--bd-2)] bg-[var(--bg-card)]'
-                    }`}
-                  >
-                    <ShieldCheck size={20} className={insureAll ? 'text-[#22C55E]' : 'text-[var(--fg-3)]'} />
-                    <div className="flex-1">
-                      <p className="text-[13.5px] font-semibold text-[var(--fg-1)]">Agregar seguro de transporte</p>
-                      <p className="text-[12px] text-[var(--fg-3)]">3% del valor declarado ({formatUSD(quote?.totalDeclaredValue || 0)}) · mín. $33</p>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
-                      insureAll ? 'border-[#22C55E] bg-[#22C55E]' : 'border-[var(--bd-3)]'
-                    }`}>
-                      {insureAll && <span className="text-white text-[10px] font-bold">✓</span>}
-                    </div>
-                  </button>
-
-                  {/* Aviso franquicias */}
-                  <div className="flex gap-2.5 p-3.5 rounded-xl bg-[var(--sec)]/[0.07] border border-[var(--sec)]/20">
-                    <AlertCircle size={15} className="text-[var(--sec)] shrink-0 mt-0.5" />
-                    <p className="text-[12px] text-[var(--fg-2)]">
-                      El pago debe realizarse desde fuera de Uruguay. El destinatario solo confirma la recepción.
+                  <div className="flex gap-2.5 p-3.5 rounded-xl bg-[var(--bg-elevated)] border border-[var(--bd-2)]">
+                    <AlertCircle size={15} className="text-[#E31E24] shrink-0 mt-0.5" />
+                    <p className="text-[12px] text-[var(--fg-2)] leading-relaxed">
+                      El pago es presencial en la sucursal, no en la web. La aduana de Cuba no está incluida: la paga el destinatario al recibir. El total final lo confirma Optimus con el peso real.
                     </p>
                   </div>
                 </>
@@ -163,12 +121,12 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
               <div className="px-6 py-5 border-t border-[var(--bd-1)] space-y-3">
                 {quote && (
                   <div className="flex items-center justify-between">
-                    <span className="text-[13px] text-[var(--fg-3)]">Total del envío</span>
-                    <span className="text-[20px] font-display font-extrabold text-[var(--fg-1)]">{formatUSD(quote.total)}</span>
+                    <span className="text-[13px] text-[var(--fg-3)]">Pagás a Optimus</span>
+                    <span className="text-[20px] font-display font-black text-[var(--fg-1)]">{quote.needsQuote ? '—' : formatUSD(quote.optimusTotal)}</span>
                   </div>
                 )}
                 <Button onClick={handleConfirm} disabled={!packages.length} className="w-full gap-2">
-                  <CreditCard size={16} /> Solicitar y pagar {quote ? formatUSD(quote.total) : ''}
+                  <Receipt size={16} /> Solicitar liquidación
                 </Button>
               </div>
             )}

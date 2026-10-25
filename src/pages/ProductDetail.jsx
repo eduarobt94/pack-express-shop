@@ -14,6 +14,7 @@ import Button from '../components/ui/Button'
 import EmptyState from '../components/ui/EmptyState'
 import MarketplaceBadge from '../components/ui/MarketplaceBadge'
 import { formatUSD } from '../lib/format'
+import { PriceNotice, ReceptionReminder } from '../components/ui/Notices'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -138,16 +139,17 @@ function MarketplaceDetail({ product }) {
             <span className="font-mono">{product.asin}</span>
           </div>
 
+          <ReceptionReminder />
           {/* CTA externo */}
           <Button href={product.url} target="_blank" rel="noopener noreferrer" size="lg" className="w-full mb-7" disabled={soldOut}>
-            <ExternalLink size={18} /> Ver en Amazon
+            <ExternalLink size={18} /> Comprar en Amazon
           </Button>
 
           {/* Trust row */}
           <div className="grid grid-cols-3 gap-3 mb-7">
             {[
-              { Icon: ShieldCheck, label: 'Producto original' },
-              { Icon: Truck, label: 'Envío asegurado a Uruguay' },
+              { Icon: ShieldCheck, label: 'Pagás el producto en la tienda' },
+              { Icon: Truck, label: 'Entrega en Cuba' },
               { Icon: RotateCcw, label: 'Seguimiento en cada etapa' },
             ].map(({ Icon, label }) => (
               <div key={label} className="flex flex-col items-center text-center gap-2 p-3 rounded-xl border border-[var(--bd-1)]">
@@ -158,7 +160,8 @@ function MarketplaceDetail({ product }) {
           </div>
 
           {/* Calculadora de envío (estimación por valor del producto) */}
-          <ShippingCalculator value={product.price} weightKg={2} />
+          <ShippingCalculator value={product.price} />
+          <PriceNotice />
         </div>
       </div>
     </div>
@@ -172,8 +175,7 @@ function MarketplaceDetail({ product }) {
 function LocalDetail({ product }) {
   const [activeImg, setActiveImg] = useState(0)
   const category = getCategory(product.category)
-  const soldOut = product.stock === 0
-  const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 3)
+    const related = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 3)
   const amazonSearch = `/catalogo?marketplace=amazon&q=${encodeURIComponent(product.name)}`
 
   return (
@@ -223,11 +225,6 @@ function LocalDetail({ product }) {
         <div>
           <div className="flex items-center gap-3 mb-3">
             <span className="text-[12px] font-bold uppercase tracking-wider text-[#E31E24]">{product.brand}</span>
-            <span className="text-[var(--fg-5)]">·</span>
-            <div className="flex items-center gap-1.5">
-              <Stars rating={product.rating} size={14} />
-              <span className="text-[12px] text-[var(--fg-3)]">({product.reviews} reseñas)</span>
-            </div>
           </div>
 
           <h1 className="font-display font-extrabold text-[clamp(1.5rem,3.5vw,2.25rem)] text-[var(--fg-1)] leading-tight mb-2">
@@ -237,32 +234,10 @@ function LocalDetail({ product }) {
 
           <div className="flex items-baseline gap-3 mb-5">
             <span className="font-display font-extrabold text-3xl text-[var(--fg-1)]">{formatUSD(product.price)}</span>
-            {product.compareAt && (
-              <>
-                <span className="text-lg text-[var(--fg-4)] line-through">{formatUSD(product.compareAt)}</span>
-                <span className="px-2 py-1 rounded-lg text-[12px] font-bold text-white bg-[#E31E24]">
-                  Ahorra {formatUSD(product.compareAt - product.price)}
-                </span>
-              </>
-            )}
+            <span className="text-[13px] text-[var(--fg-4)]">USD · precio referencial</span>
           </div>
 
-          {/* Stock */}
-          <div className="flex items-center gap-2 mb-6">
-            {soldOut ? (
-              <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#EF4444]">
-                <span className="w-2 h-2 rounded-full bg-[#EF4444]" /> Agotado temporalmente
-              </span>
-            ) : product.stock <= 5 ? (
-              <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#F5A524]">
-                <span className="w-2 h-2 rounded-full bg-[#F5A524] animate-pulse" /> ¡Solo quedan {product.stock} unidades!
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#22C55E]">
-                <span className="w-2 h-2 rounded-full bg-[#22C55E]" /> En stock · listo para enviar
-              </span>
-            )}
-          </div>
+          <PriceNotice className="mb-6" />
 
           <p className="text-[14px] text-[var(--fg-2)] leading-relaxed mb-6">{product.short}</p>
 
@@ -276,17 +251,18 @@ function LocalDetail({ product }) {
             ))}
           </ul>
 
+          <ReceptionReminder />
           {/* CTA — buscar en Amazon (sin carrito) */}
           <Button to={amazonSearch} variant="blue" size="lg" className="w-full mb-7">
-            <Search size={18} /> Buscar este producto en Amazon
+            <Search size={18} /> Buscar en Amazon
           </Button>
 
           {/* Trust row */}
           <div className="grid grid-cols-3 gap-3 mb-7">
             {[
-              { Icon: ShieldCheck, label: 'Garantía oficial' },
-              { Icon: Truck, label: 'Envío asegurado' },
-              { Icon: RotateCcw, label: 'Devolución 30 días' },
+              { Icon: ShieldCheck, label: 'Pagás el producto en la tienda' },
+              { Icon: Truck, label: 'Entrega en Cuba' },
+              { Icon: RotateCcw, label: 'Seguimiento en cada etapa' },
             ].map(({ Icon, label }) => (
               <div key={label} className="flex flex-col items-center text-center gap-2 p-3 rounded-xl border border-[var(--bd-1)]">
                 <Icon size={20} className="text-[var(--sec)]" />
@@ -296,7 +272,10 @@ function LocalDetail({ product }) {
           </div>
 
           {/* Shipping calculator */}
-          <ShippingCalculator value={product.price} weightKg={product.weightKg} />
+          <div className="card-surface rounded-xl p-4 mb-4 text-[12.5px] text-[var(--fg-3)] leading-relaxed">
+            <span className="font-bold text-[var(--fg-2)]">Peso del equipo:</span> {product.weightKg} kg. El peso embalado todavía no está verificado: ingresá tu estimación o pedí cotización.
+          </div>
+          <ShippingCalculator value={product.price} />
         </div>
       </div>
 
@@ -304,7 +283,7 @@ function LocalDetail({ product }) {
       <div className="border-t border-[var(--bd-1)] bg-[var(--bg-alt)]">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 py-14 grid lg:grid-cols-2 gap-10">
           <div>
-            <h2 className="font-display font-bold text-xl text-[var(--fg-1)] mb-5">Especificaciones técnicas</h2>
+            <h2 className="font-display font-bold text-xl text-[var(--fg-1)] mb-5">Especificaciones</h2>
             <dl className="card-surface rounded-2xl overflow-hidden">
               {Object.entries(product.specs).map(([k, v], i) => (
                 <div key={k} className={`flex items-center justify-between px-5 py-3.5 ${i % 2 ? 'bg-[var(--bg-card)]' : 'bg-[var(--bg-elevated)]'}`}>
@@ -315,27 +294,12 @@ function LocalDetail({ product }) {
             </dl>
           </div>
           <div>
-            <h2 className="font-display font-bold text-xl text-[var(--fg-1)] mb-5">Reseñas de clientes</h2>
-            <div className="card-surface rounded-2xl p-6 flex items-center gap-6">
-              <div className="text-center shrink-0">
-                <div className="font-display font-extrabold text-4xl text-[var(--fg-1)]">{product.rating.toFixed(1)}</div>
-                <Stars rating={product.rating} size={14} />
-                <div className="text-[12px] text-[var(--fg-4)] mt-1">{product.reviews} reseñas</div>
-              </div>
-              <div className="flex-1 space-y-1.5">
-                {[5, 4, 3, 2, 1].map((star) => {
-                  const pct = star === 5 ? 78 : star === 4 ? 16 : star === 3 ? 4 : star === 2 ? 1 : 1
-                  return (
-                    <div key={star} className="flex items-center gap-2">
-                      <span className="flex items-center gap-0.5 text-[11px] text-[var(--fg-4)] w-7">{star}<Star size={9} className="fill-current" /></span>
-                      <div className="flex-1 h-1.5 rounded-full bg-[var(--bd-1)] overflow-hidden">
-                        <div className="h-full rounded-full bg-[#F5A524]" style={{ width: `${pct}%` }} />
-                      </div>
-                      <span className="text-[11px] text-[var(--fg-4)] w-8 text-right">{pct}%</span>
-                    </div>
-                  )
-                })}
-              </div>
+            <h2 className="font-display font-extrabold text-xl text-[var(--fg-1)] mb-5">Qué pagás y a quién</h2>
+            <div className="card-surface rounded-xl p-6 space-y-4 text-[13.5px] text-[var(--fg-2)] leading-relaxed">
+              <p><span className="font-bold text-[var(--fg-1)]">En la tienda:</span> el producto, con tus propios medios de pago.</p>
+              <p><span className="font-bold text-[var(--fg-1)]">A Optimus, en la sucursal:</span> la comisión de gestión y el envío por kilo.</p>
+              <p><span className="font-bold text-[var(--fg-1)]">En Cuba:</span> la aduana, que paga el destinatario al recibir.</p>
+              <Link to="/como-comprar" className="inline-block font-display font-extrabold text-[13px] uppercase tracking-[0.02em] text-[#E31E24]">Ver cómo comprar</Link>
             </div>
           </div>
         </div>
