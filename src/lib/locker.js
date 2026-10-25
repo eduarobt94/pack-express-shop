@@ -1,8 +1,8 @@
-// Modelo del casillero virtual Pack Express.
+// Modelo del casillero virtual Optimus Envíos.
 // Gestiona Packages (paquetes recibidos en Miami) y Shipments (envíos solicitados).
 // Motor de tarifas por peso volumétrico — independiente de shipping.js (no lo modifica).
 
-import { provincesCuba } from './shipping'
+import { departmentsUY } from './shipping'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Suite del usuario
@@ -18,14 +18,14 @@ export const MIAMI_ADDRESS = {
 
 /**
  * Genera el suiteId de un usuario a partir de su userId.
- * Formato: PKX-CU-{6 dígitos} para Cuba, PKX-UY-{6 dígitos} para Uruguay.
+ * Formato: OPT-UY-{6 dígitos}.
  * @param {string} userId
- * @param {'CU'|'UY'} country
+ * @param {'UY'} country
  * @returns {string}
  */
-export function generateSuiteId(userId, country = 'CU') {
+export function generateSuiteId(userId, country = 'UY') {
   const numeric = userId.replace(/\D/g, '').slice(-6).padStart(6, '0')
-  return `PKX-${country}-${numeric}`
+  return `OPT-${country}-${numeric}`
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -33,11 +33,11 @@ export function generateSuiteId(userId, country = 'CU') {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const PACKAGE_STATES = {
-  received: { label: 'Recibido en Miami', color: '#527ED8', icon: 'PackageCheck' },
+  received: { label: 'Recibido en Miami', color: '#A8A8A8', icon: 'PackageCheck' },
   no_docs: { label: 'Sin documentación', color: '#F5A524', icon: 'FileWarning' },
   verifying: { label: 'En verificación', color: '#A855F7', icon: 'ScanSearch' },
   ready: { label: 'Listo para enviar', color: '#22C55E', icon: 'PackagePlus' },
-  shipped: { label: 'Enviado', color: '#F07232', icon: 'Plane' },
+  shipped: { label: 'Enviado', color: '#E31E24', icon: 'Plane' },
   retained: { label: 'Retenido en Miami', color: '#EF4444', icon: 'AlertTriangle' },
 }
 

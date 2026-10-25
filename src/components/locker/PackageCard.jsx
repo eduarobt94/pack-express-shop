@@ -21,14 +21,14 @@ export default function PackageCard({ pkg, selected, onSelect, selectable }) {
       onClick={selectable ? () => onSelect?.(pkg.id) : undefined}
       className={`relative rounded-2xl border p-4 transition-all cursor-pointer ${
         selected
-          ? 'border-[#F07232] bg-[#F07232]/[0.05] shadow-[0_0_0_2px_rgba(240,114,50,0.18)]'
+          ? 'border-[#E31E24] bg-[#E31E24]/[0.05] shadow-[0_0_0_2px_rgba(227,30,36,0.18)]'
           : 'border-[var(--bd-2)] bg-[var(--bg-card)] hover:border-[var(--bd-3)]'
       } ${selectable && pkg.status !== 'ready' ? 'opacity-50 pointer-events-none' : ''}`}
     >
       {/* Checkbox (selectable mode) */}
       {selectable && pkg.status === 'ready' && (
         <div className={`absolute top-4 right-4 w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
-          selected ? 'bg-[#F07232] border-[#F07232]' : 'border-[var(--bd-3)]'
+          selected ? 'bg-[#E31E24] border-[#E31E24]' : 'border-[var(--bd-3)]'
         }`}>
           {selected && <span className="text-white text-[10px] font-bold">✓</span>}
         </div>

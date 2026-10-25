@@ -17,7 +17,7 @@ export default function CompactHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="relative overflow-hidden rounded-2xl border border-[var(--bd-2)] min-h-[300px] sm:min-h-[340px] flex"
-          style={{ background: 'radial-gradient(130% 120% at 85% 10%, rgba(240,114,50,0.18), transparent 55%), var(--bg-card)' }}
+          style={{ background: 'radial-gradient(130% 120% at 85% 10%, rgba(227,30,36,0.18), transparent 55%), var(--bg-card)' }}
         >
           <svg className="absolute inset-0 w-full h-full opacity-50" aria-hidden="true">
             <defs>
@@ -30,14 +30,14 @@ export default function CompactHero() {
 
           <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 p-6 sm:p-9 w-full">
             <div className="flex-1 order-2 sm:order-1 text-center sm:text-left">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F07232] text-white text-[11px] font-bold uppercase tracking-wider mb-3">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E31E24] text-white text-[11px] font-bold uppercase tracking-wider mb-3">
                 <Zap size={12} /> Oferta destacada · -{discountPct(star)}%
               </span>
               <h1 className="font-display font-extrabold text-[clamp(1.5rem,3.5vw,2.4rem)] leading-[1.1] text-[var(--fg-1)] mb-2">
-                Energía para toda la casa,<br className="hidden sm:block" /> entregada en Cuba
+                Tu compra de EE.UU.,<br className="hidden sm:block" /> en Uruguay antes de lo esperado
               </h1>
               <p className="text-[14px] text-[var(--fg-3)] mb-4 max-w-md mx-auto sm:mx-0">
-                {star.name} — respaldo de 2048 Wh ante cualquier apagón. Envío y aduana incluidos.
+                {star.name} — respaldo de 2048 Wh ante cualquier apagón. Envío e impuestos incluidos.
               </p>
               <div className="flex items-center justify-center sm:justify-start gap-3 mb-5">
                 <span className="font-display font-extrabold text-2xl text-[var(--fg-1)]">{formatUSD(star.price)}</span>
@@ -45,7 +45,7 @@ export default function CompactHero() {
               </div>
               <Link
                 to={`/producto/${star.id}`}
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#F07232] hover:bg-[#E8823C] text-white font-semibold text-sm transition-all hover:shadow-[0_0_32px_rgba(240,114,50,0.32)]"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E31E24] hover:bg-[#C81A1F] text-white font-semibold text-sm transition-all hover:shadow-[0_0_32px_rgba(227,30,36,0.32)]"
               >
                 Comprar ahora
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
@@ -61,7 +61,7 @@ export default function CompactHero() {
         <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
           <SidePromo
             to="/catalogo?cat=movilidad-electrica"
-            tint="#527ED8"
+            tint="#A8A8A8"
             icon="Bike"
             eyebrow="Movilidad"
             title="E-bikes y scooters"
@@ -70,7 +70,7 @@ export default function CompactHero() {
           />
           <SidePromo
             to="/seguimiento"
-            tint="#F07232"
+            tint="#E31E24"
             icon="MapPin"
             eyebrow="¿Ya compraste?"
             title="Rastrea tu pedido"
@@ -88,12 +88,12 @@ export default function CompactHero() {
         className="grid grid-cols-3 gap-3 mt-4"
       >
         {[
-          { Icon: Truck, label: 'Envío a las 16 provincias' },
-          { Icon: ShieldCheck, label: 'Aduana transparente' },
+          { Icon: Truck, label: 'Envío a los 19 departamentos' },
+          { Icon: ShieldCheck, label: 'Impuestos transparentes' },
           { Icon: Zap, label: 'Entrega en 7–20 días' },
         ].map(({ Icon, label }) => (
           <div key={label} className="flex items-center justify-center sm:justify-start gap-2.5 px-4 py-3 rounded-xl card-surface">
-            <Icon size={18} className="text-[#527ED8] shrink-0" />
+            <Icon size={18} className="text-[var(--sec)] shrink-0" />
             <span className="text-[12.5px] font-medium text-[var(--fg-2)] hidden sm:block">{label}</span>
           </div>
         ))}

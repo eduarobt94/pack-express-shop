@@ -6,7 +6,7 @@ import {
   Plus, ChevronRight, Truck, CheckCircle2, Clock, MessageCircle, Mail, Star,
 } from 'lucide-react'
 import { currentUser, orders, addresses, paymentMethods, orderStatusMap } from '../data/account'
-import { provincesCuba } from '../lib/shipping'
+import { departmentsUY } from '../lib/shipping'
 import { formatUSD, formatDate } from '../lib/format'
 import ProductVisual from '../components/ui/ProductVisual'
 import Button from '../components/ui/Button'
@@ -27,7 +27,7 @@ export default function Account() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-[#F07232]/[0.12] border border-[#F07232]/25 flex items-center justify-center font-display font-extrabold text-xl text-[#F07232] shrink-0">
+          <div className="w-16 h-16 rounded-2xl bg-[#E31E24]/[0.12] border border-[#E31E24]/25 flex items-center justify-center font-display font-extrabold text-xl text-[#E31E24] shrink-0">
             {currentUser.avatarInitials}
           </div>
           <div>
@@ -50,7 +50,7 @@ export default function Account() {
                   key={t.id}
                   onClick={() => setTab(t.id)}
                   className={`flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13.5px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                    tab === t.id ? 'bg-[#F07232]/[0.10] text-[#F07232]' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
+                    tab === t.id ? 'bg-[#E31E24]/[0.10] text-[#E31E24]' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
                   }`}
                 >
                   <t.Icon size={17} /> {t.label}
@@ -85,9 +85,9 @@ function Dashboard({ setTab }) {
   const delivered = orders.filter((o) => o.status === 'delivered').length
   const spent = orders.reduce((s, o) => s + o.total, 0)
   const stats = [
-    { Icon: Truck, label: 'Pedidos activos', value: active, accent: '#F07232' },
+    { Icon: Truck, label: 'Pedidos activos', value: active, accent: '#E31E24' },
     { Icon: CheckCircle2, label: 'Entregados', value: delivered, accent: '#22C55E' },
-    { Icon: CreditCard, label: 'Total invertido', value: formatUSD(spent), accent: '#527ED8' },
+    { Icon: CreditCard, label: 'Total invertido', value: formatUSD(spent), accent: '#A8A8A8' },
   ]
   return (
     <div className="space-y-6">
@@ -106,7 +106,7 @@ function Dashboard({ setTab }) {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-display font-bold text-[16px] text-[var(--fg-1)]">Pedidos recientes</h2>
-          <button onClick={() => setTab('orders')} className="text-[13px] font-medium text-[#527ED8] hover:text-[#6B90DC] cursor-pointer">Ver todos</button>
+          <button onClick={() => setTab('orders')} className="text-[13px] font-medium text-[var(--sec)] hover:text-[var(--sec-hover)] cursor-pointer">Ver todos</button>
         </div>
         <div className="space-y-3">
           {orders.slice(0, 2).map((o) => <OrderCard key={o.id} order={o} />)}
@@ -129,7 +129,7 @@ function Orders() {
 
 function OrderCard({ order }) {
   const status = orderStatusMap[order.status]
-  const prov = provincesCuba.find((p) => p.code === order.province)
+  const prov = departmentsUY.find((p) => p.code === order.province)
   const trackable = order.status === 'in_transit' || order.status === 'customs'
   return (
     <div className="card-surface rounded-2xl p-5">
@@ -162,7 +162,7 @@ function OrderCard({ order }) {
       </div>
 
       {trackable && (
-        <Link to={`/seguimiento/${order.id}`} className="flex items-center justify-between mt-1 px-4 py-2.5 rounded-xl bg-[#F07232]/[0.08] border border-[#F07232]/20 text-[13px] font-semibold text-[#F07232] hover:bg-[#F07232]/[0.14] transition-colors">
+        <Link to={`/seguimiento/${order.id}`} className="flex items-center justify-between mt-1 px-4 py-2.5 rounded-xl bg-[#E31E24]/[0.08] border border-[#E31E24]/20 text-[13px] font-semibold text-[#E31E24] hover:bg-[#E31E24]/[0.14] transition-colors">
           Ver seguimiento en tiempo real
           <ChevronRight size={16} />
         </Link>
@@ -175,12 +175,12 @@ function Addresses() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h2 className="font-display font-bold text-xl text-[var(--fg-1)]">Destinatarios en Cuba</h2>
+        <h2 className="font-display font-bold text-xl text-[var(--fg-1)]">Destinatarios en Uruguay</h2>
         <Button variant="subtle" size="sm"><Plus size={15} /> Añadir</Button>
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         {addresses.map((a) => {
-          const prov = provincesCuba.find((p) => p.code === a.province)
+          const prov = departmentsUY.find((p) => p.code === a.province)
           return (
             <div key={a.id} className="card-surface rounded-2xl p-5">
               <div className="flex items-center justify-between mb-3">
@@ -189,7 +189,7 @@ function Addresses() {
               </div>
               <dl className="space-y-1.5 text-[13px]">
                 <div className="flex gap-2"><dt className="text-[var(--fg-4)] w-20 shrink-0">Recibe</dt><dd className="text-[var(--fg-2)]">{a.recipient}</dd></div>
-                <div className="flex gap-2"><dt className="text-[var(--fg-4)] w-20 shrink-0">CI</dt><dd className="text-[var(--fg-2)] tabular-nums">{a.ci}</dd></div>
+                <div className="flex gap-2"><dt className="text-[var(--fg-4)] w-20 shrink-0">C.I.</dt><dd className="text-[var(--fg-2)] tabular-nums">{a.ci}</dd></div>
                 <div className="flex gap-2"><dt className="text-[var(--fg-4)] w-20 shrink-0">Teléfono</dt><dd className="text-[var(--fg-2)]">{a.phone}</dd></div>
                 <div className="flex gap-2"><dt className="text-[var(--fg-4)] w-20 shrink-0">Dirección</dt><dd className="text-[var(--fg-2)]">{a.street}, {a.municipality}, {prov?.name}</dd></div>
               </dl>
@@ -213,7 +213,7 @@ function Payments() {
         {paymentMethods.map((m) => (
           <div key={m.id} className="card-surface rounded-2xl p-5 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-[var(--bg-elevated)] border border-[var(--bd-2)] flex items-center justify-center shrink-0">
-              <CreditCard size={20} className="text-[#527ED8]" />
+              <CreditCard size={20} className="text-[var(--sec)]" />
             </div>
             <div className="flex-1">
               <div className="font-semibold text-[14px] text-[var(--fg-1)]">
@@ -232,13 +232,13 @@ function Payments() {
 function Support() {
   const channels = [
     { Icon: MessageCircle, accent: '#22C55E', title: 'WhatsApp', desc: 'Respuesta en minutos, horario extendido', action: 'Chatear ahora' },
-    { Icon: Mail, accent: '#527ED8', title: 'Email', desc: 'hola@packexpress.shop · respuesta en 4h', action: 'Escribir email' },
-    { Icon: Headset, accent: '#F07232', title: 'Centro de ayuda', desc: 'Preguntas frecuentes sobre envíos a Cuba', action: 'Ver artículos' },
+    { Icon: Mail, accent: '#A8A8A8', title: 'Email', desc: '[EMAIL] · respuesta en 4h', action: 'Escribir email' },
+    { Icon: Headset, accent: '#E31E24', title: 'Centro de ayuda', desc: 'Preguntas frecuentes sobre envíos', action: 'Ver artículos' },
   ]
   return (
     <div>
       <h2 className="font-display font-bold text-xl text-[var(--fg-1)] mb-1.5">¿Cómo podemos ayudarte?</h2>
-      <p className="text-[13.5px] text-[var(--fg-3)] mb-6">Nuestro equipo conoce el envío a Cuba y responde rápido.</p>
+      <p className="text-[13.5px] text-[var(--fg-3)] mb-6">Respondemos en minutos, no en días.</p>
       <div className="grid sm:grid-cols-3 gap-4 mb-6">
         {channels.map((c) => (
           <div key={c.title} className="card-surface rounded-2xl p-5">

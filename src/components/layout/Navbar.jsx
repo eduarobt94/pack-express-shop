@@ -50,12 +50,12 @@ export default function Navbar() {
         {/* Main bar */}
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-3 sm:gap-5">
           {/* Logo */}
-          <Link to="/" className="flex items-center shrink-0" aria-label="PackExpress Shop — Inicio">
-            <img src={logo} alt="Pack Express" className="h-9 sm:h-10 w-auto block" />
+          <Link to="/" className="flex items-center shrink-0" aria-label="Optimus Envíos — Inicio">
+            <img src={logo} alt="Optimus Envíos" className="h-9 sm:h-10 w-auto block" />
           </Link>
 
           {/* Global search — prominent (desktop) */}
-          <form onSubmit={search} className="hidden md:flex flex-1 max-w-2xl items-center h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#F07232]/60 focus-within:shadow-[0_0_0_3px_rgba(240,114,50,0.12)] transition-all overflow-hidden">
+          <form onSubmit={search} className="hidden md:flex flex-1 max-w-2xl items-center h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#E31E24]/60 focus-within:shadow-[0_0_0_3px_rgba(227,30,36,0.12)] transition-all overflow-hidden">
             <Search size={17} className="text-[var(--fg-4)] ml-3.5 shrink-0" />
             <input
               value={q}
@@ -64,7 +64,7 @@ export default function Navbar() {
               aria-label="Buscar productos"
               className="flex-1 bg-transparent px-3 text-sm text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none min-w-0"
             />
-            <button type="submit" className="h-full px-5 bg-[#F07232] hover:bg-[#E8823C] text-white text-sm font-semibold transition-colors cursor-pointer">
+            <button type="submit" className="h-full px-5 bg-[#E31E24] hover:bg-[#C81A1F] text-white text-sm font-semibold transition-colors cursor-pointer">
               Buscar
             </button>
           </form>
@@ -79,7 +79,7 @@ export default function Navbar() {
             </Link>
             <Link
               to="/casillero"
-              className="hidden lg:flex items-center gap-1.5 px-3 h-10 rounded-xl border border-[#527ED8]/30 bg-[#527ED8]/[0.06] text-[13px] font-semibold text-[#527ED8] hover:bg-[#527ED8]/[0.12] transition-colors"
+              className="hidden lg:flex items-center gap-1.5 px-3 h-10 rounded-xl border border-[var(--sec)]/30 bg-[var(--sec)]/[0.06] text-[13px] font-semibold text-[var(--sec)] hover:bg-[var(--sec)]/[0.12] transition-colors"
             >
               <Warehouse size={15} /> Casillero
             </Link>
@@ -104,7 +104,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => setLoginOpen(true)}
-                className="hidden sm:flex items-center gap-1.5 h-10 px-4 rounded-xl border border-[var(--bd-2)] text-[13px] font-semibold text-[var(--fg-1)] hover:border-[#527ED8]/50 hover:bg-[#527ED8]/[0.06] hover:text-[#527ED8] transition-colors cursor-pointer"
+                className="hidden sm:flex items-center gap-1.5 h-10 px-4 rounded-xl border border-[var(--bd-2)] text-[13px] font-semibold text-[var(--fg-1)] hover:border-[var(--sec)]/50 hover:bg-[var(--sec)]/[0.06] hover:text-[var(--sec)] transition-colors cursor-pointer"
               >
                 <User size={15} /> Ingresar
               </button>
@@ -130,12 +130,12 @@ export default function Navbar() {
               <NavLink
                 key={c.slug}
                 to={`/catalogo?cat=${c.slug}`}
-                className="px-3 py-1.5 rounded-lg text-[13px] font-medium text-[var(--fg-2)] hover:text-[#F07232] hover:bg-[var(--bd-1)] transition-colors whitespace-nowrap"
+                className="px-3 py-1.5 rounded-lg text-[13px] font-medium text-[var(--fg-2)] hover:text-[#E31E24] hover:bg-[var(--bd-1)] transition-colors whitespace-nowrap"
               >
                 {c.short}
               </NavLink>
             ))}
-            <Link to="/catalogo?cat=ofertas" className="ml-auto px-3 py-1.5 rounded-lg text-[13px] font-bold text-[#F07232] hover:bg-[#F07232]/[0.08] transition-colors">
+            <Link to="/catalogo?cat=ofertas" className="ml-auto px-3 py-1.5 rounded-lg text-[13px] font-bold text-[#E31E24] hover:bg-[#E31E24]/[0.08] transition-colors">
               Ofertas
             </Link>
           </div>
@@ -143,7 +143,7 @@ export default function Navbar() {
 
         {/* Mobile search (always visible under bar) */}
         <form onSubmit={search} className="md:hidden px-4 pb-3 pt-1">
-          <div className="flex items-center h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#F07232]/60 transition-colors overflow-hidden">
+          <div className="flex items-center h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#E31E24]/60 transition-colors overflow-hidden">
             <Search size={17} className="text-[var(--fg-4)] ml-3.5 shrink-0" />
             <input
               value={q}
@@ -152,7 +152,7 @@ export default function Navbar() {
               aria-label="Buscar productos"
               className="flex-1 bg-transparent px-3 text-sm text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none min-w-0"
             />
-            <button type="submit" className="h-full px-4 bg-[#F07232] text-white text-sm font-semibold cursor-pointer">Buscar</button>
+            <button type="submit" className="h-full px-4 bg-[#E31E24] text-white text-sm font-semibold cursor-pointer">Buscar</button>
           </div>
         </form>
       </div>
@@ -176,14 +176,14 @@ export default function Navbar() {
               ))}
               <div className="h-px bg-[var(--bd-1)] my-2" />
               <Link to="/seguimiento" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Rastrear pedido</Link>
-              <Link to="/casillero" className="px-3 py-2.5 rounded-lg text-sm font-semibold text-[#527ED8] hover:bg-[#527ED8]/[0.08]">Mi Casillero</Link>
+              <Link to="/casillero" className="px-3 py-2.5 rounded-lg text-sm font-semibold text-[var(--sec)] hover:bg-[var(--sec)]/[0.08]">Mi Casillero</Link>
               {isAuthenticated ? (
                 <>
                   <Link to="/cuenta" className="px-3 py-2.5 rounded-lg text-sm font-medium text-[var(--fg-2)] hover:bg-[var(--bd-1)]">Mi cuenta ({user.name.split(' ')[0]})</Link>
                   <button onClick={logout} className="text-left px-3 py-2.5 rounded-lg text-sm font-medium text-[#EF4444] hover:bg-[#EF4444]/[0.08] cursor-pointer">Cerrar sesión</button>
                 </>
               ) : (
-                <button onClick={() => { setOpen(false); setLoginOpen(true) }} className="text-left px-3 py-2.5 rounded-lg text-sm font-semibold text-[#527ED8] hover:bg-[#527ED8]/[0.08] cursor-pointer">Ingresar / Registrarse</button>
+                <button onClick={() => { setOpen(false); setLoginOpen(true) }} className="text-left px-3 py-2.5 rounded-lg text-sm font-semibold text-[var(--sec)] hover:bg-[var(--sec)]/[0.08] cursor-pointer">Ingresar / Registrarse</button>
               )}
             </div>
           </motion.div>

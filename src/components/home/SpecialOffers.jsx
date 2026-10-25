@@ -28,11 +28,11 @@ export default function SpecialOffers({ products }) {
   const { h, m, s } = useCountdown(6)
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
-      <div className="rounded-2xl border border-[#F07232]/25 overflow-hidden" style={{ background: 'radial-gradient(120% 120% at 0% 0%, rgba(240,114,50,0.10), transparent 50%), var(--bg-card)' }}>
+      <div className="rounded-2xl border border-[#E31E24]/25 overflow-hidden" style={{ background: 'radial-gradient(120% 120% at 0% 0%, rgba(227,30,36,0.10), transparent 50%), var(--bg-card)' }}>
         {/* Flash header */}
         <div className="flex flex-wrap items-center justify-between gap-3 px-5 sm:px-6 py-4 border-b border-[var(--bd-1)]">
           <div className="flex items-center gap-2.5">
-            <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#F07232] text-white">
+            <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#E31E24] text-white">
               <Zap size={18} />
             </span>
             <div>
@@ -48,7 +48,7 @@ export default function SpecialOffers({ products }) {
                   <span className="w-9 h-9 rounded-lg bg-[var(--bg-elevated)] border border-[var(--bd-2)] flex items-center justify-center font-display font-bold text-[15px] text-[var(--fg-1)] tabular-nums">
                     {v}
                   </span>
-                  {i < 2 && <span className="text-[#F07232] font-bold">:</span>}
+                  {i < 2 && <span className="text-[#E31E24] font-bold">:</span>}
                 </span>
               ))}
             </div>
@@ -64,7 +64,7 @@ export default function SpecialOffers({ products }) {
               </div>
             ))}
           </div>
-          <Link to="/catalogo" className="group flex sm:hidden items-center justify-center gap-1.5 mt-4 text-[13px] font-semibold text-[#F07232]">
+          <Link to="/catalogo" className="group flex sm:hidden items-center justify-center gap-1.5 mt-4 text-[13px] font-semibold text-[#E31E24]">
             Ver todas las ofertas <ArrowRight size={15} />
           </Link>
         </div>

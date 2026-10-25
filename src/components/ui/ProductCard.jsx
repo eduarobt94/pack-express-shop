@@ -56,7 +56,7 @@ export default function ProductCard({ product, index = 0 }) {
             </div>
           )}
           {compareAt && !soldOut && (
-            <div className="absolute top-3 right-3 z-10 px-2 py-1 rounded-lg text-[11px] font-bold text-white bg-[#F07232]">
+            <div className="absolute top-3 right-3 z-10 px-2 py-1 rounded-lg text-[11px] font-bold text-white bg-[#E31E24]">
               -{Math.round((1 - price / compareAt) * 100)}%
             </div>
           )}
@@ -75,7 +75,7 @@ export default function ProductCard({ product, index = 0 }) {
             {typeof rating === 'number' && <Stars rating={rating} size={11} showValue />}
           </div>
 
-          <h3 className="font-display font-semibold text-[15px] text-[var(--fg-1)] leading-snug mb-1 line-clamp-1 group-hover:text-[#F07232] transition-colors">
+          <h3 className="font-display font-semibold text-[15px] text-[var(--fg-1)] leading-snug mb-1 line-clamp-1 group-hover:text-[#E31E24] transition-colors">
             {name}
           </h3>
           <p className="text-[12.5px] text-[var(--fg-3)] line-clamp-1 mb-3.5">{tagline}</p>
@@ -88,12 +88,12 @@ export default function ProductCard({ product, index = 0 }) {
                   <span className="text-xs text-[var(--fg-4)] line-through">{formatUSD(compareAt)}</span>
                 )}
               </div>
-              <span className="text-[11px] text-[var(--fg-3)] font-medium">+ envío a Cuba calculado</span>
+              <span className="text-[11px] text-[var(--fg-3)] font-medium">+ envío a Uruguay calculado</span>
             </div>
 
             <span
               aria-hidden
-              className="flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--bg-elevated)] border border-[var(--bd-2)] text-[var(--fg-2)] group-hover:bg-[#F07232] group-hover:text-white group-hover:border-[#F07232] transition-all duration-300 shrink-0"
+              className="flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--bg-elevated)] border border-[var(--bd-2)] text-[var(--fg-2)] group-hover:bg-[#E31E24] group-hover:text-white group-hover:border-[#E31E24] transition-all duration-300 shrink-0"
             >
               {isMarketplace ? <ExternalLink size={16} /> : <ChevronRight size={18} />}
             </span>

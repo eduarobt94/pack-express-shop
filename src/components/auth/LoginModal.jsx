@@ -83,15 +83,15 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
               {/* Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-5 border-b border-[var(--bd-1)]">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#527ED8]/[0.1] flex items-center justify-center">
-                    <Warehouse size={18} className="text-[#527ED8]" />
+                  <div className="w-9 h-9 rounded-xl bg-[var(--sec)]/[0.1] flex items-center justify-center">
+                    <Warehouse size={18} className="text-[var(--sec)]" />
                   </div>
                   <div>
                     <p className="font-bold text-[15px] text-[var(--fg-1)]">
                       {mode === 'login' ? 'Acceder al Casillero' : 'Crear cuenta'}
                     </p>
                     <p className="text-[12px] text-[var(--fg-4)]">
-                      {mode === 'login' ? 'Ingresa con tu cuenta Pack Express' : 'Es gratis y toma 1 minuto'}
+                      {mode === 'login' ? 'Ingresa con tu cuenta Optimus Envíos' : 'Es gratis y toma 1 minuto'}
                     </p>
                   </div>
                 </div>
@@ -135,7 +135,7 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
                       <label className="text-[12px] font-semibold text-[var(--fg-3)] uppercase tracking-wide">
                         Nombre completo
                       </label>
-                      <div className="flex items-center gap-2 h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] px-3 focus-within:border-[#527ED8]/60 focus-within:shadow-[0_0_0_3px_rgba(82,126,216,0.12)] transition-all">
+                      <div className="flex items-center gap-2 h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] px-3 focus-within:border-[var(--sec)]/60 focus-within:shadow-[0_0_0_3px_rgba(26,26,26,0.12)] transition-all">
                         <User size={15} className="text-[var(--fg-4)] shrink-0" />
                         <input
                           ref={mode === 'register' ? firstRef : null}
@@ -157,7 +157,7 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
                   <label className="text-[12px] font-semibold text-[var(--fg-3)] uppercase tracking-wide">
                     Correo electrónico
                   </label>
-                  <div className="flex items-center gap-2 h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] px-3 focus-within:border-[#527ED8]/60 focus-within:shadow-[0_0_0_3px_rgba(82,126,216,0.12)] transition-all">
+                  <div className="flex items-center gap-2 h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] px-3 focus-within:border-[var(--sec)]/60 focus-within:shadow-[0_0_0_3px_rgba(26,26,26,0.12)] transition-all">
                     <Mail size={15} className="text-[var(--fg-4)] shrink-0" />
                     <input
                       ref={mode === 'login' ? firstRef : null}
@@ -177,7 +177,7 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
                   <label className="text-[12px] font-semibold text-[var(--fg-3)] uppercase tracking-wide">
                     Contraseña
                   </label>
-                  <div className="flex items-center gap-2 h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] px-3 focus-within:border-[#527ED8]/60 focus-within:shadow-[0_0_0_3px_rgba(82,126,216,0.12)] transition-all">
+                  <div className="flex items-center gap-2 h-11 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] px-3 focus-within:border-[var(--sec)]/60 focus-within:shadow-[0_0_0_3px_rgba(26,26,26,0.12)] transition-all">
                     <Lock size={15} className="text-[var(--fg-4)] shrink-0" />
                     <input
                       type={showPw ? 'text' : 'password'}
@@ -211,8 +211,8 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
                       <label className="text-[12px] font-semibold text-[var(--fg-3)] uppercase tracking-wide">
                         Confirmar contraseña
                       </label>
-                      <div className={`flex items-center gap-2 h-11 rounded-xl border bg-[var(--bg-card)] px-3 focus-within:shadow-[0_0_0_3px_rgba(82,126,216,0.12)] transition-all ${
-                        passwordMismatch ? 'border-[#EF4444]/60' : 'border-[var(--bd-2)] focus-within:border-[#527ED8]/60'
+                      <div className={`flex items-center gap-2 h-11 rounded-xl border bg-[var(--bg-card)] px-3 focus-within:shadow-[0_0_0_3px_rgba(26,26,26,0.12)] transition-all ${
+                        passwordMismatch ? 'border-[#EF4444]/60' : 'border-[var(--bd-2)] focus-within:border-[var(--sec)]/60'
                       }`}>
                         <Lock size={15} className="text-[var(--fg-4)] shrink-0" />
                         <input
@@ -233,7 +233,7 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
                 <button
                   type="submit"
                   disabled={loading || passwordMismatch}
-                  className="w-full h-11 rounded-xl bg-[#527ED8] hover:bg-[#4570CC] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full h-11 rounded-xl bg-[var(--sec)] hover:bg-[#4570CC] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {loading
                     ? <><Loader2 size={16} className="animate-spin" /> {mode === 'login' ? 'Ingresando…' : 'Creando cuenta…'}</>
@@ -244,13 +244,13 @@ export default function LoginModal({ open, onClose, onSuccess, closeable = true 
                 <p className="text-center text-[12px] text-[var(--fg-4)]">
                   {mode === 'login' ? (
                     <>¿No tienes cuenta?{' '}
-                      <button type="button" onClick={() => switchMode('register')} className="text-[#527ED8] font-semibold hover:underline cursor-pointer">
+                      <button type="button" onClick={() => switchMode('register')} className="text-[var(--sec)] font-semibold hover:underline cursor-pointer">
                         Regístrate gratis
                       </button>
                     </>
                   ) : (
                     <>¿Ya tienes cuenta?{' '}
-                      <button type="button" onClick={() => switchMode('login')} className="text-[#527ED8] font-semibold hover:underline cursor-pointer">
+                      <button type="button" onClick={() => switchMode('login')} className="text-[var(--sec)] font-semibold hover:underline cursor-pointer">
                         Ingresar
                       </button>
                     </>

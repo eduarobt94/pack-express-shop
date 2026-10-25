@@ -1,8 +1,8 @@
 const VARIANTS = {
-  'Más vendido': { bg: 'rgba(240,114,50,0.12)', fg: '#F07232', bd: 'rgba(240,114,50,0.30)' },
-  Nuevo: { bg: 'rgba(82,126,216,0.12)', fg: '#527ED8', bd: 'rgba(82,126,216,0.30)' },
-  Oferta: { bg: 'rgba(240,114,50,0.12)', fg: '#F07232', bd: 'rgba(240,114,50,0.30)' },
-  'Stock limitado': { bg: 'rgba(240,114,50,0.12)', fg: '#F07232', bd: 'rgba(240,114,50,0.30)' },
+  'Más vendido': { bg: 'rgba(227,30,36,0.12)', fg: '#E31E24', bd: 'rgba(227,30,36,0.30)' },
+  Nuevo: { bg: 'rgba(26,26,26,0.12)', fg: '#A8A8A8', bd: 'rgba(26,26,26,0.22)' },
+  Oferta: { bg: 'rgba(227,30,36,0.12)', fg: '#E31E24', bd: 'rgba(227,30,36,0.30)' },
+  'Stock limitado': { bg: 'rgba(227,30,36,0.12)', fg: '#E31E24', bd: 'rgba(227,30,36,0.30)' },
   Agotado: { bg: 'rgba(239,68,68,0.12)', fg: '#EF4444', bd: 'rgba(239,68,68,0.30)' },
 }
 

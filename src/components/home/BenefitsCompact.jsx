@@ -2,10 +2,10 @@ import { motion } from 'framer-motion'
 import { Eye, ShieldCheck, MessageCircle, RotateCcw } from 'lucide-react'
 
 const ITEMS = [
-  { Icon: Eye, accent: '#F07232', title: 'Precio transparente', desc: 'Producto, flete y aduana visibles desde el inicio.' },
-  { Icon: ShieldCheck, accent: '#527ED8', title: 'Productos originales', desc: 'Comprados en tiendas oficiales de EE.UU.' },
-  { Icon: MessageCircle, accent: '#F07232', title: 'Seguimiento WhatsApp', desc: 'Notificaciones en cada etapa del envío.' },
-  { Icon: RotateCcw, accent: '#527ED8', title: 'Garantía de entrega', desc: 'Entregamos o te devolvemos tu dinero.' },
+  { Icon: Eye, accent: '#E31E24', title: 'Precio transparente', desc: 'Producto, flete e impuestos a la vista. Cero vueltas.' },
+  { Icon: ShieldCheck, accent: '#A8A8A8', title: 'Productos originales', desc: 'Comprados en tiendas oficiales de EE.UU.' },
+  { Icon: MessageCircle, accent: '#E31E24', title: 'Seguimiento WhatsApp', desc: 'Notificaciones en cada etapa del envío.' },
+  { Icon: RotateCcw, accent: '#A8A8A8', title: 'Garantía de entrega', desc: 'Entregamos o te devolvemos tu dinero.' },
 ]
 
 export default function BenefitsCompact() {

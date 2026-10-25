@@ -4,7 +4,7 @@ import * as Icons from 'lucide-react'
  * Visual de producto generado por marca (sin assets externos).
  * Combina un degradado sutil con el icono del producto + patrón de puntos.
  */
-export default function ProductVisual({ icon = 'Package', tint = '#F07232', size = 'md', className = '' }) {
+export default function ProductVisual({ icon = 'Package', tint = '#E31E24', size = 'md', className = '' }) {
   const Icon = Icons[icon] || Icons.Package
   const iconSize = size === 'lg' ? 96 : size === 'sm' ? 34 : 58
 

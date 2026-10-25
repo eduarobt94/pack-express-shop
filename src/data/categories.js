@@ -6,7 +6,7 @@ export const categories = [
     short: 'Energía portátil',
     description: 'Power stations EcoFlow y generadores solares para respaldo total ante apagones.',
     icon: 'BatteryCharging',
-    accent: '#F07232',
+    accent: '#E31E24',
     count: 12,
   },
   {
@@ -15,7 +15,7 @@ export const categories = [
     short: 'Bicicletas e-bikes',
     description: 'Bicicletas y scooters eléctricos para moverte por la ciudad sin gasolina.',
     icon: 'Bike',
-    accent: '#527ED8',
+    accent: '#A8A8A8',
     count: 9,
   },
   {
@@ -24,7 +24,7 @@ export const categories = [
     short: 'Tech & gadgets',
     description: 'Laptops, smartphones, tablets y equipos de las mejores marcas de EE.UU.',
     icon: 'Laptop',
-    accent: '#527ED8',
+    accent: '#A8A8A8',
     count: 24,
   },
   {
@@ -33,7 +33,7 @@ export const categories = [
     short: 'Smart home',
     description: 'Electrodomésticos, climatización y dispositivos para un hogar conectado.',
     icon: 'House',
-    accent: '#F07232',
+    accent: '#E31E24',
     count: 18,
   },
   {
@@ -42,7 +42,7 @@ export const categories = [
     short: 'Complementos',
     description: 'Paneles solares, baterías extra, cargadores y accesorios de alto valor.',
     icon: 'Cable',
-    accent: '#527ED8',
+    accent: '#A8A8A8',
     count: 31,
   },
 ]

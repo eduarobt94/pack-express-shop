@@ -1,9 +1,9 @@
-// Modelo canónico de la Orden Pack Express (US → Cuba).
+// Modelo canónico de la Orden Optimus Envíos (US → Uruguay).
 // Define la forma completa de una orden, el generador del número PKX y la
 // factory createOrder() que ensambla la orden desde el carrito + checkout.
 // Datos hardcodeados / simulados en Fase 0: no hay API ni base de datos.
 
-import { provincesCuba, quoteShipping } from './shipping'
+import { departmentsUY, quoteShipping } from './shipping'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Estados y flujo
@@ -15,9 +15,9 @@ export const ORDER_FLOW = [
   'processing', // pago confirmado, equipo revisando
   'purchasing', // comprando el producto en EE.UU.
   'preparing', // en almacén Miami: empaque + documentación
-  'in_transit', // en tránsito internacional Miami → Cuba
-  'customs', // en aduana de Cuba
-  'out_for_delivery', // en reparto local por provincia
+  'in_transit', // en tránsito internacional Miami → Uruguay
+  'customs', // en aduana de Uruguay
+  'out_for_delivery', // en reparto local por departamento
   'delivered', // entregado al destinatario
 ]
 
@@ -27,12 +27,12 @@ export const ORDER_TERMINAL = ['cancelled', 'refunded', 'incident']
 /** Metadatos de cada estado: label visible + color de badge. */
 export const ORDER_STATUS_META = {
   pending: { label: 'Pago pendiente', color: '#F5A524' },
-  processing: { label: 'En preparación', color: '#527ED8' },
-  purchasing: { label: 'Comprando producto', color: '#527ED8' },
-  preparing: { label: 'Preparando envío', color: '#527ED8' },
-  in_transit: { label: 'En tránsito', color: '#F07232' },
+  processing: { label: 'En preparación', color: '#A8A8A8' },
+  purchasing: { label: 'Comprando producto', color: '#A8A8A8' },
+  preparing: { label: 'Preparando envío', color: '#A8A8A8' },
+  in_transit: { label: 'En tránsito', color: '#E31E24' },
   customs: { label: 'En aduana', color: '#F5A524' },
-  out_for_delivery: { label: 'En reparto', color: '#F07232' },
+  out_for_delivery: { label: 'En reparto', color: '#E31E24' },
   delivered: { label: 'Entregado', color: '#22C55E' },
   cancelled: { label: 'Cancelado', color: '#EF4444' },
   refunded: { label: 'Reembolsado', color: '#A855F7' },
@@ -51,13 +51,13 @@ export const ORDER_STATUS_META = {
  */
 
 /**
- * @typedef {Object} OrderRecipient  Destinatario (quien recibe, en Cuba)
+ * @typedef {Object} OrderRecipient  Destinatario (quien recibe, en Uruguay)
  * @property {string} name
- * @property {string} ci           Carné de Identidad — 11 dígitos (requisito Aduanas)
- * @property {string} province     Código de provincia (HAB, SCU, …)
+ * @property {string} ci           Cédula de Identidad — 7 u 8 dígitos (requisito Aduanas)
+ * @property {string} province     Código de departamento (MVD, SAL, …)
  * @property {string} municipality
  * @property {string} street
- * @property {string} phone        Teléfono en Cuba
+ * @property {string} phone        Teléfono en Uruguay
  */
 
 /**
@@ -95,7 +95,7 @@ export const ORDER_STATUS_META = {
 /**
  * @typedef {Object} OrderShipping
  * @property {'standard'|'express'} method
- * @property {string} zone          Zona Cuba A–E
+ * @property {string} zone          Zona Uruguay A–E
  * @property {string} eta           Rango de días estimado
  * @property {string|null} trackingCode  Código del courier (al despachar)
  * @property {string|null} courier
@@ -117,7 +117,7 @@ export const ORDER_STATUS_META = {
 
 /**
  * @typedef {Object} Order
- * @property {string} id            PKX-{PROVINCIA}-{AÑO}-{SEQ}
+ * @property {string} id            OPT-{DEPTO}-{AÑO}-{SEQ}
  * @property {string} createdAt     ISO timestamp
  * @property {string} status        Estado actual
  * @property {'web'|'mobile'|'admin'} channel
@@ -133,7 +133,7 @@ export const ORDER_STATUS_META = {
  */
 
 // ─────────────────────────────────────────────────────────────────────────
-// Generador del número de orden: PKX-{PROVINCIA}-{AÑO}-{SEQ}
+// Generador del número de orden: OPT-{DEPTO}-{AÑO}-{SEQ}
 // ─────────────────────────────────────────────────────────────────────────
 
 // Secuencia simulada en memoria. En producción la asigna la base de datos.
@@ -141,24 +141,24 @@ let _seq = 900
 
 /**
  * Genera un número de orden único.
- * @param {string} provinceCode  Código de provincia destino (HAB, SCU, …)
+ * @param {string} provinceCode  Código de departamento destino (MVD, SAL, …)
  * @param {Date} [date]
- * @returns {string} Ej: PKX-HAB-2026-00901
+ * @returns {string} Ej: OPT-MVD-2026-00901
  */
 export function generateOrderNumber(provinceCode, date = new Date()) {
-  const prov = (provinceCode || 'HAB').toUpperCase()
+  const prov = (provinceCode || 'MVD').toUpperCase()
   const year = date.getFullYear()
   _seq += 1
   const seq = String(_seq).padStart(5, '0')
-  return `PKX-${prov}-${year}-${seq}`
+  return `OPT-${prov}-${year}-${seq}`
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Validación mínima del destinatario (requisitos de Aduanas Cuba)
+// Validación mínima del destinatario (requisitos de Aduanas Uruguay)
 // ─────────────────────────────────────────────────────────────────────────
 
-/** El CI cubano debe tener exactamente 11 dígitos. */
-export const isValidCI = (ci) => /^\d{11}$/.test(String(ci || '').trim())
+/** La cédula uruguaya tiene 7 u 8 dígitos (sin puntos ni guion). */
+export const isValidCI = (ci) => /^\d{7,8}$/.test(String(ci || '').trim())
 
 // ─────────────────────────────────────────────────────────────────────────
 // Factory: ensambla una Orden completa desde el carrito + checkout
@@ -175,7 +175,7 @@ export const isValidCI = (ci) => /^\d{11}$/.test(String(ci || '').trim())
  * @param {OrderItem[]} input.items
  * @param {'standard'|'express'} [input.method='standard']
  * @param {OrderPayment['method']} [input.paymentMethod='card']
- * @param {{ code: string, percent: number }} [input.coupon]  Ej: { code:'CUBA5', percent:5 }
+ * @param {{ code: string, percent: number }} [input.coupon]  Ej: { code:'OPTIMUS5', percent:5 }
  * @param {'web'|'mobile'|'admin'} [input.channel='web']
  * @returns {Order}
  */
@@ -281,9 +281,9 @@ export function transitionOrder(order, nextStatus, note) {
 
 const round2 = (n) => Math.round(n * 100) / 100
 
-/** Resuelve el nombre completo de la provincia destino de una orden. */
+/** Resuelve el nombre completo del departamento destino de una orden. */
 export const orderProvinceName = (order) =>
-  provincesCuba.find((p) => p.code === order.recipient?.province)?.name || '—'
+  departmentsUY.find((p) => p.code === order.recipient?.province)?.name || '—'
 
 // ─────────────────────────────────────────────────────────────────────────
 // Orden de ejemplo (simulada) — útil para confirmación de checkout y demos
@@ -294,15 +294,15 @@ export const exampleOrder = createOrder({
   buyer: {
     name: 'Yanet Rodríguez',
     email: 'yanet.rodriguez@email.com',
-    phone: '+1 (305) 555-0147',
+    phone: '+598 99 765 432',
   },
   recipient: {
     name: 'Mercedes Pérez León',
     ci: '54091205832',
-    province: 'HAB',
+    province: 'MVD',
     municipality: 'Plaza de la Revolución',
-    street: 'Calle 23 #456 e/ G y H, Vedado',
-    phone: '+53 5234 5678',
+    street: 'Av. 18 de Julio 1234, Centro',
+    phone: '+598 99 123 456',
   },
   items: [
     {
@@ -313,10 +313,10 @@ export const exampleOrder = createOrder({
       price: 1099,
       weightKg: 23,
       icon: 'BatteryCharging',
-      tint: '#F07232',
+      tint: '#E31E24',
     },
   ],
   method: 'express',
   paymentMethod: 'card',
-  coupon: { code: 'CUBA5', percent: 5 },
+  coupon: { code: 'OPTIMUS5', percent: 5 },
 })

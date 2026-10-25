@@ -1,13 +1,13 @@
-# PackExpress Shop
+# Optimus Envíos — Shop
 
-Tienda online internacional **EE.UU. → Cuba** del ecosistema Pack Express.
+Tienda online internacional **EE.UU. → Cuba** del ecosistema Optimus Envíos.
 Primera versión funcional (UI completa, datos hardcodeados) para validar experiencia, navegación y flujos de compra/logística.
 
 > Sin APIs, sin base de datos, sin servicios externos. Toda la información está simulada en `src/data/`.
 
 ## Stack
 
-Idéntico al ecosistema Pack Express:
+Idéntico al ecosistema Optimus Envíos:
 
 - **React 19** + **Vite 8**
 - **Tailwind CSS v4** (tokens vía `@theme` + variables CSS para dark/light)

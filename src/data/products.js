@@ -14,7 +14,7 @@ export const products = [
     stock: 7,
     badge: 'Más vendido',
     icon: 'BatteryCharging',
-    tint: '#F07232',
+    tint: '#E31E24',
     tagline: '2048 Wh · Respaldo para toda la casa',
     short: 'Estación de energía portátil con 2048 Wh ampliables a 6144 Wh. Carga del 0 al 80% en 43 minutos.',
     highlights: [
@@ -31,7 +31,7 @@ export const products = [
       Peso: '23 kg',
       Garantía: '5 años',
     },
-    gallery: ['#F07232', '#E8823C', '#1B2433'],
+    gallery: ['#E31E24', '#C81A1F', '#1A1A1A'],
   },
   {
     id: 'ef-river-2-pro',
@@ -46,7 +46,7 @@ export const products = [
     stock: 14,
     badge: null,
     icon: 'BatteryCharging',
-    tint: '#F07232',
+    tint: '#E31E24',
     tagline: '768 Wh · Compacta y potente',
     short: 'Estación de energía compacta de 768 Wh, ideal para respaldo de equipos esenciales.',
     highlights: [
@@ -63,7 +63,7 @@ export const products = [
       Peso: '7.8 kg',
       Garantía: '5 años',
     },
-    gallery: ['#F07232', '#C85A28', '#1B2433'],
+    gallery: ['#E31E24', '#C85A28', '#1A1A1A'],
   },
   {
     id: 'rad-power-rover',
@@ -78,7 +78,7 @@ export const products = [
     stock: 4,
     badge: 'Stock limitado',
     icon: 'Bike',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Fat-bike eléctrica · 75 km de autonomía',
     short: 'Bicicleta eléctrica todoterreno con motor de 750 W y batería de 720 Wh.',
     highlights: [
@@ -95,7 +95,7 @@ export const products = [
       Peso: '33 kg',
       Garantía: '1 año',
     },
-    gallery: ['#527ED8', '#3E62B0', '#1B2433'],
+    gallery: ['#A8A8A8', '#6E6E6E', '#1A1A1A'],
   },
   {
     id: 'segway-max-g2',
@@ -110,7 +110,7 @@ export const products = [
     stock: 11,
     badge: null,
     icon: 'Bike',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Scooter eléctrico · 70 km de alcance',
     short: 'Scooter eléctrico plegable con suspensión y 70 km de autonomía.',
     highlights: [
@@ -127,7 +127,7 @@ export const products = [
       Peso: '24 kg',
       Garantía: '1 año',
     },
-    gallery: ['#527ED8', '#6B90DC', '#1B2433'],
+    gallery: ['#A8A8A8', '#D4D4D4', '#1A1A1A'],
   },
   {
     id: 'macbook-air-m3',
@@ -142,7 +142,7 @@ export const products = [
     stock: 20,
     badge: 'Nuevo',
     icon: 'Laptop',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Chip M3 · 18h de batería',
     short: 'Laptop ultraligera con chip M3, pantalla Liquid Retina y hasta 18 horas de batería.',
     highlights: [
@@ -159,7 +159,7 @@ export const products = [
       Peso: '1.24 kg',
       Garantía: '1 año',
     },
-    gallery: ['#527ED8', '#3E62B0', '#1B2433'],
+    gallery: ['#A8A8A8', '#6E6E6E', '#1A1A1A'],
   },
   {
     id: 'iphone-15-pro',
@@ -174,7 +174,7 @@ export const products = [
     stock: 0,
     badge: 'Agotado',
     icon: 'Smartphone',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Titanio · Chip A17 Pro',
     short: 'iPhone 15 Pro con diseño de titanio, chip A17 Pro y sistema de cámaras Pro.',
     highlights: [
@@ -191,7 +191,7 @@ export const products = [
       Peso: '187 g',
       Garantía: '1 año',
     },
-    gallery: ['#527ED8', '#3E62B0', '#1B2433'],
+    gallery: ['#A8A8A8', '#6E6E6E', '#1A1A1A'],
   },
   {
     id: 'samsung-tv-65',
@@ -206,7 +206,7 @@ export const products = [
     stock: 6,
     badge: 'Oferta',
     icon: 'Tv',
-    tint: '#F07232',
+    tint: '#E31E24',
     tagline: 'Mini LED · 4K 120Hz',
     short: 'Televisor Neo QLED de 65" con tecnología Mini LED y procesador Neural Quantum 4K.',
     highlights: [
@@ -223,7 +223,7 @@ export const products = [
       Peso: '28 kg',
       Garantía: '2 años',
     },
-    gallery: ['#F07232', '#C85A28', '#1B2433'],
+    gallery: ['#E31E24', '#C85A28', '#1A1A1A'],
   },
   {
     id: 'dyson-v15',
@@ -238,7 +238,7 @@ export const products = [
     stock: 9,
     badge: null,
     icon: 'House',
-    tint: '#F07232',
+    tint: '#E31E24',
     tagline: 'Aspiradora láser · 60 min',
     short: 'Aspiradora inalámbrica con detección láser de polvo y 60 minutos de autonomía.',
     highlights: [
@@ -255,7 +255,7 @@ export const products = [
       Peso: '3.1 kg',
       Garantía: '2 años',
     },
-    gallery: ['#F07232', '#C85A28', '#1B2433'],
+    gallery: ['#E31E24', '#C85A28', '#1A1A1A'],
   },
   {
     id: 'ecoflow-panel-400',
@@ -270,7 +270,7 @@ export const products = [
     stock: 13,
     badge: 'Oferta',
     icon: 'Cable',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Panel plegable · 23% eficiencia',
     short: 'Panel solar portátil de 400 W con 23% de eficiencia, ideal para recargar power stations.',
     highlights: [
@@ -287,7 +287,7 @@ export const products = [
       Peso: '16 kg',
       Garantía: '2 años',
     },
-    gallery: ['#527ED8', '#3E62B0', '#1B2433'],
+    gallery: ['#A8A8A8', '#6E6E6E', '#1A1A1A'],
   },
   {
     id: 'starlink-mini',
@@ -302,7 +302,7 @@ export const products = [
     stock: 3,
     badge: 'Stock limitado',
     icon: 'Satellite',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Internet satelital portátil',
     short: 'Antena de internet satelital portátil con velocidades de hasta 100 Mbps.',
     highlights: [
@@ -319,7 +319,7 @@ export const products = [
       Peso: '1.6 kg',
       Garantía: '1 año',
     },
-    gallery: ['#527ED8', '#3E62B0', '#1B2433'],
+    gallery: ['#A8A8A8', '#6E6E6E', '#1A1A1A'],
   },
   {
     id: 'anker-757',
@@ -334,7 +334,7 @@ export const products = [
     stock: 8,
     badge: 'Oferta',
     icon: 'BatteryCharging',
-    tint: '#F07232',
+    tint: '#E31E24',
     tagline: '1229 Wh · LiFePO4',
     short: 'Estación de energía de 1229 Wh con baterías LiFePO4 de larga duración.',
     highlights: [
@@ -351,7 +351,7 @@ export const products = [
       Peso: '19.9 kg',
       Garantía: '5 años',
     },
-    gallery: ['#F07232', '#C85A28', '#1B2433'],
+    gallery: ['#E31E24', '#C85A28', '#1A1A1A'],
   },
   {
     id: 'ipad-air-m2',
@@ -366,7 +366,7 @@ export const products = [
     stock: 16,
     badge: null,
     icon: 'Tablet',
-    tint: '#527ED8',
+    tint: '#A8A8A8',
     tagline: 'Chip M2 · Liquid Retina',
     short: 'iPad Air con chip M2, pantalla Liquid Retina de 11" y compatibilidad con Apple Pencil Pro.',
     highlights: [
@@ -383,7 +383,7 @@ export const products = [
       Peso: '462 g',
       Garantía: '1 año',
     },
-    gallery: ['#527ED8', '#3E62B0', '#1B2433'],
+    gallery: ['#A8A8A8', '#6E6E6E', '#1A1A1A'],
   },
 ]
 

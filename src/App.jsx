@@ -24,7 +24,7 @@ function ScrollToTop() {
 function PageFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="w-8 h-8 rounded-full border-2 border-[var(--bd-3)] border-t-[#F07232] animate-spin" />
+      <div className="w-8 h-8 rounded-full border-2 border-[var(--bd-3)] border-t-[#E31E24] animate-spin" />
     </div>
   )
 }
@@ -36,7 +36,7 @@ export default function App() {
       <ScrollToTop />
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#F07232] focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-[#E31E24] focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold"
       >
         Ir al contenido principal
       </a>

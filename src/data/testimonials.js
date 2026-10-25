@@ -1,32 +1,33 @@
+// Contenido de demostración — reemplazar por reseñas reales de clientes de Optimus Envíos.
 export const testimonials = [
   {
-    name: 'Yanet Rodríguez',
-    location: 'Miami → La Habana',
+    name: 'Lucía Fernández',
+    location: 'Montevideo',
     rating: 5,
-    text: 'Le envié una EcoFlow a mi mamá y llegó en 13 días. El precio total lo vi desde el principio, sin sorpresas. Increíble servicio.',
+    text: 'Pedí una EcoFlow en Amazon y la tenía en casa en 8 días. El precio total lo vi desde el principio, cero vueltas.',
   },
   {
-    name: 'Carlos Mendoza',
-    location: 'Tampa → Santiago de Cuba',
+    name: 'Martín Techera',
+    location: 'Canelones',
     rating: 5,
-    text: 'La bicicleta eléctrica llegó perfecta hasta Santiago. El seguimiento por WhatsApp me mantuvo tranquilo todo el camino.',
+    text: 'La bici eléctrica llegó perfecta. El seguimiento por WhatsApp me avisó cada paso, sin tener que preguntar.',
   },
   {
-    name: 'María Fernández',
-    location: 'Hialeah → Camagüey',
+    name: 'Valentina Rodríguez',
+    location: 'Maldonado',
     rating: 5,
-    text: 'Lo que más valoro es la transparencia con la aduana. Sabía exactamente cuánto iba a pagar antes de comprar.',
+    text: 'Lo que más valoro es saber cuánto voy a pagar de impuestos antes de comprar. Sin sorpresas en el despacho.',
   },
   {
-    name: 'Roberto Pérez',
-    location: 'Orlando → Holguín',
+    name: 'Diego Píriz',
+    location: 'Salto',
     rating: 4,
-    text: 'Compré una laptop para mi hijo. El proceso fue clarísimo y el panel de seguimiento es de lo mejor que he visto.',
+    text: 'Compré una laptop para el trabajo. El proceso fue clarísimo y el panel de seguimiento está muy bueno.',
   },
   {
-    name: 'Damaris Castro',
-    location: 'Kentucky → Matanzas',
+    name: 'Camila Sosa',
+    location: 'Colonia',
     rating: 5,
-    text: 'Tercera vez que compro. Guardé los datos del destinatario y la segunda compra fue en dos minutos. Súper recomendado.',
+    text: 'Tercera vez que compro. Guardé mi dirección y la segunda compra fue cuestión de dos minutos.',
   },
 ]

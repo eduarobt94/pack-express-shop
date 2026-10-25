@@ -6,7 +6,7 @@ import ProductCard from '../ui/ProductCard'
  * Fila de productos reutilizable (estilo Amazon/Best Buy).
  * Grid denso en desktop; scroll horizontal con snap en mobile.
  */
-export default function ProductShelf({ title, accent = '#F07232', products, viewAllTo = '/catalogo', eyebrow }) {
+export default function ProductShelf({ title, accent = '#E31E24', products, viewAllTo = '/catalogo', eyebrow }) {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
       <div className="flex items-end justify-between gap-4 mb-4">

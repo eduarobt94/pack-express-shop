@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:ital,wght@0,800;0,900;1,300&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans:    'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, sans-serif;
+  --font-display: 'Montserrat', 'Inter', ui-sans-serif, sans-serif;
 
-  /* ── Brand orange — action, courier, CTA ── */
-  --color-brand:       #F07232;
-  --color-brand-hover: #E8823C;
+  /* ── Rojo acción — CTA, acento (Manual de marca §11) ── */
+  --color-brand:       #E31E24;
+  --color-brand-hover: #C81A1F;
 
-  /* ── Brand blue — international, trust ── */
-  --color-blue:        #527ED8;
-  --color-blue-hover:  #6B90DC;
+  /* ── Gris corporativo ── */
+  --color-gray:        #A8A8A8;
 
   /* ── Semantic ── */
   --color-success: #22C55E;
@@ -26,18 +25,21 @@
   --shadow-hover:  0 8px 40px rgba(0,0,0,0.40);
   --shadow-pop:    0 40px 90px rgba(0,0,0,0.70), 0 0 0 1px rgba(255,255,255,0.10);
 
-  --bg-base:     #060810;
-  --bg-alt:      #07080F;
-  --bg-card:     #0C1018;
-  --bg-deep:     #03040A;
-  --bg-elevated: #0F1520;
-  --bg-input:    #060810;
+  --sec:         #A8A8A8;
+  --sec-hover:   #FFFFFF;
 
-  --fg-1: #F8F8F8;
-  --fg-2: #94A3B8;
-  --fg-3: #64748B;
-  --fg-4: #64748B;
-  --fg-5: #475569;
+  --bg-base:     #121212;
+  --bg-alt:      #181818;
+  --bg-card:     #1A1A1A;
+  --bg-deep:     #0B0B0B;
+  --bg-elevated: #242424;
+  --bg-input:    #121212;
+
+  --fg-1: #FFFFFF;
+  --fg-2: #C9C9C9;
+  --fg-3: #A8A8A8;
+  --fg-4: #8C8C8C;
+  --fg-5: #6E6E6E;
 
   --bd-1: rgba(255,255,255,0.055);
   --bd-2: rgba(255,255,255,0.08);
@@ -51,18 +53,21 @@
   --shadow-hover:  0 10px 40px rgba(0,0,0,0.10);
   --shadow-pop:    0 30px 70px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.06);
 
-  --bg-base:     #F5F3EF;
-  --bg-alt:      #F0EDE8;
-  --bg-card:     #FFFFFF;
-  --bg-deep:     #E8E5DF;
-  --bg-elevated: #FAFAF8;
-  --bg-input:    #EEEBE6;
+  --sec:         #1A1A1A;
+  --sec-hover:   #000000;
 
-  --fg-1: #0D0F14;
-  --fg-2: #374151;
-  --fg-3: #536070;
-  --fg-4: #6B7A8D;
-  --fg-5: #8694A4;
+  --bg-base:     #FFFFFF;
+  --bg-alt:      #F6F6F6;
+  --bg-card:     #FFFFFF;
+  --bg-deep:     #EDEDED;
+  --bg-elevated: #F6F6F6;
+  --bg-input:    #F2F2F2;
+
+  --fg-1: #1A1A1A;
+  --fg-2: #3D3D3D;
+  --fg-3: #5C5C5C;
+  --fg-4: #6E6E6E;
+  --fg-5: #8A8A8A;
 
   --bd-1: rgba(0,0,0,0.07);
   --bd-2: rgba(0,0,0,0.11);
@@ -75,6 +80,8 @@
 html { color-scheme: light; scroll-behavior: smooth; }
 [data-theme="dark"] { color-scheme: dark; }
 
+h1, h2, h3, h4 { font-family: var(--font-display); }
+
 body {
   margin: 0;
   background-color: var(--bg-base);
@@ -86,10 +93,10 @@ body {
   transition: background-color 0.35s ease, color 0.2s ease;
 }
 
-::selection { background: rgba(240,114,50,0.22); color: #fff; }
+::selection { background: rgba(227,30,36,0.22); color: #fff; }
 
 :focus-visible {
-  outline: 2px solid rgba(240,114,50,0.55);
+  outline: 2px solid rgba(227,30,36,0.55);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -98,7 +105,7 @@ body {
 ::-webkit-scrollbar        { width: 9px; height: 9px; }
 ::-webkit-scrollbar-track  { background: transparent; }
 ::-webkit-scrollbar-thumb  { background: var(--bd-3); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(240,114,50,0.5); }
+::-webkit-scrollbar-thumb:hover { background: rgba(227,30,36,0.5); }
 
 #root { width: 100%; min-height: 100svh; }
 

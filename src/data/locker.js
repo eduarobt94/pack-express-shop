@@ -8,7 +8,7 @@ import { generateSuiteId, MIAMI_ADDRESS } from '../lib/locker'
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const currentSuite = {
-  suiteId: generateSuiteId('096582', 'CU'),   // PKX-CU-096582
+  suiteId: generateSuiteId('096582', 'UY'),   // OPT-UY-096582
   country: 'CU',
   address: MIAMI_ADDRESS,
   memberSince: '2024-08-12',

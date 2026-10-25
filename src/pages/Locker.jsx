@@ -21,8 +21,8 @@ const TABS = [
 
 const SHIPMENT_STATUS = {
   pending_payment: { label: 'Pago pendiente', color: '#F5A524' },
-  paid: { label: 'Pagado', color: '#527ED8' },
-  in_transit: { label: 'En tránsito', color: '#F07232' },
+  paid: { label: 'Pagado', color: '#A8A8A8' },
+  in_transit: { label: 'En tránsito', color: '#E31E24' },
   delivered: { label: 'Entregado', color: '#22C55E' },
 }
 
@@ -79,12 +79,12 @@ export default function Locker() {
       <>
         <div className="max-w-5xl mx-auto px-5 sm:px-8 py-8 select-none pointer-events-none blur-sm opacity-40 min-h-[60vh]">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-[#527ED8]/[0.12] border border-[#527ED8]/25 flex items-center justify-center shrink-0">
-              <Warehouse size={24} className="text-[#527ED8]" />
+            <div className="w-14 h-14 rounded-2xl bg-[var(--sec)]/[0.12] border border-[var(--sec)]/25 flex items-center justify-center shrink-0">
+              <Warehouse size={24} className="text-[var(--sec)]" />
             </div>
             <div>
               <h1 className="font-display font-extrabold text-[clamp(1.35rem,3.5vw,2rem)] text-[var(--fg-1)]">Mi Casillero</h1>
-              <p className="text-[13px] text-[var(--fg-3)] mt-0.5">Suite PKX-CU-XXXXXX</p>
+              <p className="text-[13px] text-[var(--fg-3)] mt-0.5">Suite OPT-UY-XXXXXX</p>
             </div>
           </div>
           <div className="h-40 rounded-2xl border border-[var(--bd-2)] bg-[var(--bg-card)]" />
@@ -103,8 +103,8 @@ export default function Locker() {
     <div className="max-w-5xl mx-auto px-5 sm:px-8 py-8">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-14 h-14 rounded-2xl bg-[#527ED8]/[0.12] border border-[#527ED8]/25 flex items-center justify-center shrink-0">
-          <Warehouse size={24} className="text-[#527ED8]" />
+        <div className="w-14 h-14 rounded-2xl bg-[var(--sec)]/[0.12] border border-[var(--sec)]/25 flex items-center justify-center shrink-0">
+          <Warehouse size={24} className="text-[var(--sec)]" />
         </div>
         <div>
           <h1 className="font-display font-extrabold text-[clamp(1.35rem,3.5vw,2rem)] text-[var(--fg-1)]">Mi Casillero</h1>
@@ -122,12 +122,12 @@ export default function Locker() {
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <MapPin size={15} className="text-[#F07232]" />
-              <span className="text-[12px] font-bold text-[#F07232] uppercase tracking-wide">Tu dirección en Miami</span>
+              <MapPin size={15} className="text-[#E31E24]" />
+              <span className="text-[12px] font-bold text-[#E31E24] uppercase tracking-wide">Tu dirección en Miami</span>
             </div>
             <div className="space-y-1 text-[14px] text-[var(--fg-1)]">
               <p className="font-semibold">{currentSuite.address.street}</p>
-              <p className="font-mono text-[#527ED8] font-bold">Suite / Nombre: {currentSuite.suiteId}</p>
+              <p className="font-mono text-[var(--sec)] font-bold">Suite / Nombre: {currentSuite.suiteId}</p>
               <p>{currentSuite.address.city}, {currentSuite.address.state} {currentSuite.address.zip}, EE.UU.</p>
               <p className="text-[var(--fg-3)] text-[13px]">Tel: {currentSuite.address.phone}</p>
             </div>
@@ -145,8 +145,8 @@ export default function Locker() {
           </button>
         </div>
 
-        <div className="mt-4 flex items-start gap-2 p-3 rounded-xl bg-[#F07232]/[0.06] border border-[#F07232]/15">
-          <AlertCircle size={14} className="text-[#F07232] shrink-0 mt-0.5" />
+        <div className="mt-4 flex items-start gap-2 p-3 rounded-xl bg-[#E31E24]/[0.06] border border-[#E31E24]/15">
+          <AlertCircle size={14} className="text-[#E31E24] shrink-0 mt-0.5" />
           <p className="text-[12px] text-[var(--fg-2)]">
             Siempre incluye tu suite <strong>{currentSuite.suiteId}</strong> como nombre o número de apartamento al hacer una compra. Luego regístrala como pre-alerta.
           </p>
@@ -158,7 +158,7 @@ export default function Locker() {
         {[
           { label: 'Listos para enviar', value: readyCount, color: '#22C55E', Icon: PackagePlus },
           { label: 'En proceso', value: pendingCount, color: '#F5A524', Icon: PackageCheck },
-          { label: 'Pre-alertas activas', value: alerts.filter((a) => a.status === 'pending').length, color: '#527ED8', Icon: Bell },
+          { label: 'Pre-alertas activas', value: alerts.filter((a) => a.status === 'pending').length, color: '#A8A8A8', Icon: Bell },
           { label: 'Retenidos', value: retainedCount, color: '#EF4444', Icon: AlertTriangle },
         ].map(({ label, value, color, Icon }) => (
           <motion.div
@@ -182,7 +182,7 @@ export default function Locker() {
             key={id}
             onClick={() => setTab(id)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-[13.5px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
-              tab === id ? 'bg-[#F07232]/[0.10] text-[#F07232]' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
+              tab === id ? 'bg-[#E31E24]/[0.10] text-[#E31E24]' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
             }`}
           >
             <Icon size={16} /> {label}
@@ -206,7 +206,7 @@ export default function Locker() {
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center justify-between gap-3 mb-5 p-4 rounded-2xl bg-[#F07232]/[0.08] border border-[#F07232]/20"
+                  className="flex items-center justify-between gap-3 mb-5 p-4 rounded-2xl bg-[#E31E24]/[0.08] border border-[#E31E24]/20"
                 >
                   <p className="text-[13.5px] font-semibold text-[var(--fg-1)]">
                     {selectedIds.length} paquete{selectedIds.length !== 1 ? 's' : ''} seleccionado{selectedIds.length !== 1 ? 's' : ''}
@@ -280,7 +280,7 @@ export default function Locker() {
                             <span className={`inline-flex px-2 py-0.5 rounded-full text-[11px] font-semibold mb-1.5 ${
                               a.status === 'matched'
                                 ? 'bg-[#22C55E]/[0.10] text-[#22C55E]'
-                                : 'bg-[#527ED8]/[0.10] text-[#527ED8]'
+                                : 'bg-[var(--sec)]/[0.10] text-[var(--sec)]'
                             }`}>
                               {a.status === 'matched' ? 'Recibido' : 'En camino'}
                             </span>

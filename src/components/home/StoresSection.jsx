@@ -56,7 +56,7 @@ function StoreLogo({ id }) {
 }
 
 const STORES = [
-  { id: 'amazon',  tagline: 'Miles de productos disponibles',     desc: 'Explora el catálogo completo de Amazon con envío directo a Cuba.' },
+  { id: 'amazon',  tagline: 'Miles de productos disponibles',     desc: 'Explora el catálogo completo de Amazon con envío directo a Uruguay.' },
   { id: 'temu',   tagline: 'Próximamente',                         desc: 'Estamos integrando Temu para que compres aún más barato.' },
   { id: 'walmart', tagline: 'Próximamente',                        desc: 'Pronto podrás comprar en Walmart desde nuestra plataforma.' },
 ]
@@ -91,7 +91,7 @@ export default function StoresSection() {
       {/* Título sección */}
       <div className="flex items-end justify-between gap-4 mb-6">
         <div>
-          <span className="text-[12px] font-bold uppercase tracking-wider text-[#527ED8]">Marketplaces disponibles</span>
+          <span className="text-[12px] font-bold uppercase tracking-wider text-[var(--sec)]">Marketplaces disponibles</span>
           <h2 className="font-display font-extrabold text-[clamp(1.4rem,3.2vw,1.9rem)] text-[var(--fg-1)] mt-1">
             Compra en tus tiendas favoritas
           </h2>
@@ -129,7 +129,7 @@ export default function StoresSection() {
                     Disponible
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#F07232]/[0.12] text-[#F07232]">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#E31E24]/[0.12] text-[#E31E24]">
                     <Clock size={11} /> Próximamente
                   </span>
                 )}
@@ -151,14 +151,14 @@ export default function StoresSection() {
       <div className="mt-10">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#F07232]">Amazon · Disponible ahora</span>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#E31E24]">Amazon · Disponible ahora</span>
             <h3 className="font-display font-bold text-[18px] sm:text-[20px] text-[var(--fg-1)]">
               Productos destacados de Amazon
             </h3>
           </div>
           <button
             onClick={() => navigate('/catalogo?marketplace=amazon')}
-            className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#F07232] hover:underline cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#E31E24] hover:underline cursor-pointer shrink-0"
           >
             Ver todo <ArrowRight size={14} />
           </button>
@@ -217,7 +217,7 @@ export default function StoresSection() {
                   <ShoppingBag size={30} />
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold bg-[#F07232]/[0.12] text-[#F07232] mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold bg-[#E31E24]/[0.12] text-[#E31E24] mb-3">
                   <Clock size={12} /> Próximamente
                 </span>
 
@@ -230,7 +230,7 @@ export default function StoresSection() {
 
                 <button
                   onClick={() => setModalStore(null)}
-                  className="w-full py-3 rounded-xl bg-[#F07232] hover:bg-[#E8823C] text-white font-semibold text-sm transition-colors cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-[#E31E24] hover:bg-[#C81A1F] text-white font-semibold text-sm transition-colors cursor-pointer"
                 >
                   Entendido
                 </button>

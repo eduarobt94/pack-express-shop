@@ -23,7 +23,7 @@
 
 /** Marketplaces soportados y su metadata visual. */
 export const MARKETPLACES = {
-  amazon: { id: 'amazon', name: 'Amazon', color: '#F07232', status: 'available' },
+  amazon: { id: 'amazon', name: 'Amazon', color: '#E31E24', status: 'available' },
   temu: { id: 'temu', name: 'Temu', color: '#E53935', status: 'soon' },
   walmart: { id: 'walmart', name: 'Walmart', color: '#007DC6', status: 'soon' },
 }

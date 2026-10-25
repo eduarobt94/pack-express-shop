@@ -111,7 +111,7 @@ export default function Catalog() {
               key={c.slug}
               onClick={() => setCat(c.slug)}
               className={`w-full text-left px-3 py-2 rounded-lg text-[13.5px] transition-colors cursor-pointer ${
-                activeCat === c.slug ? 'bg-[#F07232]/[0.12] text-[#F07232] font-semibold' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
+                activeCat === c.slug ? 'bg-[#E31E24]/[0.12] text-[#E31E24] font-semibold' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
               }`}
             >
               {c.name}
@@ -127,7 +127,7 @@ export default function Catalog() {
             <label key={b} className="flex items-center gap-2.5 px-1 py-1 cursor-pointer group">
               <span
                 className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${
-                  selectedBrands.includes(b) ? 'bg-[#F07232] border-[#F07232]' : 'border-[var(--bd-3)] group-hover:border-[var(--bd-4)]'
+                  selectedBrands.includes(b) ? 'bg-[#E31E24] border-[#E31E24]' : 'border-[var(--bd-3)] group-hover:border-[var(--bd-4)]'
                 }`}
               >
                 {selectedBrands.includes(b) && <Check size={11} className="text-white" />}
@@ -142,7 +142,7 @@ export default function Catalog() {
       <div>
         <h4 className="text-[12px] font-bold uppercase tracking-wider text-[var(--fg-4)] mb-3">Disponibilidad</h4>
         <label className="flex items-center gap-2.5 px-1 py-1 cursor-pointer group">
-          <span className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${onlyStock ? 'bg-[#F07232] border-[#F07232]' : 'border-[var(--bd-3)]'}`}>
+          <span className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${onlyStock ? 'bg-[#E31E24] border-[#E31E24]' : 'border-[var(--bd-3)]'}`}>
             {onlyStock && <Check size={11} className="text-white" />}
           </span>
           <input type="checkbox" className="sr-only" checked={onlyStock} onChange={(e) => setOnlyStock(e.target.checked)} />
@@ -168,7 +168,7 @@ export default function Catalog() {
             )}
           </div>
           <h1 className="font-display font-extrabold text-[clamp(1.6rem,4vw,2.25rem)] text-[var(--fg-1)] mb-2">{catName}</h1>
-          <p className="text-sm text-[var(--fg-3)]">{filtered.length} productos disponibles para envío a Cuba</p>
+          <p className="text-sm text-[var(--fg-3)]">{filtered.length} productos disponibles para envío a Uruguay</p>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ export default function Catalog() {
         <div>
           {/* Toolbar */}
           <div className="flex flex-col sm:flex-row gap-3 mb-6">
-            <div className="flex-1 flex items-center gap-2 px-3.5 bg-[var(--bg-card)] border border-[var(--bd-2)] rounded-xl focus-within:border-[#F07232]/50 transition-colors">
+            <div className="flex-1 flex items-center gap-2 px-3.5 bg-[var(--bg-card)] border border-[var(--bd-2)] rounded-xl focus-within:border-[#E31E24]/50 transition-colors">
               <Search size={16} className="text-[var(--fg-4)] shrink-0" />
               <input
                 value={search}
@@ -210,7 +210,7 @@ export default function Catalog() {
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 aria-label="Ordenar"
-                className="px-4 py-2.5 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] text-sm font-medium text-[var(--fg-1)] outline-none cursor-pointer focus:border-[#F07232]/50"
+                className="px-4 py-2.5 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] text-sm font-medium text-[var(--fg-1)] outline-none cursor-pointer focus:border-[#E31E24]/50"
               >
                 {SORTS.map((s) => (
                   <option key={s.id} value={s.id}>{s.label}</option>

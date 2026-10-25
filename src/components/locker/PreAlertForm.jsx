@@ -67,7 +67,7 @@ export default function PreAlertForm({ onSave }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="flex items-center gap-2 mb-2">
-        <Bell size={18} className="text-[#F07232]" />
+        <Bell size={18} className="text-[#E31E24]" />
         <p className="text-[13.5px] text-[var(--fg-2)]">
           Avísanos qué compraste para agilizar la recepción y el despacho.
         </p>
@@ -153,7 +153,7 @@ export default function PreAlertForm({ onSave }) {
         <label className={`flex items-center gap-3 px-3.5 py-3 rounded-xl border cursor-pointer transition-colors ${
           errors.factura
             ? 'border-[#EF4444] bg-[#EF4444]/[0.04]'
-            : 'border-[var(--bd-2)] bg-[var(--bg-card)] hover:border-[#F07232]/60'
+            : 'border-[var(--bd-2)] bg-[var(--bg-card)] hover:border-[#E31E24]/60'
         }`}>
           <Upload size={15} className="text-[var(--fg-4)] shrink-0" />
           <div className="flex-1 min-w-0">
@@ -181,7 +181,7 @@ export default function PreAlertForm({ onSave }) {
         <label className="block text-[12px] font-semibold text-[var(--fg-3)] mb-1.5 uppercase tracking-wide">
           Instrucciones especiales
         </label>
-        <div className="flex items-start gap-3 px-3.5 py-3 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#F07232]/60 focus-within:shadow-[0_0_0_3px_rgba(240,114,50,0.10)] transition-colors">
+        <div className="flex items-start gap-3 px-3.5 py-3 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#E31E24]/60 focus-within:shadow-[0_0_0_3px_rgba(227,30,36,0.10)] transition-colors">
           <MessageSquare size={15} className="text-[var(--fg-4)] shrink-0 mt-0.5" />
           <textarea
             value={form.instructions}
@@ -203,7 +203,7 @@ function Field({ label, icon: Icon, error, children }) {
     <div>
       <label className="block text-[12px] font-semibold text-[var(--fg-3)] mb-1.5 uppercase tracking-wide">{label}</label>
       <div className={`flex items-center gap-3 h-11 px-3.5 rounded-xl border transition-colors ${
-        error ? 'border-[#EF4444] bg-[#EF4444]/[0.04]' : 'border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#F07232]/60 focus-within:shadow-[0_0_0_3px_rgba(240,114,50,0.10)]'
+        error ? 'border-[#EF4444] bg-[#EF4444]/[0.04]' : 'border-[var(--bd-2)] bg-[var(--bg-card)] focus-within:border-[#E31E24]/60 focus-within:shadow-[0_0_0_3px_rgba(227,30,36,0.10)]'
       }`}>
         <Icon size={15} className="text-[var(--fg-4)] shrink-0" />
         {children}

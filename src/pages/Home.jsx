@@ -17,10 +17,10 @@ export default function Home() {
       <StoresSection />
 
       {/* Conversión: filas de productos */}
-      <ProductShelf title="Los más vendidos" eyebrow="Top ventas" accent="#F07232" products={bestSellers} viewAllTo="/catalogo" />
+      <ProductShelf title="Los más vendidos" eyebrow="Top ventas" accent="#E31E24" products={bestSellers} viewAllTo="/catalogo" />
       <SpecialOffers products={offers} />
-      <ProductShelf title="Recomendados para ti" eyebrow="Para ti" accent="#527ED8" products={recommended} viewAllTo="/catalogo" />
-      <ProductShelf title="Recién agregados" eyebrow="Nuevo" accent="#F07232" products={recentlyAdded} viewAllTo="/catalogo" />
+      <ProductShelf title="Recomendados para ti" eyebrow="Para ti" accent="#A8A8A8" products={recommended} viewAllTo="/catalogo" />
+      <ProductShelf title="Recién agregados" eyebrow="Nuevo" accent="#E31E24" products={recentlyAdded} viewAllTo="/catalogo" />
 
       {/* Confianza (compacta) */}
       <BenefitsCompact />

@@ -148,10 +148,10 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
                   </button>
 
                   {/* Aviso franquicias */}
-                  <div className="flex gap-2.5 p-3.5 rounded-xl bg-[#527ED8]/[0.07] border border-[#527ED8]/20">
-                    <AlertCircle size={15} className="text-[#527ED8] shrink-0 mt-0.5" />
+                  <div className="flex gap-2.5 p-3.5 rounded-xl bg-[var(--sec)]/[0.07] border border-[var(--sec)]/20">
+                    <AlertCircle size={15} className="text-[var(--sec)] shrink-0 mt-0.5" />
                     <p className="text-[12px] text-[var(--fg-2)]">
-                      El pago debe realizarse desde fuera de Cuba. El destinatario solo confirma la recepción.
+                      El pago debe realizarse desde fuera de Uruguay. El destinatario solo confirma la recepción.
                     </p>
                   </div>
                 </>

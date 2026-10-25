@@ -39,7 +39,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="pt-0 min-h-[60vh] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[var(--bd-3)] border-t-[#F07232] animate-spin" />
+        <div className="w-8 h-8 rounded-full border-2 border-[var(--bd-3)] border-t-[#E31E24] animate-spin" />
       </div>
     )
   }
@@ -96,7 +96,7 @@ function MarketplaceDetail({ product }) {
         {/* Info */}
         <div>
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-[12px] font-bold uppercase tracking-wider text-[#F07232]">{product.brand}</span>
+            <span className="text-[12px] font-bold uppercase tracking-wider text-[#E31E24]">{product.brand}</span>
             {typeof product.rating === 'number' && (
               <>
                 <span className="text-[var(--fg-5)]">·</span>
@@ -147,11 +147,11 @@ function MarketplaceDetail({ product }) {
           <div className="grid grid-cols-3 gap-3 mb-7">
             {[
               { Icon: ShieldCheck, label: 'Producto original' },
-              { Icon: Truck, label: 'Envío asegurado a Cuba' },
+              { Icon: Truck, label: 'Envío asegurado a Uruguay' },
               { Icon: RotateCcw, label: 'Seguimiento en cada etapa' },
             ].map(({ Icon, label }) => (
               <div key={label} className="flex flex-col items-center text-center gap-2 p-3 rounded-xl border border-[var(--bd-1)]">
-                <Icon size={20} className="text-[#527ED8]" />
+                <Icon size={20} className="text-[var(--sec)]" />
                 <span className="text-[11.5px] font-medium text-[var(--fg-3)]">{label}</span>
               </div>
             ))}
@@ -209,7 +209,7 @@ function LocalDetail({ product }) {
                 key={i}
                 onClick={() => setActiveImg(i)}
                 className={`card-surface rounded-xl overflow-hidden aspect-square transition-all cursor-pointer ${
-                  activeImg === i ? 'ring-2 ring-[#F07232] ring-offset-2 ring-offset-[var(--bg-base)]' : 'opacity-60 hover:opacity-100'
+                  activeImg === i ? 'ring-2 ring-[#E31E24] ring-offset-2 ring-offset-[var(--bg-base)]' : 'opacity-60 hover:opacity-100'
                 }`}
                 aria-label={`Ver imagen ${i + 1}`}
               >
@@ -222,7 +222,7 @@ function LocalDetail({ product }) {
         {/* Info */}
         <div>
           <div className="flex items-center gap-3 mb-3">
-            <span className="text-[12px] font-bold uppercase tracking-wider text-[#F07232]">{product.brand}</span>
+            <span className="text-[12px] font-bold uppercase tracking-wider text-[#E31E24]">{product.brand}</span>
             <span className="text-[var(--fg-5)]">·</span>
             <div className="flex items-center gap-1.5">
               <Stars rating={product.rating} size={14} />
@@ -240,7 +240,7 @@ function LocalDetail({ product }) {
             {product.compareAt && (
               <>
                 <span className="text-lg text-[var(--fg-4)] line-through">{formatUSD(product.compareAt)}</span>
-                <span className="px-2 py-1 rounded-lg text-[12px] font-bold text-white bg-[#F07232]">
+                <span className="px-2 py-1 rounded-lg text-[12px] font-bold text-white bg-[#E31E24]">
                   Ahorra {formatUSD(product.compareAt - product.price)}
                 </span>
               </>
@@ -289,7 +289,7 @@ function LocalDetail({ product }) {
               { Icon: RotateCcw, label: 'Devolución 30 días' },
             ].map(({ Icon, label }) => (
               <div key={label} className="flex flex-col items-center text-center gap-2 p-3 rounded-xl border border-[var(--bd-1)]">
-                <Icon size={20} className="text-[#527ED8]" />
+                <Icon size={20} className="text-[var(--sec)]" />
                 <span className="text-[11.5px] font-medium text-[var(--fg-3)]">{label}</span>
               </div>
             ))}
