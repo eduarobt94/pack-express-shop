@@ -1,12 +1,35 @@
-Options -MultiViews
+Options -MultiViews -Indexes
 RewriteEngine On
+
+# HTTPS obligatorio (también detrás de un proxy que envía X-Forwarded-Proto)
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=308,L]
+
+# Nunca servir archivos ocultos ni de configuración
+RewriteRule (^|/)\. - [F,L]
+RewriteRule \.(env|log|sql|md|bak|old|orig|ini|map)$ - [F,L]
 
 # Redirige todo al index.html (React Router SPA)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [QSA,L]
+RewriteRule ^(?!api/) index.html [QSA,L]
 
-# Caché de assets estáticos (JS/CSS/imágenes)
+# ─── Cabeceras de seguridad ───────────────────────────────────────────────────────────
+# CSP: sin scripts ni estilos de terceros salvo Google Fonts (hoja de estilos y archivos de fuente).
+# connect-src 'self': la API vive en el mismo origen (/api/v1). Si se usa otro dominio, agregarlo aquí.
+<IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "DENY"
+    Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=()"
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Header always unset X-Powered-By
+</IfModule>
+
+# Caché de assets estáticos con hash en el nombre (JS/CSS/imágenes)
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 1 year"

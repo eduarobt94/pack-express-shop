@@ -5,3 +5,14 @@ dist/
 api/v1/.env
 api/v1/logs/*.log
 uploads/
+
+# Secretos y entornos (NUNCA versionar)
+.env.*
+!.env.example
+api/v1/.env
+api/v1/.env.*
+!api/v1/.env.example
+*.pem
+*.key
+dev.log
+api/storage/receipts/

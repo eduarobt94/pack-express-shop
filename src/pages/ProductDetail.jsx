@@ -14,6 +14,7 @@ import Button from '../components/ui/Button'
 import EmptyState from '../components/ui/EmptyState'
 import MarketplaceBadge from '../components/ui/MarketplaceBadge'
 import { formatUSD } from '../lib/format'
+import { safeUrl } from '../lib/safeUrl'
 import { PriceNotice, ReceptionReminder } from '../components/ui/Notices'
 
 export default function ProductDetail() {
@@ -141,7 +142,7 @@ function MarketplaceDetail({ product }) {
 
           <ReceptionReminder />
           {/* CTA externo */}
-          <Button href={product.url} target="_blank" rel="noopener noreferrer" size="lg" className="w-full mb-7" disabled={soldOut}>
+          <Button href={safeUrl(product.url)} target="_blank" rel="noopener noreferrer" size="lg" className="w-full mb-7" disabled={soldOut || !safeUrl(product.url)}>
             <ExternalLink size={18} /> Comprar en Amazon
           </Button>
 

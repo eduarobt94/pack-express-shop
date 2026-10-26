@@ -96,3 +96,11 @@ src/
 Demo de validación. No procesa pagos reales ni envía datos a ningún servidor.
 ```
 ```
+
+
+## Base de datos y seguridad
+
+- Migraciones versionadas: `php database/migrate.php up` (ver `docs/database-migration.md`).
+- Auditoría de seguridad y matriz de controles: `docs/security-audit-report.md`.
+- Pruebas: `database/tests/db_rules_test.php` (reglas de la base) y `api/v1/tests/api_test.php` (API y seguridad). Requieren una base desechable cuyo nombre termine en `_test`.
+- Configuración de la API: copiar `api/v1/.env.example` a `api/v1/.env` (nunca versionar secretos).
