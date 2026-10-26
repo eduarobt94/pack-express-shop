@@ -17,7 +17,7 @@ from app.core.errors import ApiError, db_error_code
 from app.core.logging import log
 from app.core.responses import ApiResponse, created, ok
 from app.db import Db
-from app.schemas import PurchaseIn, PurchaseItemIn, parse
+from app.schemas import PurchaseIn, PurchaseItemIn, PurchaseTrackingIn, parse
 from app.services import files
 
 router = APIRouter(prefix="/purchases", tags=["purchases"])
@@ -41,12 +41,39 @@ def _load(db: Db, code: str, user_id: int) -> dict[str, Any]:
         "SELECT description, url, model, qty, unit_price, discount, line_amount FROM purchase_items WHERE purchase_id = :i ORDER BY id",
         {"i": int(p["id"])},
     )
+    p["trackings"] = db.query(
+        "SELECT tracking_number, carrier, created_at FROM purchase_trackings WHERE purchase_id = :i ORDER BY id",
+        {"i": int(p["id"])},
+    )
     p["packages"] = db.query(
         "SELECT id, tracking_number, weight_kg, status, received_at FROM packages WHERE purchase_id = :i AND user_id = :u",
         {"i": int(p["id"]), "u": user_id},
     )
     del p["id"]
     return p
+
+
+def _parse_trackings(raw: str | None) -> list[PurchaseTrackingIn]:
+    if not raw:
+        return []
+    try:
+        data = json.loads(raw)
+    except ValueError:
+        data = None
+    if not isinstance(data, list) or len(data) > 20:
+        raise ApiError(422, "Los seguimientos deben ser una lista de hasta 20")
+    out: list[PurchaseTrackingIn] = []
+    seen: set[str] = set()
+    for n, entry in enumerate(data, start=1):
+        if not isinstance(entry, dict):
+            raise ApiError(422, f"Seguimiento #{n} inválido")
+        t = parse(PurchaseTrackingIn, entry, f"Seguimiento #{n} inválido")
+        key = (t.tracking_number or "").strip().upper()
+        if key in seen:
+            raise ApiError(422, f"Seguimiento #{n} repetido")
+        seen.add(key)
+        out.append(t)
+    return out
 
 
 @router.get("", dependencies=RL)
@@ -56,12 +83,47 @@ def index(user: dict = Depends(current_user), db: Db = Depends(get_db)) -> ApiRe
         "FROM purchases p JOIN addresses a ON a.id = p.recipient_id WHERE p.user_id = :u ORDER BY p.created_at DESC LIMIT 200",
         {"u": int(user["id"])},
     )
+    # Seguimientos de todas las compras del cliente en una sola consulta (sin N+1)
+    by_purchase: dict[int, list[dict[str, Any]]] = {}
+    for t in db.query(
+        "SELECT t.purchase_id, t.tracking_number, t.carrier FROM purchase_trackings t "
+        "JOIN purchases p ON p.id = t.purchase_id WHERE p.user_id = :u ORDER BY t.id",
+        {"u": int(user["id"])},
+    ):
+        by_purchase.setdefault(int(t["purchase_id"]), []).append({"tracking_number": t["tracking_number"], "carrier": t["carrier"]})
+    for r in rows:
+        r["trackings"] = by_purchase.get(int(r["id"]), [])
     return ok(rows)
 
 
 @router.get("/{code}", dependencies=RL)
 def show(code: str, user: dict = Depends(current_user), db: Db = Depends(get_db)) -> ApiResponse:
     return ok(_load(db, code, int(user["id"])))
+
+
+@router.post("/{code}/trackings", dependencies=[Depends(rate_limit_sensitive)], status_code=201)
+def add_tracking(code: str, body: dict[str, Any], user: dict = Depends(current_user), db: Db = Depends(get_db)) -> ApiResponse:
+    """Agrega un seguimiento a una compra propia (por ejemplo, si la tienda la dividió en varios envíos)."""
+    uid = int(user["id"])
+    p = db.one("SELECT id, status FROM purchases WHERE code = :c AND user_id = :u", {"c": code, "u": uid})
+    if not p:
+        raise ApiError.not_found("Compra no encontrada")
+    if p["status"] == "cancelled":
+        raise ApiError(409, "La compra está cancelada")
+    t = parse(PurchaseTrackingIn, body, "Seguimiento inválido")
+    assert t.tracking_number
+    try:
+        db.execute(
+            "INSERT INTO purchase_trackings (purchase_id, tracking_number, carrier) VALUES (:p,:t,:c)",
+            {"p": int(p["id"]), "t": t.tracking_number, "c": t.carrier},
+        )
+    except DBAPIError as exc:
+        errno, _ = db_error_code(exc)
+        if errno == 1062:
+            raise ApiError(409, "Ese seguimiento ya está registrado en la compra") from exc
+        raise ApiError(500, "No se pudo agregar el seguimiento") from exc
+    log.audit("purchase_tracking_add", uid, purchase=code)
+    return created(_load(db, code, uid), "Seguimiento agregado")
 
 
 @router.get("/{code}/receipt", dependencies=RL)
@@ -87,6 +149,7 @@ def create(
     notes: str | None = Form(None),
     accept_terms: str | None = Form(None),
     items: str | None = Form(None),
+    trackings: str | None = Form(None),
     receipt: UploadFile | None = File(None),
     user: dict = Depends(current_user),
     db: Db = Depends(get_db),
@@ -127,6 +190,9 @@ def create(
         if money.to_cents(item.discount or "0") > gross:
             raise ApiError(422, f"Producto #{n}: el descuento supera el importe")
         clean.append(item)
+
+    # Seguimientos de la tienda o del transportista (opcionales; se pueden agregar después)
+    clean_trk = _parse_trackings(trackings)
 
     # El destinatario debe ser del cliente (además lo exige la FK compuesta de la base)
     addr = db.one("SELECT id, province FROM addresses WHERE id = :i AND user_id = :u", {"i": int(form.recipient_id), "u": uid})
@@ -172,6 +238,11 @@ def create(
                         "up": it.unit_price,
                         "dc": it.discount or "0",
                     },
+                )
+            for t in clean_trk:
+                db.execute(
+                    "INSERT INTO purchase_trackings (purchase_id, tracking_number, carrier) VALUES (:p,:t,:c)",
+                    {"p": pid, "t": t.tracking_number, "c": t.carrier},
                 )
     except DBAPIError as exc:
         files.delete(receipt_key)

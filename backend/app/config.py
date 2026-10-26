@@ -52,6 +52,15 @@ class Settings(BaseSettings):
 
     # bcrypt (compatible con el backend PHP y con una reversión) o argon2id (tras el corte definitivo)
     password_algo: str = "bcrypt"  # noqa: S105
+
+    # Correo saliente (recuperación de contraseña y avisos). Sin SMTP_HOST: en producción no se envía nada (se
+    # registra solo el hecho); en desarrollo/pruebas los mensajes quedan en memoria (services.mailer.outbox).
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_pass: str = ""  # noqa: S105
+    mail_from: str = ""
+    mail_outbox_file: str = ""  # solo desarrollo/pruebas: añade cada mensaje como una línea JSON (E2E)
     log_dir: str = str(BASE_DIR / "logs")
 
     @property

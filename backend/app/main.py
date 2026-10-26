@@ -120,6 +120,11 @@ def create_app() -> FastAPI:
             return ApiResponse(error_body("Endpoint not found"), 404)
         return ApiResponse(error_body("Error en la petición"), exc.status_code)
 
+    @app.get("/healthz", include_in_schema=False)
+    async def healthz() -> ApiResponse:
+        """Liveness para balanceadores y pruebas: no toca la base de datos ni exige autenticación."""
+        return ApiResponse({"success": True, "message": "ok", "data": {"status": "up"}})
+
     for prefix, in_schema in (("", True), ("/api/v1", False)):
         for module in (auth, users, purchases, finance, locker):
             app.include_router(module.router, prefix=prefix, include_in_schema=in_schema)

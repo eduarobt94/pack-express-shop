@@ -208,6 +208,11 @@ class PurchaseItemIn(Schema):
     discount: Annotated[str | None, V(pattern(_MONEY2))] = None
 
 
+class PurchaseTrackingIn(Schema):
+    tracking_number: Annotated[str | None, V(min_len(4), max_len(60), pattern(r"^[A-Za-z0-9][A-Za-z0-9\-_. ]*$"), required=True)] = None
+    carrier: Annotated[str | None, V(max_len(40))] = None
+
+
 # ── tarifas, liquidaciones, personal ───────────────────────────────────────────────────────────
 class QuoteIn(Schema):
     value: Annotated[str | None, V(pattern(r"^\d{1,7}(\.\d{1,2})?$"), required=True)] = None

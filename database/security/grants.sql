@@ -16,6 +16,7 @@ GRANT SELECT, INSERT, UPDATE ON `<DB_NAME>`.suites                   TO 'optimus
 GRANT SELECT, INSERT, UPDATE, DELETE ON `<DB_NAME>`.addresses        TO 'optimus_app'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON `<DB_NAME>`.purchases                TO 'optimus_app'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON `<DB_NAME>`.purchase_items   TO 'optimus_app'@'localhost';
+GRANT SELECT, INSERT         ON `<DB_NAME>`.purchase_trackings       TO 'optimus_app'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON `<DB_NAME>`.packages                 TO 'optimus_app'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON `<DB_NAME>`.locker_shipments         TO 'optimus_app'@'localhost';
 GRANT SELECT, INSERT, DELETE ON `<DB_NAME>`.locker_shipment_packages TO 'optimus_app'@'localhost';

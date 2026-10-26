@@ -9,21 +9,23 @@ import hashlib
 import secrets
 from typing import Any
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from sqlalchemy.exc import DBAPIError
 
 from app.api.deps import get_db, rate_limit_auth
+from app.config import get_settings
 from app.core import passwords, ratelimit
-from app.core.errors import ApiError, raise_db_error
+from app.core.errors import ApiError, db_error_code, raise_db_error
 from app.core.logging import log
 from app.core.network import client_ip
 from app.core.responses import ApiResponse, created, ok
 from app.db import Db
 from app.schemas import ForgotIn, LoginIn, RegisterIn, ResetIn, TokenIn
-from app.services import sessions
+from app.services import mailer, sessions
 
 router = APIRouter(prefix="/auth", tags=["auth"], dependencies=[Depends(rate_limit_auth)])
 
+nl = chr(10)
 MAX_FAILED = 5  # intentos fallidos antes de bloquear la cuenta
 LOCK_MINUTES = 15
 
@@ -90,6 +92,8 @@ def register(body: RegisterIn, request: Request, db: Db = Depends(get_db)) -> Ap
                 {"u": user_id, "s": f"OPT-UY-{user_id:06d}"},
             )
     except DBAPIError as exc:
+        if db_error_code(exc)[0] == 1062:  # carrera: otro registro del mismo email ganó entre el SELECT y el INSERT
+            raise ApiError(409, "No se pudo completar el registro con esos datos") from exc
         log.error("register_failed", error=str(exc.orig))
         raise ApiError(500, "Error al registrar usuario") from exc
 
@@ -123,7 +127,7 @@ def logout(body: TokenIn, db: Db = Depends(get_db)) -> ApiResponse:
 
 
 @router.post("/forgot-password")
-def forgot_password(body: ForgotIn, db: Db = Depends(get_db)) -> ApiResponse:
+def forgot_password(body: ForgotIn, background: BackgroundTasks, db: Db = Depends(get_db)) -> ApiResponse:
     assert body.email
     email = body.email.lower()
     message = "Si el email existe recibirás instrucciones para restablecer tu contraseña"  # siempre 200: sin enumeración
@@ -137,8 +141,17 @@ def forgot_password(body: ForgotIn, db: Db = Depends(get_db)) -> ApiResponse:
             "REPLACE INTO password_reset_tokens (email, token, expires_at, user_id) VALUES (:e, :t, DATE_ADD(NOW(), INTERVAL 1 HOUR), :u)",
             {"e": email, "t": hashlib.sha256(token.encode()).hexdigest(), "u": int(user["id"])},
         )
-        # PENDIENTE: enviar el enlace por correo. El token en claro jamás se registra en logs.
-        log.info("password_reset_requested", user_id=int(user["id"]))
+        # El envío va en segundo plano: el tiempo de respuesta no distingue cuentas existentes de inexistentes.
+        link = f"{get_settings().app_url.rstrip('/')}/restablecer?token={token}"
+        background.add_task(
+            mailer.send,
+            email,
+            "Restablecé tu contraseña de Optimus Envíos",
+            "Recibimos un pedido para restablecer tu contraseña." + nl * 2
+            + f"Abrí este enlace (vale 1 hora y se usa una sola vez):{nl}{link}" + nl * 2
+            + "Si no lo pediste vos, ignorá este mensaje: tu contraseña no cambia.",
+        )
+        log.info("password_reset_requested", user_id=int(user["id"]))  # el token en claro jamás se registra
     return ok(None, message)
 
 
