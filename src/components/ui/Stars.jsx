@@ -1,5 +1,6 @@
 import { Star } from 'lucide-react'
 
+
 export default function Stars({ rating, size = 13, showValue = false }) {
   return (
     <div className="inline-flex items-center gap-1.5" aria-label={`Calificación ${rating} de 5`}>

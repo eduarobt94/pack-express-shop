@@ -1,98 +1,79 @@
 import { motion } from 'framer-motion'
-import { PackageCheck, FileWarning, ScanSearch, PackagePlus, Plane, ShieldCheck, Clock, AlertTriangle } from 'lucide-react'
-import { PACKAGE_STATES, storageInfo, FREE_STORAGE_DAYS } from '../../lib/locker'
+import { AlertTriangle } from 'lucide-react'
+import { PACKAGE_STATES } from '../../lib/locker'
 import { formatUSD, formatDate } from '../../lib/format'
+import { readable } from '../../lib/contrast'
 
-const STATE_ICONS = { PackageCheck, FileWarning, ScanSearch, PackagePlus, Plane, AlertTriangle }
-
+/**
+ * Tarjeta de paquete: línea fina, estado como punto de color + texto, selección con borde de tinta (no con relleno de marca).
+ * En modo seleccionable los paquetes listos funcionan como casilla accesible (rol checkbox, teclado Espacio/Enter).
+ */
 export default function PackageCard({ pkg, selected, onSelect, selectable }) {
   const meta = PACKAGE_STATES[pkg.status]
-  const Icon = STATE_ICONS[meta.icon] || PackageCheck
-  const { daysLeft, daysInStorage, extraCost } = storageInfo(pkg.receivedAt)
-  const storageWarning = daysLeft <= 10 && pkg.status !== 'shipped'
-  const storageExpired = daysLeft === 0 && pkg.status !== 'shipped'
+  const interactive = selectable && pkg.status === 'ready'
+
+  function onKeyDown(e) {
+    if (!interactive) return
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault()
+      onSelect?.(pkg.id)
+    }
+  }
 
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       onClick={selectable ? () => onSelect?.(pkg.id) : undefined}
-      className={`relative rounded-2xl border p-4 transition-all cursor-pointer ${
+      onKeyDown={onKeyDown}
+      role={interactive ? 'checkbox' : undefined}
+      aria-checked={interactive ? Boolean(selected) : undefined}
+      aria-label={interactive ? `Seleccionar paquete ${pkg.description}` : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      className={`relative rounded-xl border p-5 transition-[border-color,box-shadow] duration-300 ${
         selected
-          ? 'border-[#E31E24] bg-[#E31E24]/[0.05] shadow-[0_0_0_2px_rgba(227,30,36,0.18)]'
-          : 'border-[var(--bd-2)] bg-[var(--bg-card)] hover:border-[var(--bd-3)]'
-      } ${selectable && pkg.status !== 'ready' ? 'opacity-50 pointer-events-none' : ''}`}
+          ? 'border-[var(--fg-1)] bg-[var(--bg-base)] shadow-[var(--shadow-hover)]'
+          : 'border-[var(--bd-2)] bg-[var(--bg-base)] hover:border-[var(--bd-3)]'
+      } ${selectable ? 'cursor-pointer' : ''} ${selectable && pkg.status !== 'ready' ? 'opacity-50 pointer-events-none' : ''}`}
     >
-      {/* Checkbox (selectable mode) */}
-      {selectable && pkg.status === 'ready' && (
-        <div className={`absolute top-4 right-4 w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
-          selected ? 'bg-[#E31E24] border-[#E31E24]' : 'border-[var(--bd-3)]'
-        }`}>
-          {selected && <span className="text-white text-[10px] font-bold">✓</span>}
+      {interactive && (
+        <div
+          aria-hidden="true"
+          className={`absolute top-5 right-5 w-5 h-5 rounded-full border transition-colors duration-300 flex items-center justify-center ${
+            selected ? 'bg-[var(--fg-1)] border-[var(--fg-1)]' : 'border-[var(--bd-3)]'
+          }`}
+        >
+          {selected && <span className="text-[var(--bg-base)] text-[10px] font-bold">✓</span>}
         </div>
       )}
 
-      <div className="flex gap-3 items-start">
-        {/* Estado icon */}
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${meta.color}18` }}>
-          <Icon size={18} style={{ color: meta.color }} />
+      <div className="min-w-0 pr-8">
+        <p className="inline-flex items-center gap-2 text-[12px] font-medium" style={{ color: readable(meta.color) }}>
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: meta.color }} aria-hidden="true" />
+          {meta.label}
+        </p>
+
+        <p className="mt-2 text-[15px] font-semibold text-[var(--fg-1)] truncate">{pkg.description}</p>
+        <p className="text-[13px] text-[var(--fg-3)] mt-0.5">{pkg.store} · #{pkg.trackingNumber.slice(-8)}</p>
+
+        <div className="flex items-center gap-x-5 gap-y-1 mt-3 flex-wrap">
+          <span className="text-[13px] text-[var(--fg-3)] tabular-nums">{pkg.weightKg} kg</span>
+          <span className="text-[13px] font-semibold text-[var(--fg-2)] tabular-nums">{formatUSD(pkg.declaredValue)}</span>
+          <span className="text-[12px] text-[var(--fg-4)]">Recibido {formatDate(pkg.receivedAt)}</span>
         </div>
 
-        {/* Info principal */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold" style={{ background: `${meta.color}18`, color: meta.color }}>
-              {meta.label}
-            </span>
-            {pkg.insured && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#22C55E]/[0.10] text-[#22C55E]">
-                <ShieldCheck size={10} /> Asegurado
-              </span>
-            )}
-          </div>
+        {pkg.notes.length > 0 && (
+          <p className="mt-3 text-[12.5px] leading-snug text-[var(--warn-text)]">{pkg.notes[0]}</p>
+        )}
 
-          <p className="mt-1.5 text-[14px] font-semibold text-[var(--fg-1)] truncate">{pkg.description}</p>
-          <p className="text-[12.5px] text-[var(--fg-3)] mt-0.5">{pkg.store} · #{pkg.trackingNumber.slice(-8)}</p>
-
-          <div className="flex items-center gap-4 mt-2 flex-wrap">
-            <span className="text-[12.5px] text-[var(--fg-3)]">{pkg.weightKg} kg</span>
-            <span className="text-[12.5px] font-semibold text-[var(--fg-2)]">{formatUSD(pkg.declaredValue)}</span>
-            <span className="text-[12px] text-[var(--fg-4)]">Recibido {formatDate(pkg.receivedAt)}</span>
-          </div>
-
-          {/* Countdown almacenaje */}
-          {pkg.status !== 'shipped' && (
-            <div className={`mt-2.5 flex items-center gap-1.5 text-[12px] font-medium rounded-lg px-2.5 py-1.5 w-fit ${
-              storageExpired
-                ? 'bg-[#EF4444]/[0.10] text-[#EF4444]'
-                : storageWarning
-                ? 'bg-[#F5A524]/[0.10] text-[#F5A524]'
-                : 'bg-[var(--bd-1)] text-[var(--fg-3)]'
-            }`}>
-              <Clock size={12} />
-              {storageExpired
-                ? `Almacenaje vencido · +${formatUSD(extraCost)}`
-                : `${daysLeft} días de almacenaje gratis (${daysInStorage}/${FREE_STORAGE_DAYS})`}
-            </div>
-          )}
-
-          {/* Nota del almacén */}
-          {pkg.notes.length > 0 && (
-            <p className="mt-2 text-[12px] text-[#F5A524] bg-[#F5A524]/[0.08] rounded-lg px-2.5 py-1.5">
-              {pkg.notes[0]}
-            </p>
-          )}
-
-          {/* Razón de retención */}
-          {pkg.retainedReason && (
-            <div className="mt-2 flex items-start gap-1.5 text-[12px] text-[#EF4444] bg-[#EF4444]/[0.08] rounded-lg px-2.5 py-1.5">
-              <AlertTriangle size={12} className="shrink-0 mt-0.5" />
-              {pkg.retainedReason}
-            </div>
-          )}
-        </div>
+        {pkg.retainedReason && (
+          <p className="mt-3 flex items-start gap-2 text-[12.5px] leading-snug text-[var(--err-text)]">
+            <AlertTriangle size={13} strokeWidth={1.5} className="shrink-0 mt-[2px]" aria-hidden="true" />
+            {pkg.retainedReason}
+          </p>
+        )}
       </div>
     </motion.div>
   )

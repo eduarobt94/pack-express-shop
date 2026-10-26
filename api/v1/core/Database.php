@@ -13,7 +13,7 @@ class Database
             'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             env('DB_HOST', '127.0.0.1'),
             env('DB_PORT', '3306'),
-            env('DB_NAME', 'packexpress_shop')
+            env('DB_NAME', 'optimus')
         );
 
         self::$instance = new PDO($dsn, env('DB_USER'), env('DB_PASS'), [
@@ -57,7 +57,15 @@ class Database
         return self::get()->lastInsertId();
     }
 
+    /** Códigos públicos sin carreras: contador atómico por (nombre, año). */
+    public static function nextSeq(string $name, int $year): int
+    {
+        self::execute('INSERT INTO counters (name, year, seq) VALUES (?, ?, LAST_INSERT_ID(1)) ON DUPLICATE KEY UPDATE seq = LAST_INSERT_ID(seq + 1)', [$name, $year]);
+        return (int) self::get()->lastInsertId();
+    }
+
+    public static function inTransaction(): bool     { return self::get()->inTransaction(); }
     public static function beginTransaction(): void  { self::get()->beginTransaction(); }
     public static function commit(): void            { self::get()->commit(); }
-    public static function rollback(): void          { self::get()->rollBack(); }
+    public static function rollback(): void          { if (self::get()->inTransaction()) self::get()->rollBack(); }
 }

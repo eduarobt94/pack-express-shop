@@ -1,16 +1,33 @@
 Options -MultiViews -Indexes
 
+# ─── HTTPS obligatorio (detrás de proxy: ver TRUSTED_PROXIES en .env) ──────────────
 RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteCond %{REQUEST_METHOD} !^(OPTIONS)$
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=308,L]
+
+# ─── Nada de archivos internos accesibles por URL ───────────────────────────────────
+# (ANTES del front controller: un archivo existente se serviría tal cual)
+# Archivos ocultos (.env, .env.production, .git…), código fuente y datos
+RewriteRule (^|/)\. - [F,L]
+RewriteRule ^(config|core|middleware|controllers|logs|tests|storage)(/|$) - [F,L]
+RewriteRule \.(env|log|sql|md|json|lock|bak|old|orig|swp|ini|dist|sh|php~)$ - [F,L]
+
+# Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
 
-# Block direct access to sensitive dirs
-RewriteRule ^(config|core|middleware|logs)/ - [F,L]
+# Defensa en profundidad si mod_rewrite no aplicara las reglas anteriores
+<FilesMatch "^\.|\.(env|log|sql|md|bak|old|orig|ini|dist)$">
+    Require all denied
+</FilesMatch>
 
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "DENY"
-    Header always set X-XSS-Protection "1; mode=block"
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Referrer-Policy "no-referrer"
+    Header always set Content-Security-Policy "default-src 'none'; frame-ancestors 'none'; base-uri 'none'"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
     Header always unset X-Powered-By
 </IfModule>

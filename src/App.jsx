@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
+import MobileActionBar from './components/layout/MobileActionBar'
 import Home from './pages/Home'
 import { AuthProvider } from './context/AuthContext'
 
@@ -11,6 +12,10 @@ const ProductDetail = lazy(() => import('./pages/ProductDetail'))
 const Tracking = lazy(() => import('./pages/Tracking'))
 const Account = lazy(() => import('./pages/Account'))
 const Locker = lazy(() => import('./pages/Locker'))
+const HowToBuy = lazy(() => import('./pages/HowToBuy'))
+const Rates = lazy(() => import('./pages/Rates'))
+const Contact = lazy(() => import('./pages/Contact'))
+const ResetPassword = lazy(() => import('./pages/ResetPassword'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function ScrollToTop() {
@@ -41,7 +46,7 @@ export default function App() {
         Ir al contenido principal
       </a>
       <Navbar />
-      <main id="main" role="main" className="min-h-screen pt-[128px] md:pt-[108px]">
+      <main id="main" role="main" className="min-h-screen pt-[72px] md:pt-20">
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -51,11 +56,16 @@ export default function App() {
             <Route path="/seguimiento/:order" element={<Tracking />} />
             <Route path="/cuenta" element={<Account />} />
             <Route path="/casillero" element={<Locker />} />
+            <Route path="/como-comprar" element={<HowToBuy />} />
+            <Route path="/tarifas" element={<Rates />} />
+            <Route path="/contacto" element={<Contact />} />
+            <Route path="/restablecer" element={<ResetPassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>
       <Footer />
+      <MobileActionBar />
     </MotionConfig>
     </AuthProvider>
   )

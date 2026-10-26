@@ -1,30 +1,24 @@
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ExternalLink, ChevronRight } from 'lucide-react'
-import ProductVisual from './ProductVisual'
-import Badge from './Badge'
-import Stars from './Stars'
-import MarketplaceBadge from './MarketplaceBadge'
+import { ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { formatUSD } from '../../lib/format'
+import { EASE } from './Layout'
+import MarketplaceBadge from './MarketplaceBadge'
+import ProductVisual from './ProductVisual'
+import Stars from './Stars'
 
 /**
- * Tarjeta de producto. Soporta dos formas:
- *  - Producto local (data/products.js): navega al detalle interno
- *  - MarketplaceProduct (Amazon…): navega al detalle con ?marketplace y enlaza a la tienda
+ * Tarjeta de producto, acabado editorial: imagen en proporción 4:5, texto sin caja, línea fina y un solo gesto de hover.
+ * Soporta producto local (data/products.js) y MarketplaceProduct (Amazon…).
  * @param {{ product: any, index?: number }} props
  */
 export default function ProductCard({ product, index = 0 }) {
   const isMarketplace = Boolean(product.marketplace)
 
-  // Normaliza los campos que difieren entre producto local y de marketplace
   const name = product.title || product.name
   const tagline = product.description || product.tagline
-  const icon = product.icon
-  const tint = product.tint
-  const price = product.price
-  const compareAt = product.compareAt
-  const rating = product.rating
-  const soldOut = isMarketplace ? product.available === false : product.stock === 0
+  const rating = isMarketplace ? product.rating : null
+  const soldOut = isMarketplace && product.available === false
 
   const detailTo = isMarketplace
     ? `/producto/${product.asin}?marketplace=${product.marketplace}`
@@ -32,72 +26,44 @@ export default function ProductCard({ product, index = 0 }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.3), ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.8, delay: Math.min(index * 0.06, 0.3), ease: EASE }}
     >
-      <Link
-        to={detailTo}
-        className="group block card-surface rounded-2xl overflow-hidden hover:border-[var(--bd-3)] hover:shadow-[var(--shadow-hover)] transition-all duration-300"
-      >
-        <div className="relative aspect-[4/3] overflow-hidden">
-          <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.06]">
-            <ProductVisual icon={icon} tint={tint} />
+      <Link to={detailTo} className="group block">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-[var(--bd-1)] group-hover:border-[var(--bd-3)] group-hover:shadow-[var(--shadow-hover)] transition-[border-color,box-shadow] duration-500">
+          <div className="absolute inset-0 transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]">
+            <ProductVisual icon={product.icon} />
           </div>
-          {product.badge && (
-            <div className="absolute top-3 left-3 z-10">
-              <Badge>{product.badge}</Badge>
-            </div>
-          )}
           {isMarketplace && (
-            <div className="absolute top-3 left-3 z-10">
+            <div className="absolute top-4 left-4 z-10">
               <MarketplaceBadge marketplace={product.marketplace} />
             </div>
           )}
-          {compareAt && !soldOut && (
-            <div className="absolute top-3 right-3 z-10 px-2 py-1 rounded-lg text-[11px] font-bold text-white bg-[#E31E24]">
-              -{Math.round((1 - price / compareAt) * 100)}%
-            </div>
-          )}
-          {isMarketplace && soldOut && (
-            <div className="absolute top-3 right-3 z-10 px-2 py-1 rounded-lg text-[11px] font-bold text-white bg-[var(--fg-4)]">
+          {soldOut && (
+            <span className="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-[11px] font-medium bg-[var(--bg-base)] text-[var(--fg-3)] border border-[var(--bd-2)]">
               No disponible
-            </div>
+            </span>
           )}
+          <span className="absolute bottom-4 right-4 z-10 w-10 h-10 rounded-full bg-[var(--bg-base)] text-[var(--fg-1)] border border-[var(--bd-2)] flex items-center justify-center opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500" aria-hidden="true">
+            <ArrowUpRight size={16} strokeWidth={1.5} />
+          </span>
         </div>
 
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-4)]">
-              {product.brand}
-            </span>
+        <div className="pt-6">
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <p className="eyebrow !tracking-[0.14em] before:hidden">{product.brand}</p>
             {typeof rating === 'number' && <Stars rating={rating} size={11} showValue />}
           </div>
-
-          <h3 className="font-display font-semibold text-[15px] text-[var(--fg-1)] leading-snug mb-1 line-clamp-1 group-hover:text-[#E31E24] transition-colors">
+          <h3 className="font-display font-extrabold text-[1.0625rem] leading-snug tracking-[-0.01em] text-[var(--fg-1)] line-clamp-2 group-hover:text-[var(--brand-text)] transition-colors duration-500">
             {name}
           </h3>
-          <p className="text-[12.5px] text-[var(--fg-3)] line-clamp-1 mb-3.5">{tagline}</p>
-
-          <div className="flex items-end justify-between">
-            <div>
-              <div className="flex items-baseline gap-2">
-                <span className="font-display font-bold text-lg text-[var(--fg-1)]">{formatUSD(price)}</span>
-                {compareAt && (
-                  <span className="text-xs text-[var(--fg-4)] line-through">{formatUSD(compareAt)}</span>
-                )}
-              </div>
-              <span className="text-[11px] text-[var(--fg-3)] font-medium">+ envío a Uruguay calculado</span>
-            </div>
-
-            <span
-              aria-hidden
-              className="flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--bg-elevated)] border border-[var(--bd-2)] text-[var(--fg-2)] group-hover:bg-[#E31E24] group-hover:text-white group-hover:border-[#E31E24] transition-all duration-300 shrink-0"
-            >
-              {isMarketplace ? <ExternalLink size={16} /> : <ChevronRight size={18} />}
-            </span>
-          </div>
+          <p className="mt-2 text-[14px] leading-[1.6] text-[var(--fg-3)] line-clamp-2">{tagline}</p>
+          <p className="mt-5 flex items-baseline gap-3">
+            <span className="font-display font-bold text-lg tabular-nums text-[var(--fg-1)]">{formatUSD(product.price)}</span>
+          </p>
+          <p className="mt-1 text-[13px] text-[var(--fg-4)]">+ comisión y envío por kilo</p>
         </div>
       </Link>
     </motion.div>

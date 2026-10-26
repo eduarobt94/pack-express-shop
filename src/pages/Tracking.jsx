@@ -7,6 +7,7 @@ import { getTracking } from '../data/tracking'
 import { formatDateTime } from '../lib/format'
 import Button from '../components/ui/Button'
 import EmptyState from '../components/ui/EmptyState'
+import { PageHeader } from '../components/ui/Layout'
 
 export default function Tracking() {
   const { order } = useParams()
@@ -40,44 +41,36 @@ export default function Tracking() {
 
   return (
     <div className="pt-0">
-      {/* Hero search */}
-      <div className="border-b border-[var(--bd-1)] bg-[var(--bg-alt)] relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 80% at 50% -20%, rgba(227,30,36,0.08), transparent 60%)' }} />
-        <div className="relative max-w-2xl mx-auto px-5 sm:px-8 py-14 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#E31E24]/[0.12] border border-[#E31E24]/25 flex items-center justify-center mx-auto mb-5">
-            <MapPin size={26} className="text-[#E31E24]" />
-          </div>
-          <h1 className="font-display font-extrabold text-[clamp(1.6rem,4vw,2.25rem)] text-[var(--fg-1)] mb-2">Rastrea tu pedido</h1>
-          <p className="text-[14.5px] text-[var(--fg-3)] mb-7">Ingresa tu número de orden para ver el estado en tiempo real.</p>
-
-          <form onSubmit={onSubmit} className="flex items-center gap-2 p-1.5 bg-[var(--bg-card)] border border-[var(--bd-2)] rounded-2xl focus-within:border-[#E31E24]/50 focus-within:shadow-[0_0_0_3px_rgba(227,30,36,0.12)] transition-all">
-            <div className="flex items-center flex-1 pl-3">
-              <Search size={17} className="text-[var(--fg-4)] shrink-0" />
-              <label htmlFor="track" className="sr-only">Número de orden</label>
-              <input
-                id="track"
-                value={query}
-                onChange={(e) => setQuery(e.target.value.toUpperCase())}
-                placeholder="Ej: OPT-MVD-2026-00847"
-                className="flex-1 bg-transparent text-[14px] text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none px-3 py-2.5 min-w-0"
-              />
-            </div>
-            <button type="submit" className="px-6 py-2.5 bg-[#E31E24] hover:bg-[#C81A1F] text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer">Rastrear</button>
-          </form>
-          <p className="text-[12px] text-[var(--fg-4)] mt-3">Prueba con: OPT-MVD-2026-00847 o OPT-CAN-2026-00692</p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Seguimiento"
+        title="Consultá tu compra"
+        lead="Ingresá tu número de orden para ver el estado en cada etapa."
+      >
+        <form onSubmit={onSubmit} className="mt-12 flex items-end gap-4 max-w-2xl border-b border-[var(--fg-1)] focus-within:border-[var(--color-brand)] transition-colors duration-500">
+          <Search size={20} strokeWidth={1.25} className="text-[var(--fg-4)] shrink-0 mb-4" aria-hidden="true" />
+          <label htmlFor="track" className="sr-only">Número de orden</label>
+          <input
+            id="track"
+            value={query}
+            onChange={(e) => setQuery(e.target.value.toUpperCase())}
+            placeholder="Ej: OPT-HAB-2026-00847"
+            className="flex-1 min-w-0 bg-transparent font-display font-extrabold text-xl sm:text-2xl tracking-[-0.01em] text-[var(--fg-1)] placeholder-[var(--fg-5)] outline-none pb-3"
+          />
+          <button type="submit" className="link-arrow shrink-0 mb-3 cursor-pointer">Consultar</button>
+        </form>
+        <p className="text-[13px] text-[var(--fg-4)] mt-4">Probá con: OPT-HAB-2026-00847 o OPT-HAB-2026-00892</p>
+      </PageHeader>
 
       <div className="max-w-3xl mx-auto px-5 sm:px-8 py-10">
         {loading ? (
           <div className="flex flex-col items-center py-16">
             <div className="w-8 h-8 rounded-full border-2 border-[var(--bd-3)] border-t-[#E31E24] animate-spin mb-4" />
-            <p className="text-[13.5px] text-[var(--fg-3)]">Buscando tu pedido...</p>
+            <p className="text-[13.5px] text-[var(--fg-3)]">Buscando tu compra...</p>
           </div>
         ) : searched && !result ? (
           <EmptyState
             icon="PackageSearch"
-            title="No encontramos ese pedido"
+            title="No encontramos esa compra"
             description="Verifica el número de orden e inténtalo de nuevo. Lo encuentras en tu email de confirmación."
             action={<Button variant="subtle" onClick={() => { setQuery(''); setSearched(false) }}>Intentar de nuevo</Button>}
           />
@@ -107,10 +100,10 @@ function TrackingResult({ data }) {
             <p className="text-[13px] text-[var(--fg-3)] mt-0.5">{data.product}</p>
           </div>
           <div className="text-right">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E31E24]/[0.12] border border-[#E31E24]/25 text-[12px] font-semibold text-[#E31E24]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#E31E24]/[0.12] border border-[#E31E24]/25 text-[12px] font-semibold text-[var(--brand-text)]">
               <Plane size={13} /> En camino
             </span>
-            <p className="text-[12px] text-[var(--fg-3)] mt-2">Entrega est: <span className="font-semibold text-[#22C55E]">{data.eta}</span></p>
+            <p className="text-[12px] text-[var(--fg-3)] mt-2"><span className="font-semibold text-[var(--fg-2)]">{data.guide}</span></p>
           </div>
         </div>
 
@@ -129,7 +122,7 @@ function TrackingResult({ data }) {
             <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="h-full rounded-full bg-gradient-to-r from-[#E31E24] to-[#C81A1F]" />
           </div>
           <div className="flex justify-between mt-2 text-[11px] text-[var(--fg-4)]">
-            <span>EE.UU.</span><span>Aduana UY</span><span>Entrega</span>
+            <span>EE.UU.</span><span>Despacho</span><span>Cuba</span>
           </div>
         </div>
       </div>
@@ -157,7 +150,7 @@ function TrackingResult({ data }) {
                     <h4 className={`text-[14px] font-semibold ${s.done || s.active ? 'text-[var(--fg-1)]' : 'text-[var(--fg-4)]'}`}>{s.label}</h4>
                     {s.date && <span className="text-[11.5px] text-[var(--fg-4)] shrink-0">{formatDateTime(s.date)}</span>}
                   </div>
-                  <p className={`text-[12.5px] mt-0.5 ${s.active ? 'text-[#E31E24]' : 'text-[var(--fg-3)]'}`}>{s.desc}</p>
+                  <p className={`text-[12.5px] mt-0.5 ${s.active ? 'text-[var(--brand-text)]' : 'text-[var(--fg-3)]'}`}>{s.desc}</p>
                 </div>
               </li>
             )

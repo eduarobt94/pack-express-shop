@@ -95,7 +95,7 @@ export async function getAmazonProduct(asin) {
   const cached = cacheGet(key)
   if (cached) return cached
 
-  let product = null
+  let product
   if (PROXY_URL) {
     try {
       const res = await fetch(`${PROXY_URL}/product/${encodeURIComponent(asin)}`)

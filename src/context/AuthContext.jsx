@@ -16,11 +16,11 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState(null)
 
-  const register = useCallback(async (name, email, password) => {
+  const register = useCallback(async (name, email, password, phone) => {
     setLoading(true)
     setError(null)
     try {
-      const res = await api.post('/auth/register', { name, email, password })
+      const res = await api.post('/auth/register', phone ? { name, email, password, phone } : { name, email, password })
       localStorage.setItem(TOKEN_KEY,   res.data.token)
       localStorage.setItem(REFRESH_KEY, res.data.refresh_token)
       localStorage.setItem(USER_KEY,    JSON.stringify(res.data.user))
@@ -52,6 +52,34 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
+  // Recuperación de contraseña: la API responde siempre igual exista o no la cuenta (no se revela cuáles existen).
+  const forgotPassword = useCallback(async (email) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await api.post('/auth/forgot-password', { email })
+      return res.message
+    } catch (err) {
+      setError(err.message ?? 'No se pudo enviar el pedido')
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const resetPassword = useCallback(async (token, password) => {
+    setLoading(true)
+    setError(null)
+    try {
+      await api.post('/auth/reset-password', { token, password })
+    } catch (err) {
+      setError(err.message ?? 'No se pudo cambiar la contraseña')
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   const logout = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(REFRESH_KEY)
@@ -70,6 +98,8 @@ export function AuthProvider({ children }) {
       error,
       login,
       register,
+      forgotPassword,
+      resetPassword,
       logout,
       clearError,
     }}>

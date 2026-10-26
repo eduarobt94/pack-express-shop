@@ -29,12 +29,12 @@ class LockerController
     public function packages(): void
     {
         $status = $_GET['status'] ?? null;
-        $allowed = ['in_transit','received','verifying','no_docs','ready','retained','shipped'];
+        $allowed = ['in_transit','received','verifying','no_docs','ready','retained','shipped','pending_reception','received_us','preparing','dispatched','in_cuba','out_for_delivery','delivered','incident'];
 
-        $sql    = 'SELECT * FROM packages WHERE user_id = ?';
+        $sql    = 'SELECT id, suite_id, purchase_id, tracking_number, store, description, declared_value, weight_kg, status, received_at, photo_url, retained_reason, notes, created_at FROM packages WHERE user_id = ?';
         $params = [authId()];
 
-        if ($status && in_array($status, $allowed)) {
+        if ($status && in_array($status, $allowed, true)) {
             $sql    .= ' AND status = ?';
             $params[] = $status;
         }
@@ -55,7 +55,7 @@ class LockerController
     public function packageDetail(string $id): void
     {
         $pkg = Database::queryOne(
-            'SELECT * FROM packages WHERE id = ? AND user_id = ?',
+            'SELECT id, suite_id, purchase_id, tracking_number, store, description, declared_value, weight_kg, status, received_at, photo_url, retained_reason, notes, created_at FROM packages WHERE id = ? AND user_id = ?',
             [$id, authId()]
         );
 
@@ -69,7 +69,7 @@ class LockerController
     public function shipments(): void
     {
         $shipments = Database::query(
-            'SELECT ls.*,
+            'SELECT ls.id, ls.suite_id, ls.address_id, ls.total_weight_kg, ls.status, ls.operator_guide, ls.created_at, ls.dispatched_at, ls.delivered_at,
                     JSON_ARRAYAGG(lsp.package_id) AS package_ids
              FROM locker_shipments ls
              LEFT JOIN locker_shipment_packages lsp ON lsp.shipment_id = ls.id
@@ -90,7 +90,7 @@ class LockerController
     public function shipmentDetail(string $id): void
     {
         $shipment = Database::queryOne(
-            'SELECT ls.*,
+            'SELECT ls.id, ls.suite_id, ls.address_id, ls.total_weight_kg, ls.status, ls.operator_guide, ls.created_at, ls.dispatched_at, ls.delivered_at,
                     JSON_ARRAYAGG(lsp.package_id) AS package_ids
              FROM locker_shipments ls
              LEFT JOIN locker_shipment_packages lsp ON lsp.shipment_id = ls.id

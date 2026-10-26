@@ -1,34 +1,22 @@
 import * as Icons from 'lucide-react'
 
 /**
- * Visual de producto generado por marca (sin assets externos).
- * Combina un degradado sutil con el icono del producto + patrón de puntos.
+ * Visual de producto generado por marca (sin fotografías): papel cálido, patrón diagonal a 45° del isotipo (Manual §13)
+ * y el ícono en trazo fino. Sin degradados de color ni brillos: la imagen es silenciosa para que el producto hable.
+ * `tint` se acepta por compatibilidad con los datos y ya no tiñe la imagen.
+ * NOTA: cuando Optimus entregue fotografía autorizada (Manual §15), este componente es el único punto a reemplazar.
  */
-export default function ProductVisual({ icon = 'Package', tint = '#E31E24', size = 'md', className = '' }) {
+export default function ProductVisual({ icon = 'Package', size = 'md', className = '' }) {
   const Icon = Icons[icon] || Icons.Package
-  const iconSize = size === 'lg' ? 96 : size === 'sm' ? 34 : 58
+  const iconSize = size === 'lg' ? 112 : size === 'sm' ? 36 : 64
 
   return (
     <div
-      className={`relative w-full h-full overflow-hidden flex items-center justify-center ${className}`}
-      style={{
-        background: `radial-gradient(120% 120% at 30% 0%, ${tint}22 0%, transparent 55%), var(--bg-elevated)`,
-      }}
+      className={`relative w-full h-full overflow-hidden flex items-center justify-center bg-[var(--bg-alt)] ${className}`}
       aria-hidden="true"
     >
-      <svg className="absolute inset-0 w-full h-full opacity-[0.5]" aria-hidden="true">
-        <defs>
-          <pattern id={`dots-${tint.slice(1)}`} width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="11" cy="11" r="1" fill="var(--fg-1)" opacity="0.06" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill={`url(#dots-${tint.slice(1)})`} />
-      </svg>
-      <div
-        className="absolute -inset-8 blur-3xl opacity-30"
-        style={{ background: `radial-gradient(circle at 50% 40%, ${tint}, transparent 60%)` }}
-      />
-      <Icon size={iconSize} strokeWidth={1.25} style={{ color: tint }} className="relative z-10 drop-shadow-lg" />
+      <div className="pattern-diagonal absolute inset-0" />
+      <Icon size={iconSize} strokeWidth={0.9} className="relative z-10 text-[var(--fg-1)] opacity-80" />
     </div>
   )
 }

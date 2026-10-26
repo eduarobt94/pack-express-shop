@@ -5,3 +5,31 @@ dist/
 api/v1/.env
 api/v1/logs/*.log
 uploads/
+
+# Secretos y entornos (NUNCA versionar)
+.env.*
+!.env.example
+api/v1/.env
+api/v1/.env.*
+!api/v1/.env.example
+*.pem
+*.key
+dev.log
+api/storage/receipts/
+
+# Backend Python
+backend/.venv/
+backend/.env
+backend/logs/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+coverage/
+playwright-report/
+test-results/
+e2e-uploads/
+backend/.coverage
+backend/coverage.xml
+backend/htmlcov/

@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Search, SlidersHorizontal, X, Check, Store } from 'lucide-react'
+import { Search, SlidersHorizontal, X, Check } from 'lucide-react'
 import { products } from '../data/products'
 import { categories } from '../data/categories'
 import { searchAmazon } from '../lib/marketplaces/amazonAdapter'
@@ -10,12 +10,12 @@ import ProductCard from '../components/ui/ProductCard'
 import { ProductCardSkeleton } from '../components/ui/Skeleton'
 import EmptyState from '../components/ui/EmptyState'
 import Button from '../components/ui/Button'
+import { PageHeader } from '../components/ui/Layout'
 
 const SORTS = [
   { id: 'featured', label: 'Destacados' },
   { id: 'price-asc', label: 'Precio: menor a mayor' },
   { id: 'price-desc', label: 'Precio: mayor a menor' },
-  { id: 'rating', label: 'Mejor valorados' },
 ]
 
 const brands = [...new Set(products.map((p) => p.brand))]
@@ -68,8 +68,7 @@ export default function Catalog() {
       switch (sort) {
         case 'price-asc': list.sort((a, b) => a.price - b.price); break
         case 'price-desc': list.sort((a, b) => b.price - a.price); break
-        case 'rating': list.sort((a, b) => (b.rating || 0) - (a.rating || 0)); break
-        default: break
+          default: break
       }
       return list
     }
@@ -77,7 +76,7 @@ export default function Catalog() {
     let list = products.slice()
     if (activeCat !== 'all') list = list.filter((p) => p.category === activeCat)
     if (selectedBrands.length) list = list.filter((p) => selectedBrands.includes(p.brand))
-    if (onlyStock) list = list.filter((p) => p.stock > 0)
+    if (onlyStock) list = list.filter((p) => p.available !== false)
     if (search.trim()) {
       const q = search.toLowerCase()
       list = list.filter(
@@ -87,7 +86,6 @@ export default function Catalog() {
     switch (sort) {
       case 'price-asc': list.sort((a, b) => a.price - b.price); break
       case 'price-desc': list.sort((a, b) => b.price - a.price); break
-      case 'rating': list.sort((a, b) => b.rating - a.rating); break
       default: break
     }
     return list
@@ -102,16 +100,16 @@ export default function Catalog() {
   }
 
   const FilterPanel = (
-    <div className="space-y-7">
+    <div className="space-y-10">
       <div>
-        <h4 className="text-[12px] font-bold uppercase tracking-wider text-[var(--fg-4)] mb-3">Categoría</h4>
-        <div className="space-y-1">
+        <h4 className="eyebrow before:hidden mb-4">Categoría</h4>
+        <div className="space-y-0.5">
           {[{ slug: 'all', name: 'Todas' }, ...categories].map((c) => (
             <button
               key={c.slug}
               onClick={() => setCat(c.slug)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-[13.5px] transition-colors cursor-pointer ${
-                activeCat === c.slug ? 'bg-[#E31E24]/[0.12] text-[#E31E24] font-semibold' : 'text-[var(--fg-2)] hover:bg-[var(--bd-1)]'
+              className={`w-full text-left py-2 text-[14px] transition-colors duration-300 cursor-pointer ${
+                activeCat === c.slug ? 'text-[var(--brand-text)] font-semibold' : 'text-[var(--fg-3)] hover:text-[var(--fg-1)]'
               }`}
             >
               {c.name}
@@ -121,7 +119,7 @@ export default function Catalog() {
       </div>
 
       <div>
-        <h4 className="text-[12px] font-bold uppercase tracking-wider text-[var(--fg-4)] mb-3">Marca</h4>
+        <h4 className="eyebrow before:hidden mb-4">Marca</h4>
         <div className="space-y-1.5">
           {brands.map((b) => (
             <label key={b} className="flex items-center gap-2.5 px-1 py-1 cursor-pointer group">
@@ -140,13 +138,13 @@ export default function Catalog() {
       </div>
 
       <div>
-        <h4 className="text-[12px] font-bold uppercase tracking-wider text-[var(--fg-4)] mb-3">Disponibilidad</h4>
+        <h4 className="eyebrow before:hidden mb-4">Disponibilidad</h4>
         <label className="flex items-center gap-2.5 px-1 py-1 cursor-pointer group">
           <span className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${onlyStock ? 'bg-[#E31E24] border-[#E31E24]' : 'border-[var(--bd-3)]'}`}>
             {onlyStock && <Check size={11} className="text-white" />}
           </span>
           <input type="checkbox" className="sr-only" checked={onlyStock} onChange={(e) => setOnlyStock(e.target.checked)} />
-          <span className="text-[13.5px] text-[var(--fg-2)]">Solo en stock</span>
+          <span className="text-[13.5px] text-[var(--fg-2)]">Solo disponibles</span>
         </label>
       </div>
     </div>
@@ -154,25 +152,13 @@ export default function Catalog() {
 
   return (
     <div className="pt-0">
-      {/* Header */}
-      <div className="border-b border-[var(--bd-1)] bg-[var(--bg-alt)]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8">
-          <div className="flex items-center gap-3 mb-2">
-            {isAmazon && (
-              <span
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-semibold"
-                style={{ background: `${MARKETPLACES.amazon.color}18`, color: MARKETPLACES.amazon.color }}
-              >
-                <Store size={13} /> Conectado a Amazon
-              </span>
-            )}
-          </div>
-          <h1 className="font-display font-extrabold text-[clamp(1.6rem,4vw,2.25rem)] text-[var(--fg-1)] mb-2">{catName}</h1>
-          <p className="text-sm text-[var(--fg-3)]">{filtered.length} productos disponibles para envío a Uruguay</p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow={isAmazon ? 'Conectado a Amazon' : 'Catálogo'}
+        title={catName}
+        lead={`${filtered.length} productos para comprar en la tienda y enviar a Cuba`}
+      />
 
-      <div className={`max-w-7xl mx-auto px-5 sm:px-8 py-8 grid gap-8 ${isAmazon ? 'lg:grid-cols-1' : 'lg:grid-cols-[240px_1fr]'}`}>
+      <div className={`container-x pb-24 md:pb-32 grid grid-cols-1 gap-12 ${isAmazon ? 'lg:grid-cols-1' : 'lg:grid-cols-[220px_1fr] lg:gap-16'}`}>
         {/* Sidebar (desktop) — solo en modo local */}
         {!isAmazon && (
           <aside className="hidden lg:block">
@@ -180,16 +166,17 @@ export default function Catalog() {
           </aside>
         )}
 
-        <div>
+        <div className="min-w-0">
           {/* Toolbar */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-6">
-            <div className="flex-1 flex items-center gap-2 px-3.5 bg-[var(--bg-card)] border border-[var(--bd-2)] rounded-xl focus-within:border-[#E31E24]/50 transition-colors">
+          <div className="flex flex-col sm:flex-row gap-4 mb-10 pb-6 border-b border-[var(--bd-2)]">
+            <div className="flex-1 flex items-center gap-3 border-b border-[var(--bd-3)] focus-within:border-[var(--color-brand)] transition-colors duration-300">
               <Search size={16} className="text-[var(--fg-4)] shrink-0" />
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Buscar por nombre, marca..."
-                className="flex-1 bg-transparent text-sm text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none py-2.5"
+                aria-label="Buscar por nombre o marca"
+                className="flex-1 bg-transparent text-[15px] text-[var(--fg-1)] placeholder-[var(--fg-4)] outline-none py-3"
               />
               {search && (
                 <button onClick={() => setSearch('')} aria-label="Limpiar búsqueda" className="text-[var(--fg-4)] hover:text-[var(--fg-1)]">
@@ -197,11 +184,11 @@ export default function Catalog() {
                 </button>
               )}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 min-w-0">
               {!isAmazon && (
                 <button
                   onClick={() => setShowFilters(true)}
-                  className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--bd-2)] text-sm font-medium text-[var(--fg-2)] cursor-pointer"
+                  className="lg:hidden flex items-center gap-2 px-4 h-11 rounded-lg border border-[var(--bd-2)] text-sm font-medium text-[var(--fg-2)] cursor-pointer"
                 >
                   <SlidersHorizontal size={15} /> Filtros
                 </button>
@@ -210,7 +197,7 @@ export default function Catalog() {
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
                 aria-label="Ordenar"
-                className="px-4 py-2.5 rounded-xl border border-[var(--bd-2)] bg-[var(--bg-card)] text-sm font-medium text-[var(--fg-1)] outline-none cursor-pointer focus:border-[#E31E24]/50"
+                className="min-w-0 flex-1 sm:flex-none px-4 h-11 rounded-lg border border-[var(--bd-2)] bg-[var(--bg-base)] text-sm font-medium text-[var(--fg-1)] outline-none cursor-pointer focus:border-[var(--color-brand)]"
               >
                 {SORTS.map((s) => (
                   <option key={s.id} value={s.id}>{s.label}</option>
@@ -221,7 +208,7 @@ export default function Catalog() {
 
           {/* Grid */}
           {loading ? (
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-12 sm:gap-x-8">
               {Array.from({ length: 6 }).map((_, i) => <ProductCardSkeleton key={i} />)}
             </div>
           ) : filtered.length === 0 ? (
@@ -236,7 +223,7 @@ export default function Catalog() {
               }
             />
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-12 sm:gap-x-8">
               {filtered.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
             </div>
           )}

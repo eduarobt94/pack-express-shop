@@ -1,78 +1,99 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:ital,wght@0,800;0,900;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 @import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────────────────────────
+   Optimus Envíos — sistema de diseño
+   Tipografía (igual que optimusenvios.uy): Space Grotesk 700 para títulos, Inter 400/500/600 para todo lo demás. Sin cursivas.
+   Escala de espaciado: múltiplos de 8 px.  Radios (§18): 8 px controles · 12 px superficies.
+   Color: base neutra y silenciosa; el rojo #E31E24 es un ACENTO (§11: nunca fondo masivo, < 20 % de una pieza).
+   ───────────────────────────────────────────────────────────────────────────────────────────── */
 
 @theme {
   --font-sans:    'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Montserrat', 'Inter', ui-sans-serif, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, sans-serif;
 
-  /* ── Rojo acción — CTA, acento (Manual de marca §11) ── */
   --color-brand:       #E31E24;
   --color-brand-hover: #C81A1F;
-
-  /* ── Gris corporativo ── */
   --color-gray:        #A8A8A8;
 
-  /* ── Semantic ── */
   --color-success: #22C55E;
   --color-warning: #F5A524;
   --color-error:   #EF4444;
+
+  /* Escala de espaciado 8 px */
+  --space-1: 8px;  --space-2: 16px; --space-3: 24px; --space-4: 32px;
+  --space-5: 40px; --space-6: 48px; --space-8: 64px; --space-10: 80px; --space-12: 96px; --space-16: 128px;
 }
 
-/* ── Dark theme tokens (default) ── */
+/* ── Tema oscuro (predeterminado de los tokens; el sitio arranca en claro) ── */
 :root {
-  --shadow-navbar: 0 1px 32px rgba(0,0,0,0.40);
-  --shadow-card:   0 0 0 transparent;
-  --shadow-hover:  0 8px 40px rgba(0,0,0,0.40);
-  --shadow-pop:    0 40px 90px rgba(0,0,0,0.70), 0 0 0 1px rgba(255,255,255,0.10);
+  --shadow-navbar: none;
+  --shadow-card:   none;
+  --shadow-hover:  0 1px 2px rgba(0,0,0,0.4), 0 24px 56px -20px rgba(0,0,0,0.7);
+  --shadow-pop:    0 40px 90px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08);
 
   --sec:         #A8A8A8;
   --sec-hover:   #FFFFFF;
 
-  --bg-base:     #121212;
-  --bg-alt:      #181818;
-  --bg-card:     #1A1A1A;
-  --bg-deep:     #0B0B0B;
-  --bg-elevated: #242424;
-  --bg-input:    #121212;
+  --bg-base:     #0E0E0E;
+  --bg-alt:      #131313;
+  --bg-card:     #161616;
+  --bg-deep:     #090909;
+  --bg-elevated: #1B1B1B;
+  --bg-input:    #0E0E0E;
 
-  --fg-1: #FFFFFF;
-  --fg-2: #C9C9C9;
-  --fg-3: #A8A8A8;
-  --fg-4: #8C8C8C;
-  --fg-5: #6E6E6E;
+  --fg-1: #F5F4F1;
+  --fg-2: #D3D2CE;
+  --fg-3: #AAA9A5;
+  --fg-4: #94938F;
+  --fg-5: #9A9995;
 
-  --bd-1: rgba(255,255,255,0.055);
-  --bd-2: rgba(255,255,255,0.08);
-  --bd-3: rgba(255,255,255,0.12);
-  --bd-4: rgba(255,255,255,0.20);
+  --bd-1: rgba(255,255,255,0.07);
+  --bd-2: rgba(255,255,255,0.12);
+  --bd-3: rgba(255,255,255,0.20);
+  --bd-4: rgba(255,255,255,0.30);
+
+  /* Colores de TEXTO con contraste AA sobre fondos oscuros (los fondos/botones de marca no cambian) */
+  --brand-text:  #FF5A5F;
+  --ok-text:     #4ADE80;
+  --warn-text:   #FBBF24;
+  --err-text:    #F87171;
+  --purple-text: #C084FC;
 }
 
 [data-theme="light"] {
-  --shadow-navbar: 0 1px 10px rgba(0,0,0,0.07);
-  --shadow-card:   0 1px 4px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
-  --shadow-hover:  0 10px 40px rgba(0,0,0,0.10);
-  --shadow-pop:    0 30px 70px rgba(0,0,0,0.16), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-navbar: none;
+  --shadow-card:   none;
+  --shadow-hover:  0 1px 2px rgba(20,20,20,0.04), 0 24px 56px -24px rgba(20,20,20,0.22);
+  --shadow-pop:    0 32px 72px -16px rgba(20,20,20,0.22), 0 2px 8px rgba(20,20,20,0.06);
 
   --sec:         #1A1A1A;
   --sec-hover:   #000000;
 
   --bg-base:     #FFFFFF;
-  --bg-alt:      #F6F6F6;
+  --bg-alt:      #F7F6F3;   /* papel cálido: separa secciones sin bordes pesados */
   --bg-card:     #FFFFFF;
-  --bg-deep:     #EDEDED;
-  --bg-elevated: #F6F6F6;
-  --bg-input:    #F2F2F2;
+  --bg-deep:     #EEECE7;
+  --bg-elevated: #F7F6F3;
+  --bg-input:    #FFFFFF;
 
-  --fg-1: #1A1A1A;
-  --fg-2: #3D3D3D;
-  --fg-3: #5C5C5C;
-  --fg-4: #6E6E6E;
-  --fg-5: #8A8A8A;
+  --fg-1: #141414;
+  --fg-2: #383838;
+  --fg-3: #595959;
+  --fg-4: #6A6A6A;
+  --fg-5: #6A6A6A;
 
-  --bd-1: rgba(0,0,0,0.07);
-  --bd-2: rgba(0,0,0,0.11);
-  --bd-3: rgba(0,0,0,0.18);
-  --bd-4: rgba(0,0,0,0.26);
+  --bd-1: rgba(20,20,20,0.08);
+  --bd-2: rgba(20,20,20,0.13);
+  --bd-3: rgba(20,20,20,0.22);
+  --bd-4: rgba(20,20,20,0.32);
+
+  /* Colores de TEXTO con contraste AA sobre fondos claros: el rojo #E31E24 queda para fondos, bordes y botones */
+  --brand-text:  #C81A1F;
+  --ok-text:     #15803D;
+  --warn-text:   #B45309;
+  --err-text:    #B91C1C;
+  --purple-text: #7E22CE;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -80,45 +101,188 @@
 html { color-scheme: light; scroll-behavior: smooth; }
 [data-theme="dark"] { color-scheme: dark; }
 
-h1, h2, h3, h4 { font-family: var(--font-display); }
+/* ── Base tipográfica (capa base: las utilidades de Tailwind siguen mandando) ── */
+@layer base {
+  body {
+    margin: 0;
+    background-color: var(--bg-base);
+    color: var(--fg-1);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.5s ease, color 0.3s ease;
+  }
 
-body {
-  margin: 0;
-  background-color: var(--bg-base);
-  color: var(--fg-1);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-  -webkit-font-smoothing:  antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.35s ease, color 0.2s ease;
+  h1, h2, h3, h4 { font-family: var(--font-display); text-wrap: balance; }
+  h1 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.04; }
+  h2 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+  h3 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
+  h4 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.4; }
+  p  { text-wrap: pretty; }
 }
 
-::selection { background: rgba(227,30,36,0.22); color: #fff; }
+::selection { background: rgba(227,30,36,0.18); color: inherit; }
 
-:focus-visible {
-  outline: 2px solid rgba(227,30,36,0.55);
+/* Indicador de foco visible y consistente (WCAG 2.4.7 / 2.4.11) */
+/* Enlaces, botones y demás: contorno con separación. */
+:focus-visible:not(input, select, textarea) {
+  outline: 2px solid var(--brand-text);
   outline-offset: 3px;
   border-radius: 4px;
 }
 :focus:not(:focus-visible) { outline: none; }
+/* Casillas y archivos conservan el contorno nativo con la marca. */
+input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible, input[type="file"]:focus-visible {
+  outline: 2px solid var(--brand-text);
+  outline-offset: 3px;
+}
+/* Campos de texto: sin contorno suelto ni esquinas cuadradas; el foco se ve en el propio borde (rojo de identidad del logo, #E31E24, ≥ 3:1
+   sobre fondo claro y oscuro: WCAG 1.4.11). Los campos dentro de una caja con borde propio muestran el foco en esa caja (focus-within). */
+input:not([type="checkbox"], [type="radio"], [type="file"]):focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-brand);
+}
 
-::-webkit-scrollbar        { width: 9px; height: 9px; }
+::-webkit-scrollbar        { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: var(--bd-3); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(227,30,36,0.5); }
+::-webkit-scrollbar-thumb  { background: var(--bd-3); border-radius: 99px; border: 3px solid var(--bg-base); }
+::-webkit-scrollbar-thumb:hover { background: var(--bd-4); }
 
 #root { width: 100%; min-height: 100svh; }
 
 .font-display { font-family: var(--font-display); }
-
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* ── Premium utility: hairline gradient border card ── */
+/* ── Radios del manual (§18): controles 8 px, superficies 12 px — se unifican los radios heredados ── */
+.rounded-lg  { border-radius: 8px; }
+.rounded-xl  { border-radius: 8px; }
+.rounded-2xl { border-radius: 12px; }
+.rounded-3xl { border-radius: 12px; }
+
+/* ── Sistema editorial ── */
+.container-x {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 48px);
+}
+.section       { padding-block: clamp(64px, 9vw, 128px); }
+.section-tight { padding-block: clamp(40px, 6vw, 80px); }
+.section-alt   { background: var(--bg-alt); }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+  line-height: 1;
+}
+.eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--color-brand); }
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6.4vw, 5.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+}
+.title-xl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.875rem, 3.8vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.title-lg {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.lead {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  line-height: 1.65;
+  color: var(--fg-3);
+}
+.prose-calm { font-size: 1.0625rem; line-height: 1.75; color: var(--fg-3); max-width: 62ch; }
+
+/* Fondo del hero (medido en optimusenvios.uy): resplandor rojo al 14 % arriba a la derecha, luz neutra arriba a la izquierda
+   y grilla de 36 px al 3,5 %. El rojo sigue siendo acento: nunca supera ~14 % de opacidad. */
+.hero-glow {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.05), transparent 28%),
+    radial-gradient(circle at 88% 8%, rgba(227, 30, 36, 0.14), transparent 30%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: auto, auto, 36px 36px, 36px 36px;
+}
+[data-theme="light"] .hero-glow {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(20, 20, 20, 0.03), transparent 28%),
+    radial-gradient(circle at 88% 8%, rgba(227, 30, 36, 0.09), transparent 30%),
+    linear-gradient(rgba(20, 20, 20, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 20, 20, 0.04) 1px, transparent 1px);
+}
+
+/* Degradado en las letras (como el título de optimusenvios.uy): cada línea se atenúa de izquierda a derecha.
+   `box-decoration-break: clone` reinicia el degradado en cada salto de línea. El color sólido queda como respaldo
+   (y es el que miden las herramientas de contraste); los extremos del degradado mantienen contraste de texto grande. */
+.grad-ink, .grad-red {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.grad-ink { color: var(--fg-1); background-image: linear-gradient(90deg, #ffffff 0%, #ffffff 40%, #b9bec6 100%); }
+.grad-red { color: var(--brand-text); background-image: linear-gradient(90deg, #e31e24 0%, #e31e24 40%, #c41a20 100%); }
+[data-theme="light"] .grad-ink { background-image: linear-gradient(90deg, #141414 0%, #141414 40%, #4b5058 100%); }
+[data-theme="light"] .grad-red { background-image: linear-gradient(90deg, var(--brand-text) 0%, var(--brand-text) 40%, #8f1217 100%); }
+@media (forced-colors: active) { .grad-ink, .grad-red { -webkit-text-fill-color: currentColor; background: none; } }
+
+.hairline-t { border-top: 1px solid var(--bd-1); }
+.hairline-b { border-bottom: 1px solid var(--bd-1); }
+
+/* Enlace con flecha: subrayado fino que se dibuja al pasar el cursor */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--fg-1);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  padding-bottom: 6px;
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+}
+.link-arrow:hover { background-size: 100% 1px; color: var(--brand-text); }
+
+/* Superficie: línea fina, sin sombra en reposo; en hover se eleva con suavidad */
 .card-surface {
   background: var(--bg-card);
   border: 1px solid var(--bd-1);
   box-shadow: var(--shadow-card);
+  transition: border-color 0.4s ease, box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Patrón diagonal a 45° derivado del isotipo (Manual §13: opacidad máxima 12 %) */
+.pattern-diagonal {
+  background-image: repeating-linear-gradient(135deg, var(--fg-1) 0, var(--fg-1) 1px, transparent 1px, transparent 14px);
+  opacity: 0.05;
 }
 
 @keyframes shimmer {

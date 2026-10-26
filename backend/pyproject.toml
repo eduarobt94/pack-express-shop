@@ -1,0 +1,40 @@
+[project]
+name = "optimus-envios-api"
+version = "1.0.0"
+description = "API de Optimus Envíos (FastAPI) — reemplazo del backend PHP con el mismo contrato"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
+markers = ["perf: pruebas de rendimiento (líneas base y umbrales; ejecutar en entornos aislados)"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py312"
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "ANN", "SIM", "RUF", "PL", "PT"]
+ignore = [
+  "S101",     # assert: acotan tipos tras validar el esquema
+  "ANN401",   # Any explícito en JSON dinámico
+  "PLR2004",  # números "mágicos" en códigos HTTP
+  "PLR0911", "PLR0912", "PLR0915",  # complejidad de rutas de negocio (se prefiere legibilidad lineal)
+  "RUF001", "RUF002", "RUF003",     # texto en español con caracteres no ASCII
+  "PT018",    # asserts compuestos: acotan tipos tras validar el esquema
+  "PLR0913", "PLR0917",  # formularios multipart con muchos campos
+  "B008",     # Depends() en valores por defecto es el idioma de FastAPI
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "ANN", "PLC", "PLR", "RUF012", "PT018", "PT011", "B017", "SIM117", "E501"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_unused_ignores = true
+plugins = ["pydantic.mypy"]
+exclude = ["tests/"]

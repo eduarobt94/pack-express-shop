@@ -1,3 +1,5 @@
+
+import { readable } from '../../lib/contrast'
 const VARIANTS = {
   'Más vendido': { bg: 'rgba(227,30,36,0.12)', fg: '#E31E24', bd: 'rgba(227,30,36,0.30)' },
   Nuevo: { bg: 'rgba(26,26,26,0.12)', fg: '#A8A8A8', bd: 'rgba(26,26,26,0.22)' },
@@ -11,7 +13,7 @@ export default function Badge({ children, color }) {
   return (
     <span
       className="inline-flex items-center px-2.5 py-1 rounded-full text-[10.5px] font-semibold uppercase tracking-wider whitespace-nowrap"
-      style={{ background: v.bg, color: v.fg, border: `1px solid ${v.bd}` }}
+      style={{ background: v.bg, color: readable(v.fg), border: `1px solid ${v.bd}` }}
     >
       {children}
     </span>

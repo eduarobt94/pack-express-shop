@@ -1,22 +1,24 @@
 import { Link } from 'react-router-dom'
 
+// Botones: Inter 600 en minúsculas (como el sitio oficial), radio 8 px, 48 px de alto. Acabado refinado:
+// sin sombras de color; la elevación y el color cambian con transiciones lentas de 300 ms.
 const base =
-  'inline-flex items-center justify-center gap-2 font-display font-extrabold uppercase tracking-[0.02em] rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none'
+  'inline-flex items-center justify-center gap-2.5 font-sans font-semibold rounded-lg ' +
+  'transition-[background-color,border-color,color,box-shadow] duration-300 ease-out disabled:opacity-45 disabled:cursor-not-allowed cursor-pointer select-none whitespace-nowrap'
 
 const sizes = {
-  sm: 'px-4 h-10 text-[13px]',
-  md: 'px-6 h-12 text-sm',
-  lg: 'px-8 h-12 text-sm',
+  sm: 'px-5 h-10 text-[14px]',
+  md: 'px-7 h-12 text-[15px]',
+  lg: 'px-9 h-14 text-[16px]',
 }
 
 const variants = {
-  primary:
-    'bg-[#E31E24] hover:bg-[#C81A1F] text-white hover:shadow-[0_0_32px_rgba(227,30,36,0.32)]',
-  blue: 'bg-[var(--sec)] hover:bg-[var(--sec-hover)] text-[var(--bg-base)] hover:shadow-[0_0_28px_rgba(26,26,26,0.22)]',
-  outline:
-    'border-[1.5px] border-[#A8A8A8] hover:border-[var(--color-brand)] text-[var(--fg-1)] hover:text-[var(--color-brand)] bg-transparent',
+  primary: 'bg-[#E31E24] hover:bg-[#C81A1F] text-white',
+  // Tinta sólida (negro de marca; en modo oscuro se invierte a blanco)
+  blue: 'bg-[var(--fg-1)] hover:bg-[var(--fg-2)] text-[var(--bg-base)]',
+  outline: 'border border-[var(--bd-3)] hover:border-[var(--fg-1)] text-[var(--fg-1)] bg-transparent',
   ghost: 'text-[var(--fg-2)] hover:text-[var(--fg-1)] hover:bg-[var(--bd-1)]',
-  subtle: 'bg-[var(--bg-elevated)] border border-[var(--bd-2)] text-[var(--fg-1)] hover:border-[var(--bd-3)]',
+  subtle: 'bg-[var(--bg-elevated)] border border-[var(--bd-2)] text-[var(--fg-1)] hover:border-[var(--bd-4)]',
 }
 
 export default function Button({
