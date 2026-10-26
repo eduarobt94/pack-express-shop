@@ -1,0 +1,6 @@
+{
+  "sequential_p95_ms": { "tariffs_current": 400, "quote": 400, "user_profile": 400, "purchases_list": 400, "login": 2000 },
+  "concurrent_p95_ms": { "tariffs_current": 1500, "user_profile": 1500, "purchases_list": 1500 },
+  "read_during_login_burst_ms": 3000,
+  "_nota": "Provisional: se recalibra con la línea base medida (PERF_REPORT=1). Ver docs/automated-testing-report.md"
+}

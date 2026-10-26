@@ -102,3 +102,36 @@ def make_user(client, raw_db):
         return Account(email, d["token"], d["refresh_token"], d["user"]["id"], d["user"]["suite_id"], pw)
 
     return _make
+
+
+# ── servidor real (uvicorn) para pruebas de concurrencia y rendimiento ─────────────────────────────
+@pytest.fixture(scope="session")
+def live_server(raw_db):  # noqa: ANN201
+    import socket
+    import subprocess
+    import sys
+
+    import httpx
+
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        port = s.getsockname()[1]
+    proc = subprocess.Popen(
+        [sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", str(port), "--log-level", "warning", "--no-proxy-headers"],
+        cwd=str(REPO / "backend"), env=os.environ.copy(), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    url = f"http://127.0.0.1:{port}"
+    for _ in range(100):
+        try:
+            httpx.get(f"{url}/tariffs/current", timeout=1)
+            break
+        except httpx.HTTPError:
+            import time
+
+            time.sleep(0.2)
+    else:
+        proc.terminate()
+        pytest.fail("el servidor de pruebas no arrancó (infraestructura, no producto)")
+    yield url
+    proc.terminate()
+    proc.wait(timeout=10)

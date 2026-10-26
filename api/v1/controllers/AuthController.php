@@ -99,6 +99,10 @@ class AuthController
             Database::commit();
         } catch (Throwable $e) {
             Database::rollback();
+            // Carrera: otro registro del mismo email ganó entre el SELECT y el INSERT (clave única)
+            if ($e instanceof PDOException && ($e->errorInfo[1] ?? 0) === 1062) {
+                Response::error('No se pudo completar el registro con esos datos', 409);
+            }
             Logger::error('Register failed', ['error' => $e->getMessage()]);
             Response::error('Error al registrar usuario', 500);
         }

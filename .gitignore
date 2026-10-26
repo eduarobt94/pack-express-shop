@@ -26,3 +26,10 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+coverage/
+playwright-report/
+test-results/
+e2e-uploads/
+backend/.coverage
+backend/coverage.xml
+backend/htmlcov/

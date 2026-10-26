@@ -9,6 +9,7 @@ testpaths = ["tests"]
 pythonpath = ["."]
 addopts = "-q"
 filterwarnings = ["ignore::DeprecationWarning"]
+markers = ["perf: pruebas de rendimiento (líneas base y umbrales; ejecutar en entornos aislados)"]
 
 [tool.ruff]
 line-length = 140
