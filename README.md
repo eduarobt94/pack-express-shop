@@ -104,3 +104,9 @@ Demo de validación. No procesa pagos reales ni envía datos a ningún servidor.
 - Auditoría de seguridad y matriz de controles: `docs/security-audit-report.md`.
 - Pruebas: `database/tests/db_rules_test.php` (reglas de la base) y `api/v1/tests/api_test.php` (API y seguridad). Requieren una base desechable cuyo nombre termine en `_test`.
 - Configuración de la API: copiar `api/v1/.env.example` a `api/v1/.env` (nunca versionar secretos).
+
+## Backend Python (FastAPI)
+
+Reemplazo del backend PHP con el **mismo contrato** (38 endpoints) y la misma base de datos: `backend/`. Instalación, pruebas, comparación
+con PHP, despliegue gradual y reversión en `docs/python-migration.md`. Arranque local:
+`cd backend && .venv/Scripts/python -m uvicorn app.main:app --port 8000 --no-proxy-headers` (el proxy de Vite apunta a ese puerto).

@@ -30,8 +30,18 @@ function startServer(int $port, array $extra, string $root): array
         // API_DB_USER/API_DB_PASS: el servidor puede correr con el usuario de mínimo privilegio (optimus_app)
         'DB_USER' => getenv('API_DB_USER') ?: (getenv('DB_USER') ?: 'root'), 'DB_PASS' => getenv('API_DB_USER') ? (getenv('API_DB_PASS') ?: '') : (getenv('DB_PASS') ?: ''),
     ], $extra);
-    $proc = proc_open([PHP_BINARY, '-S', "127.0.0.1:$port", '-t', $root, $root . '/index.php'], [1 => ['file', 'php://stderr', 'w'], 2 => ['file', 'NUL', 'w']], $pipes, $root, $env);
-    for ($i = 0; $i < 50; $i++) { $s = @fsockopen('127.0.0.1', $port, $e, $m, 0.2); if ($s) { fclose($s); break; } usleep(100000); }
+    if (getenv('API_IMPL') === 'python') {          // mismo contrato, backend Python (FastAPI) en lugar de PHP
+        $backend = dirname($root, 2) . '/backend';
+        $py = $backend . (DIRECTORY_SEPARATOR === '\\' ? '/.venv/Scripts/python.exe' : '/.venv/bin/python');
+        $env['LOG_DIR'] = sys_get_temp_dir() . '/optimus_py_logs';
+        $proc = proc_open([$py, '-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', (string) $port, '--log-level', 'warning', '--no-proxy-headers'],
+            [1 => ['file', 'php://stderr', 'w'], 2 => ['file', 'NUL', 'w']], $pipes, $backend, $env);
+        $wait = 150;
+    } else {
+        $proc = proc_open([PHP_BINARY, '-S', "127.0.0.1:$port", '-t', $root, $root . '/index.php'], [1 => ['file', 'php://stderr', 'w'], 2 => ['file', 'NUL', 'w']], $pipes, $root, $env);
+        $wait = 50;
+    }
+    for ($i = 0; $i < $wait; $i++) { $s = @fsockopen('127.0.0.1', $port, $e, $m, 0.2); if ($s) { fclose($s); break; } usleep(100000); }
     return [$proc, "http://127.0.0.1:$port"];
 }
 

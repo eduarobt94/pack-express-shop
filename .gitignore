@@ -16,3 +16,13 @@ api/v1/.env.*
 *.key
 dev.log
 api/storage/receipts/
+
+# Backend Python
+backend/.venv/
+backend/.env
+backend/logs/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
