@@ -21,7 +21,7 @@ export default function ShippingCalculator({ value = '', weightKg = '', editable
   return (
     <div className="card-surface rounded-xl p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Calculator size={16} className="text-[#E31E24]" />
+        <Calculator size={16} className="text-[var(--brand-text)]" />
         <h3 className="font-display font-extrabold text-[15px] text-[var(--fg-1)]">Calculá tu envío a Cuba</h3>
       </div>
 
@@ -48,7 +48,7 @@ export default function ShippingCalculator({ value = '', weightKg = '', editable
 
       <div className="flex items-end justify-between pt-3">
         <div className="text-[11px] font-bold uppercase tracking-wider text-[var(--fg-4)]">Pagás a Optimus</div>
-        <div className="font-display font-black text-2xl text-[#E31E24]">
+        <div className="font-display font-black text-2xl text-[var(--brand-text)]">
           {quote.needsQuote ? 'Pedí cotización' : formatUSD(quote.optimusTotal)}
         </div>
       </div>
@@ -96,7 +96,7 @@ function Field({ id, label, value, onChange, readOnly, placeholder }) {
         readOnly={readOnly}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-11 px-3 rounded-lg border border-[var(--bd-3)] bg-[var(--bg-input)] text-[14px] text-[var(--fg-1)] outline-none focus:border-[#E31E24] read-only:opacity-70 tabular-nums"
+        className="w-full h-11 px-3 rounded-lg border border-[var(--bd-3)] bg-[var(--bg-input)] text-[14px] text-[var(--fg-1)] outline-none focus:border-[var(--color-brand)] read-only:opacity-70 tabular-nums"
       />
     </div>
   )

@@ -108,6 +108,14 @@ export const CONSOLIDABLE_STATES = ['ready']
 
 const round2 = (n) => Math.round(n * 100) / 100
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Factories
+// ─────────────────────────────────────────────────────────────────────────────
+
+let _pkgSeq = 100
+let _shipSeq = 10
+let _alertSeq = 50
+
 /**
  * Crea un nuevo paquete (recibido en almacén en EE.UU.).
  * @param {Partial<Package>} input

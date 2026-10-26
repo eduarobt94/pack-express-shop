@@ -1,7 +1,7 @@
-import { Info } from 'lucide-react'
 import ShippingCalculator from '../components/ui/ShippingCalculator'
-import { TARIFAS } from '../lib/shipping'
+import { PageHeader, Section } from '../components/ui/Layout'
 import { formatUSD } from '../lib/format'
+import { TARIFAS } from '../lib/shipping'
 
 const NOTES = [
   'La aduana de Cuba no está incluida: la paga el destinatario al recibir.',
@@ -12,49 +12,48 @@ const NOTES = [
 
 export default function Rates() {
   return (
-    <div className="max-w-5xl mx-auto px-5 sm:px-8 py-10">
-      <h1 className="font-display font-black text-[clamp(1.75rem,4vw,3rem)] text-[var(--fg-1)] leading-tight mb-2">Tarifas y calculadora</h1>
-      <p className="font-display italic font-light text-[18px] text-[var(--fg-3)] mb-10">Cero vueltas: así es el precio.</p>
+    <div>
+      <PageHeader eyebrow="Tarifas" title="Tarifas y calculadora" lead="Cero vueltas: así es el precio." />
 
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
-        <div className="space-y-6">
-          <div className="card-surface rounded-xl p-6">
-            <h2 className="font-display font-extrabold text-[17px] text-[var(--fg-1)] mb-4">Qué le pagás a Optimus</h2>
-            <dl className="space-y-3 text-[14px]">
-              <div className="flex justify-between gap-4">
-                <dt className="text-[var(--fg-3)]">Comisión de gestión</dt>
-                <dd className="font-bold text-[var(--fg-1)] text-right">{TARIFAS.commissionRate * 100}% del valor de los productos</dd>
+      <Section tight>
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-12 items-start">
+          <div className="lg:col-span-6">
+            <h2 className="title-lg text-[var(--fg-1)]">Qué le pagás a Optimus</h2>
+            <dl className="mt-8 border-t border-[var(--bd-2)] divide-y divide-[var(--bd-1)]">
+              <div className="py-5 flex justify-between gap-6">
+                <dt className="text-[15px] text-[var(--fg-3)]">Comisión de gestión</dt>
+                <dd className="font-display font-extrabold text-[1.0625rem] tracking-[-0.01em] text-[var(--fg-1)] text-right">{TARIFAS.commissionRate * 100}% del valor de los productos</dd>
               </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-[var(--fg-3)]">Envío</dt>
-                <dd className="font-bold text-[var(--fg-1)] text-right">kg facturables × {formatUSD(TARIFAS.sellRatePerKg)}/kg *</dd>
+              <div className="py-5 flex justify-between gap-6">
+                <dt className="text-[15px] text-[var(--fg-3)]">Envío</dt>
+                <dd className="font-display font-extrabold text-[1.0625rem] tracking-[-0.01em] text-[var(--fg-1)] text-right">kg facturables × {formatUSD(TARIFAS.sellRatePerKg)}/kg *</dd>
               </div>
             </dl>
-            <p className="text-[12px] text-[var(--fg-4)] mt-4 leading-relaxed">
+            <p className="mt-5 text-[13px] leading-[1.7] text-[var(--fg-4)]">
               * Tarifa de referencia, no es un precio definitivo. Optimus confirma la vigente al cotizar.
             </p>
-          </div>
 
-          <div className="card-surface rounded-xl p-6">
-            <h2 className="font-display font-extrabold text-[17px] text-[var(--fg-1)] mb-3">Ejemplo</h2>
-            <p className="text-[13.5px] text-[var(--fg-2)] leading-relaxed">
-              Comprás por <strong>USD 100</strong> y enviás <strong>5 kg</strong>: comisión USD 10 + envío USD 55 ={' '}
-              <strong className="text-[#E31E24]">USD 65 a Optimus</strong>. El producto lo pagás aparte, en la tienda.
+            <h2 className="title-lg text-[var(--fg-1)] mt-16">Ejemplo</h2>
+            <p className="prose-calm mt-5">
+              Comprás por <strong className="text-[var(--fg-1)]">USD 100</strong> y enviás <strong className="text-[var(--fg-1)]">5 kg</strong>: comisión USD 10 + envío USD 55 ={' '}
+              <strong className="text-[var(--brand-text)]">USD 65 a Optimus</strong>. El producto lo pagás aparte, en la tienda.
             </p>
+
+            <ul className="mt-12 space-y-4 text-[14px] leading-[1.7] text-[var(--fg-3)]">
+              {NOTES.map((t) => (
+                <li key={t} className="flex gap-4">
+                  <span className="mt-[0.7em] w-1 h-1 rounded-full bg-[var(--color-brand)] shrink-0" aria-hidden="true" />
+                  {t}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <ul className="space-y-2 text-[12.5px] text-[var(--fg-3)] leading-relaxed">
-            {NOTES.map((t) => (
-              <li key={t} className="flex gap-2">
-                <Info size={14} className="shrink-0 mt-0.5 text-[var(--fg-4)]" />
-                {t}
-              </li>
-            ))}
-          </ul>
+          <div className="lg:col-span-6 lg:sticky lg:top-28">
+            <ShippingCalculator editableValue />
+          </div>
         </div>
-
-        <ShippingCalculator editableValue />
-      </div>
+      </Section>
     </div>
   )
 }

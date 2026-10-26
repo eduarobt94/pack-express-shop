@@ -8,9 +8,9 @@ export default function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label={isDark ? 'Activar modo claro' : 'Activar modo oscuro'}
-      className="flex items-center justify-center w-9 h-9 rounded-lg border border-[var(--bd-2)] text-[var(--fg-2)] hover:text-[var(--fg-1)] hover:border-[var(--bd-3)] transition-colors cursor-pointer"
+      className="flex items-center justify-center w-11 h-11 rounded-lg text-[var(--fg-2)] hover:text-[var(--fg-1)] hover:bg-[var(--bd-1)] transition-colors duration-300 cursor-pointer"
     >
-      {isDark ? <Sun size={16} /> : <Moon size={16} />}
+      {isDark ? <Sun size={18} strokeWidth={1.5} /> : <Moon size={18} strokeWidth={1.5} />}
     </button>
   )
 }

@@ -15,10 +15,10 @@ export function PriceNotice({ className = '' }) {
 export function ReceptionReminder() {
   return (
     <div className="flex items-start gap-3 p-4 mb-4 rounded-xl border-[1.5px] border-[var(--bd-3)] bg-[var(--bg-elevated)]">
-      <MapPin size={18} className="text-[#E31E24] shrink-0 mt-0.5" />
+      <MapPin size={18} className="text-[var(--brand-text)] shrink-0 mt-0.5" />
       <p className="text-[12.5px] text-[var(--fg-2)] leading-relaxed">
         Al comprar, usá tu <span className="font-bold text-[var(--fg-1)]">dirección y código de recepción</span> de Optimus y después{' '}
-        <Link to="/casillero" className="font-bold text-[#E31E24]">registrá la compra</Link>. Es obligatorio: la tienda no nos avisa qué compraste.
+        <Link to="/casillero" className="font-bold text-[var(--brand-text)]">registrá la compra</Link>. Es obligatorio: la tienda no nos avisa qué compraste.
       </p>
     </div>
   )

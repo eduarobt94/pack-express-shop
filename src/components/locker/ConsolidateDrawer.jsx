@@ -6,6 +6,8 @@ import { quoteShipping, TARIFAS } from '../../lib/shipping'
 import { formatUSD } from '../../lib/format'
 import Button from '../ui/Button'
 
+
+import { readable } from '../../lib/contrast'
 export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }) {
   const [confirmed, setConfirmed] = useState(false)
 
@@ -39,27 +41,30 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
           <motion.div
             initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="consolidate-title"
             className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md bg-[var(--bg-base)] border-l border-[var(--bd-2)] shadow-2xl flex flex-col"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-[var(--bd-1)]">
               <div>
-                <h2 className="font-display font-extrabold text-[17px] text-[var(--fg-1)]">Solicitar liquidación</h2>
+                <h2 id="consolidate-title" className="font-display font-extrabold text-[17px] text-[var(--fg-1)]">Solicitar liquidación</h2>
                 <p className="text-[12.5px] text-[var(--fg-3)] mt-0.5">{packages.length} paquete{packages.length !== 1 ? 's' : ''} seleccionado{packages.length !== 1 ? 's' : ''}</p>
               </div>
-              <button onClick={onClose} className="w-9 h-9 rounded-xl border border-[var(--bd-2)] flex items-center justify-center text-[var(--fg-3)] hover:text-[var(--fg-1)] transition-colors cursor-pointer">
-                <X size={17} />
+              <button onClick={onClose} aria-label="Cerrar" className="w-11 h-11 rounded-lg border border-[var(--bd-2)] flex items-center justify-center text-[var(--fg-3)] hover:text-[var(--fg-1)] transition-colors cursor-pointer">
+                <X size={17} strokeWidth={1.5} />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+            <div tabIndex={0} aria-label="Detalle de la liquidación" className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
               {confirmed ? (
                 <motion.div
                   initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
                   className="flex flex-col items-center gap-4 py-16 text-center"
                 >
                   <div className="w-16 h-16 rounded-full bg-[#22C55E]/[0.12] flex items-center justify-center">
-                    <CheckCircle2 size={32} className="text-[#22C55E]" />
+                    <CheckCircle2 size={32} className="text-[var(--ok-text)]" />
                   </div>
                   <p className="text-[16px] font-bold text-[var(--fg-1)]">¡Liquidación solicitada!</p>
                   <p className="text-[13px] text-[var(--fg-3)]">Pagás en la sucursal. Con el pago confirmado se habilita el despacho.</p>
@@ -107,7 +112,7 @@ export default function ConsolidateDrawer({ open, packages, onClose, onConfirm }
                   )}
 
                   <div className="flex gap-2.5 p-3.5 rounded-xl bg-[var(--bg-elevated)] border border-[var(--bd-2)]">
-                    <AlertCircle size={15} className="text-[#E31E24] shrink-0 mt-0.5" />
+                    <AlertCircle size={15} className="text-[var(--brand-text)] shrink-0 mt-0.5" />
                     <p className="text-[12px] text-[var(--fg-2)] leading-relaxed">
                       El pago es presencial en la sucursal, no en la web. La aduana de Cuba no está incluida: la paga el destinatario al recibir. El total final lo confirma Optimus con el peso real.
                     </p>
@@ -141,7 +146,7 @@ function Row({ label, value, bold, accent }) {
   return (
     <div className="flex items-center justify-between">
       <span className={`text-[13px] ${bold ? 'font-semibold text-[var(--fg-1)]' : 'text-[var(--fg-3)]'}`}>{label}</span>
-      <span className={`text-[13px] font-semibold ${bold ? 'text-[var(--fg-1)]' : ''}`} style={accent ? { color: accent } : {}}>{value}</span>
+      <span className={`text-[13px] font-semibold ${bold ? 'text-[var(--fg-1)]' : ''}`} style={accent ? { color: readable(accent) } : {}}>{value}</span>
     </div>
   )
 }

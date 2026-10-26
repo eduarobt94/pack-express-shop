@@ -110,3 +110,17 @@ Demo de validación. No procesa pagos reales ni envía datos a ningún servidor.
 Reemplazo del backend PHP con el **mismo contrato** (38 endpoints) y la misma base de datos: `backend/`. Instalación, pruebas, comparación
 con PHP, despliegue gradual y reversión en `docs/python-migration.md`. Arranque local:
 `cd backend && .venv/Scripts/python -m uvicorn app.main:app --port 8000 --no-proxy-headers` (el proxy de Vite apunta a ese puerto).
+
+## Pruebas y QA
+
+Estrategia, matriz de casos, resultados y limitaciones: `docs/automated-testing-report.md` (matriz generada en `docs/test-matrix.md`).
+
+```bash
+pnpm lint && pnpm test:coverage            # estático + unitarias y de componentes (Vitest, jsdom)
+cd backend && python -m pytest             # unitarias, integración, seguridad y concurrencia (base *_test)
+pnpm e2e                                   # E2E + accesibilidad (axe) + responsive con Playwright (full-stack real)
+python scripts/run_all_tests.py            # TODO, con resumen y matriz TEST-001…; falla si falla o no corre una etapa
+```
+
+Requisitos de las suites que usan base de datos: MariaDB ≥ 10.4 de **pruebas** (las bases se llaman `*_test` y se recrean; las
+suites se niegan a correr contra otra), PHP 8.2 (migraciones) y `backend/.venv`. En CI: `.github/workflows/ci.yml`.

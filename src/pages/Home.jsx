@@ -1,23 +1,16 @@
-import CompactHero from '../components/home/CompactHero'
-import CategoryStrip from '../components/home/CategoryStrip'
+import Hero from '../components/home/Hero'
+import HowItWorks from '../components/home/HowItWorks'
+import QuoteSection from '../components/home/QuoteSection'
 import StoresSection from '../components/home/StoresSection'
-import ProductShelf from '../components/home/ProductShelf'
-import BenefitsCompact from '../components/home/BenefitsCompact'
-import { products } from '../data/products'
 
+/** Orden por frecuencia de uso: entender → calcular/rastrear/registrarse → proceso → dónde comprar. */
 export default function Home() {
   return (
-    <div className="pb-10">
-      <CompactHero />
-      <CategoryStrip />
-
-      {/* Tiendas externas */}
+    <div>
+      <Hero />
+      <QuoteSection />
+      <HowItWorks />
       <StoresSection />
-
-      {/* Catálogo orientativo */}
-      <ProductShelf title="Selección orientativa" eyebrow="Productos útiles" accent="#E31E24" products={products} viewAllTo="/catalogo" />
-
-      <BenefitsCompact />
     </div>
   )
 }
